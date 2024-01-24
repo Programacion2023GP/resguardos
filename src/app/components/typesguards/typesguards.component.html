@@ -1,0 +1,143 @@
+<div  [@fadeInOutAnimation]  class="container px-4 mx-auto mt-10 pt-10 flex flex-col p-4 items-center justify-center w-full rounded-xl group sm:flex space-x-6 bg-opacity-50 shadow-xl hover:rounded-2xl">
+    <!-- Component -->
+ 
+   
+   
+     <div class="flex mt-6 flex-row ">
+       <ng-container *ngIf="true" >
+       <button
+       (click)="showDialog()"
+       pTooltip="Agregar"
+       class=" shadow-md cursor-pointer  hover:bg-purple-400 h-14 rounded-full mr-2  w-14 pt-2 bg-purple-200 max-lg:mb-2"><li class="fa fa-plus"></li></button>
+      
+      </ng-container>
+
+   
+   
+   
+     <input pInputText
+     type="text"
+     class=" shadow-md mr-2 ml-6 pl-4 mt-2 justify-end items-end right-0 appearance-none rounded-full h-10  w-60 bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600"
+     (input)="onInputChangeReports($event)"
+
+     placeholder="buscador" />
+     </div>
+   
+       <div class="w-full">
+   
+   <p-table
+   #dt
+   styleClass="mt-2"
+   [value]="typesGuards" [tableStyle]="{ 'min-width': '50rem' }"
+   [paginator]="true"
+   [loading]=""
+   
+   [rows]="5"
+[globalFilterFields]="['name']"
+   currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} registros"
+   [rowsPerPageOptions]="[5,10, 25, 50]"
+   editMode="row"
+   [paginator]="true"
+   [rows]="5"
+   [showCurrentPageReport]="true"
+   [scrollable]="true"
+   scrollWidht="400px"
+   >
+   
+   <ng-template pTemplate="header">
+     <tr>
+       <th
+       class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+           Tipo de resguardo</th>
+        
+                             <th
+                             class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                             
+                            
+                            </th>
+                               
+         <!-- <th
+         class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+             Rol</th>
+         <th
+         class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+             Quantity</th> -->
+     </tr>
+   </ng-template>
+   <ng-template pTemplate="body" class="shadow-md" let-types let-i="rowIndex">
+   
+     <tr [ngClass]="{'bg-gray-50 text-gray-400':types.used == 0}" >
+   
+         <td  class="px-5 py-5 border-b border-gray-200  text-sm">{{ types.name }}</td>
+
+         <td  class="px-5 py-5 border-b border-gray-200  text-sm">
+            <button 
+            (click)="edit(types)"
+
+            class="bg-yellow-300 hover:bg-yellow-500 rounded-full p-4  mr-2">
+              <li class="fa fa-edit"></li>
+
+            </button>    
+            <button 
+            (click)="removeType(types.id)"
+            class="bg-red-300 hover:bg-red-500 rounded-full p-4  mr-2">
+              <li class="fa fa-trash"></li>
+
+            </button>     
+
+         </td>
+     
+         <!-- <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ users.category }}</td>
+         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ users.quantity }}</td> -->
+     </tr>
+   </ng-template>
+   </p-table>
+   </div>
+   <!-- component -->
+   
+   </div>
+   
+   <p-dialog header="Agregar Tipo" [(visible)]="visible" [position]="'right'"   [style]="{ 'width': getWidthPercentage(), 'height': getHeightPercentage() }">
+    <div class=" w-full h-fit ">
+  
+        <form class="pt-2 mx-auto w-full" [formGroup]="MyForm" (ngSubmit)="onSubmit()" action="">
+            <div class="relative z-0 mb-6 w-full group">
+                <input
+                formControlName="name"
+                type="text" name="floating_email" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                <label for="floating_email" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">nombre</label>
+        
+              </div>
+              <ng-container  *ngIf="!MyForm.invalid">
+                <button
+                 class="shadow-sm bg-purple-300 hover:bg-purple-500 px-4 py-2 rounded-xl mt-6" type="submit">
+                  Registrar
+                </button>
+              </ng-container>
+              <ng-container  *ngIf="MyForm.invalid">
+                <button
+                disabled
+                class="shadow-sm bg-gray-50 cursor-not-allowed px-4 py-2 rounded-xl mt-6" type="submit">
+                  Registrar
+                </button>
+               
+              </ng-container>
+        </form>
+    
+  
+   <!-- </form> -->
+    </div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  </p-dialog>

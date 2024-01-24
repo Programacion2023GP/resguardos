@@ -1,0 +1,191 @@
+<div id="pEl" #pdfElement class="container mx-auto flex flex-col">
+    
+    <div class="flex flex-row items-center justify-start">
+        <div class="w-20 h-20 p-4 flex items-start justify-center overflow-hidden">
+            <img src="../../../assets/icon.png" alt="GOMEZ" class="w-9/12 h-9/12 ">
+        </div>
+        <div class="mx-auto text-center">
+            <h1 class="font-bold m-2">MUNICIPIO GOMEZ PALACIO</h1>
+            <h2 class="font-light m-2">RESGUARDO DE ACTIVOS</h2>
+        </div>
+        <div class="flex flex-col justify-end items-end"> 
+                <p class="text-xs"> {{ fechaActual  }}</p>    
+                <p class="text-xs">{{ horaActual }}</p>  
+        </div>
+    </div>
+    
+        <hr class="my-4 border-2 border-gray-500">
+        <ng-container *ngFor="let item of person" >
+        
+            <div class="flex flex-row">
+                <span class="bg-gray-300 font-semibold text-start text-sm p-1 border-solid border border-gray-400 w-3/12">Empleado Responsable : </span>
+                <span class="border-solid border p-1 text-sm text-start border-gray-400 w-4/12">{{item.name }}</span>
+                <span class="bg-gray-300 font-semibold text-sm text-start p-1 border-solid border border-gray-400 w-2/12">No.Resguardo:</span>
+                <span class="border-solid border p-1 text-sm text-start border-gray-400 w-3/12"></span>
+    
+            </div>
+            <div class="flex flex-row">
+                <span class=" text-sm bg-gray-300 font-semibold text-start p-1 border-solid border border-gray-400 w-3/12">Puesto : </span>
+                <span class=" text-sm border-solid border p-1 text-start border-gray-400 w-4/12"></span>
+                <span class=" text-sm bg-gray-300 font-semibold text-start p-1 border-solid border border-gray-400 w-2/12">Fecha:</span>
+                <span class=" text-sm border-solid border p-1 text-start border-gray-400 w-3/12">{{ fechaActual  }}</span>
+    
+            </div>
+            <div class="flex flex-row">
+                <span class="text-sm bg-gray-300 font-semibold text-start p-1 border-solid border border-gray-400 w-3/12">Departamento : </span>
+                <span class=" text-sm border-solid border p-1 text-start border-gray-400 w-9/12">{{item.group }}</span>
+                <span></span>
+            </div>
+        </ng-container>
+        
+        <div class="flex flex-row">
+            <span class="text-sm bg-gray-300 font-semibold text-start p-1 border-solid border border-gray-400 w-3/12">Localidad : </span>
+            <span class="text-sm border-solid border p-1 text-start border-gray-400 w-9/12">GOMEZ PALACIO</span>
+            <span></span>
+        </div>
+        <div class="flex flex-row">
+            <span class="text-sm">Observaciones : </span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <div class="flex flex-row mt-4 bg-gray-300 pb-2">
+            <span class=" text-sm font-semibold text-start p-1 border-solid  w-3/12">No. INVENTARIO  </span>
+            <span class="text-sm font-semibold text-start p-1 border-solid  w-9/12">DESCRIPCION DEL BIEN</span>
+            <span></span>
+        </div>
+        <p class=" text-sm pl-2 pb-2 text-start font-bold">Muebles</p>
+        <ng-container *ngFor="let item of data; let i = index ">
+            <div *ngIf="i === 3 || i > 3 && (i - 3) % 5 === 0" class="page-break">
+                <div id="pdfirmas" #pdfirmas class="container mx-auto flex flex-col">
+                    <div class="flex flex-row mt-12 justify-around ">
+                        <div class="border  flex flex-col w-3/12">
+                         <p class="border-b border-double leading-10 text-center">ENTREGA</p>
+                         <div class="h-1"></div>
+                
+                         <div class="h-20"></div>
+                         <p class="text-center text-xs">LIC. GERARDO ALFREDO BURCIAGA AVEDAÑO</p>
+                         <p class="text-xs text-center">DIRRECIÓN DE RECURSOS MATERIALES Y PATRIMONIAL</p>
+                         <div class="h-1"></div>
+                
+                        </div>
+                       
+                        <div class="border  flex flex-col w-3/12">
+                         <p class="border-b border-double text-center leading-10">Vo Bo</p>
+                         <div class="h-1"></div>
+                         <div class="h-20"></div>
+                         <p class="text-center text-xs">JEFE INMEDIATO</p>
+                         
+                
+                        </div>
+                     </div>
+                </div>
+            </div>
+                <ng-container *ngIf="i === 3 || i > 3 && (i - 3) % 5 === 0" >
+                    <div class="flex flex-row items-center justify-start">
+                        <div class="w-20 h-20 p-4 flex items-start justify-center overflow-hidden">
+                            <img src="../../../assets/icon.png" alt="GOMEZ" class="w-9/12 h-9/12 ">
+                        </div>
+                        <div class="mx-auto text-center">
+                            <h1 class="font-bold m-2">MUNICIPIO GOMEZ PALACIO</h1>
+                            <h2 class="font-light m-2">RESGUARDO DE ACTIVOS</h2>
+                        </div>
+                        <div class="flex flex-col justify-end items-end"> 
+                                <p class="text-xs"> {{ fechaActual  }}</p>    
+                                <p class="text-xs">{{ horaActual }}</p>  
+                        </div>
+                    </div>
+                    
+                        <hr class="my-4 border-2 border-gray-500">
+                </ng-container>
+               
+                
+            <div class="border-t border-gray-400 flex flex-col">
+               <div class="flex flex-row">
+                <div class="w-1/12">
+                    <div class="border bg-white rounded-md shadow-md w-16 h-16 flex items-center justify-center overflow-hidden" >
+                        <img *ngIf="item.picture" [src]="item.picture" alt="Preview" class="w-full h-full object-cover">
+                        <div *ngIf="!item.picture" class="flex items-center justify-center text-gray-400 text-4xl">
+                          <i class="fas fa-image"></i>
+                        </div>
+                      </div>    
+                </div>
+                <div class="w-11/12 flex flex-col">
+                    <div class="flex flex-row justify-between pr-10 text-start">
+                
+                        <p class="font-bold">{{ item.stock_number }}</p>
+                        <p >FECHA DE RECEPCION DE BIENES :</p>
+                        <p>{{ item.dateup }}</p>
+                        <p class="font-bold">No. Economico :</p>
+                         <p >{{ item.stock_number }}</p>  
+                        
+                      </div>
+                      <div class="flex flex-row justify-between pr-10">
+                        <p class="font-bold">MARCA :</p>
+                        <p>{{ item.brand }}</p>
+                        <p class="font-bold">MODELO :</p>
+                         <p >{{ item.brand }}</p>  
+                         <p class="font-bold">No. SERIE :</p>
+                         <p >{{ item.serial }}</p>  
+
+                      </div>
+                      <div class="flex flex-row ">
+                        <p class="font-bold mr-10">UBICACIÓN :</p>
+                        <p>{{ item.group }}</p>
+                       
+
+                      </div>
+                      <div class="flex flex-row pb-4 ">
+                        <p class="font-bold mr-10">OBSERVACIONES :</p>
+                        <p>{{ item.observations=='null'?'':item.observations }}</p>
+                       
+
+                      </div>
+                     
+                    
+                </div>
+                <div>
+                  
+                </div>
+
+               </div>
+              
+                </div>
+        </ng-container>
+        <ng-container>
+            <div class="relative w-full">
+                <p class="font-bold absolute right-0">Total de Bienes: {{ data.length  }}</p>
+
+            </div>
+            <div id="pdfirmas" #pdfirmas class="container mx-auto flex flex-col">
+                <div class="flex flex-row mt-12 justify-around ">
+                    <div class="border  flex flex-col w-3/12">
+                     <p class="border-b border-double text-center">ENTREGA</p>
+                     <div class="h-1"></div>
+            
+                     <div class="h-20"></div>
+                     <p class="text-center text-xs">LIC. GERARDO ALFREDO BURCIAGA AVEDAÑO</p>
+                     <p class="text-xs text-center">DIRRECIÓN DE RECURSOS MATERIALES Y PATRIMONIAL</p>
+                     <div class="h-1"></div>
+            
+                    </div>
+                   
+                    <div class="border  flex flex-col w-3/12">
+                     <p class="border-b border-double text-center">Vo Bo</p>
+                     <div class="h-1"></div>
+                     <div class="h-20"></div>
+                     <p class="text-center text-xs">JEFE INMEDIATO</p>
+                     
+            
+                    </div>
+                 </div>
+            </div>
+        </ng-container>
+
+        
+</div>
+
+<button
+class=" shadow-md cursor-pointer  hover:bg-blue-500 h-14 rounded-full mr-2  w-14 pt-2 bg-blue-300"
+
+(click)="downloadPDF()"><li class="fas fa-file-pdf"></li></button>

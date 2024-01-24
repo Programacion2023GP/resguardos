@@ -1,0 +1,727 @@
+<div  [@fadeInOutAnimation]
+  class=" container px-4 mx-auto mt-10 pt-10 flex flex-col p-4 items-center justify-center">
+  <div class=" flex flex-row " >
+    <ng-container *ngIf="roleTypeUser < 4">
+      <button
+        (click)="showDialog()"
+        pTooltip="Agregar"
+        class="shadow-md cursor-pointer hover:bg-purple-400 h-14 rounded-full w-14 pt-2 bg-purple-200 max-lg:mb-2"
+      >
+        <li class="fa fa-plus"></li>
+      </button>
+    </ng-container>
+    <ng-container *ngIf="roleTypeUser < 2">
+      <div
+        pTooltip="INFORMACION"
+        class="bg-blue-100 p-4 ml-2 cursor-not-allowed shadow-md mb-4 text-blue-500 rounded-md max-lg:hidden max-lg:w-0 max-lg:h-0"
+      >
+        Administrativo
+      </div>
+    </ng-container>
+    <ng-container *ngIf="roleTypeUser < 3">
+      <div
+        pTooltip="INFORMACION"
+        class="bg-cyan-100 p-4 ml-2 cursor-not-allowed shadow-md mb-4 text-cyan-500 rounded-md max-lg:hidden max-lg:w-0 max-lg:h-0"
+      >
+        Enlances
+      </div>
+    </ng-container>
+    <ng-container *ngIf="roleTypeUser < 4">
+      <div
+        pTooltip="INFORMACION"
+        class="bg-teal-100 p-4 cursor-not-allowed ml-2 shadow-md mb-4 text-teal-500 rounded-md max-lg:hidden max-lg:w-0 max-lg:h-0"
+      >
+        Empleado
+      </div>
+      <div
+        pTooltip="INFORMACION"
+        class="bg-gray-100 p-4 cursor-not-allowed ml-2 shadow-md mb-4 text-gray-500 rounded-md max-lg:hidden max-lg:w-0 max-lg:h-0"
+      >
+        Deshabilitado
+      </div>
+    </ng-container>
+    <ng-container *ngIf="roleTypeUser < 4">
+      <input
+        pInputText
+        type="text"
+        class="shadow-md mr-2 ml-6 pl-4 mt-2 justify-end items-end right-0 appearance-none rounded-full h-10 w-60 bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600"
+        (input)="onInputChangeReports($event)"
+        placeholder="buscador"
+      />
+    </ng-container>
+  </div>
+
+  <div class="w-full h-full  ">
+    
+    <p-table
+      #dt
+      [value]="users"
+      [scrollable]="true" 
+      class="overflow-x-auto"
+      [tableStyle]="{ 'min-width': '50rem','overflow-auto':true}"
+      scrollWidht="100px"
+      scrollDirection="both"
+      [paginator]="true"
+      [rows]="5"
+      [globalFilterFields]="['name', 'payroll', 'group', 'email', 'type_role']"
+      [loading]="loading"
+      currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} registros"
+      [rowsPerPageOptions]="[5, 10, 25, 50]"
+      editMode="row"
+      [showCurrentPageReport]="true"
+      styleClass="h-full"
+      class="h-full"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th
+            class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+          >
+            Nombre
+          </th>
+          <th
+            class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+          >
+            Numero de Nomina
+          </th>
+          <th
+            class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+          >
+            Correo
+          </th>
+          <th
+            class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+          >
+            Departamento
+          </th>
+          <th
+            class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+          >
+            Tipo de usuario
+          </th>
+          
+          <th
+            class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+          ></th>
+          <!-- <th
+                class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    Rol</th>
+                <th
+                class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    Quantity</th> -->
+        </tr>
+      </ng-template>
+      <ng-template
+        pTemplate="body"
+        class="shadow-md"
+        let-users
+        let-i="rowIndex"
+      >
+        <ng-container *ngIf="users.active == 1">
+          <tr
+            [ngClass]="{
+              'bg-blue-100 text-blue-500': users.role == 2,
+              'bg-cyan-100 text-cyan-500': users.role == 3,
+              'bg-teal-100 text-cyan-500': users.role == 4
+            }"
+          >
+            <td class="px-5 py-5 border-b border-gray-200 text-sm">
+              {{ users.name }}
+            </td>
+            <td class="px-5 py-5 border-b border-gray-200 text-sm">
+              {{ users.payroll }}
+            </td>
+            <td class="px-5 py-5 border-b border-gray-200 text-sm">
+              {{ users.email }}
+            </td>
+            <td class="px-5 py-5 border-b border-gray-200 text-sm">
+              {{ users.group }}
+            </td>
+            <td class="px-5 py-5 border-b border-gray-200 text-sm">
+              {{ users.type_role }}
+            </td>
+            <td
+              class="px-5 py-5 border-b border-gray-200 text-sm flex flex-row"
+            >
+              <ng-container *ngIf="users.type_role == 'Enlance'">
+                <button
+                  (click)="reportGroup(users)"
+                  class="bg-blue-300 hover:bg-blue-500 rounded-full p-4 mr-2"
+                >
+                  <li class="fas fa-file-alt"></li>
+                </button>
+              </ng-container>
+              <ng-container *ngIf="users.active == 1">
+                <button
+                  (click)="editUser(users)"
+                  class="bg-yellow-300 hover:bg-yellow-500 rounded-full p-4 mr-2"
+                >
+                  <li class="fa fa-edit"></li>
+                </button>
+              </ng-container>
+              <button
+                (click)="changeStateUser(users)"
+                class="rounded-full p-4"
+                [ngClass]="{
+                  'bg-lime-300 hover:bg-lime-500': users.active == 0,
+                  'bg-gray-300 hover:bg-gray-500': users.active == 1
+                }"
+              >
+                <ng-container *ngIf="users.active == 1">
+                  <li class="fa fa-toggle-on"></li>
+                </ng-container>
+                <ng-container *ngIf="users.active == 0">
+                  <li class="fa fa-toggle-off"></li>
+                </ng-container>
+              </button>
+              <button
+                [routerLink]="['/ResguardosUsuarios/', users.id]"
+                class="ml-2 md:hidden bg-blue-300 hover:bg-blue-500 rounded-full p-4 mr-2 inline-block bg-blue-300 hover:bg-blue-500 text-white px-4 py-2 rounded-full"
+              >
+                <li class="fas fa-file-alt"></li>
+              </button>
+            </td>
+
+            <!-- <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ users.category }}</td>
+                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ users.quantity }}</td> -->
+          </tr>
+        </ng-container>
+        <ng-container *ngIf="users.active == 0">
+          <tr>
+            <td
+              class="bg-gray-50 text-gray-400 px-5 py-5 border-b border-gray-200 text-sm"
+            >
+              {{ users.name }}
+            </td>
+            <td
+              class="bg-gray-50 text-gray-400 px-5 py-5 border-b border-gray-200 text-sm"
+            >
+              {{ users.payroll }}
+            </td>
+            <td
+              class="bg-gray-50 text-gray-400 px-5 py-5 border-b border-gray-200 text-sm"
+            >
+              {{ users.email }}
+            </td>
+            <td
+              class="bg-gray-50 text-gray-400 px-5 py-5 border-b border-gray-200 text-sm"
+            >
+              {{ users.group }}
+            </td>
+            <td
+              class="bg-gray-50 text-gray-400 px-5 py-5 border-b border-gray-200 text-sm"
+            >
+              {{ users.type_role }}
+            </td>
+            <td
+              class="bg-gray-50 text-gray-400 px-5 py-5 border-b border-gray-200 text-sm"
+            >
+              <ng-container *ngIf="users.active == 1">
+                <button
+                  (click)="editUser(users)"
+                  class="bg-yellow-300 hover:bg-yellow-500 rounded-full p-4 mr-2"
+                >
+                  <li class="fa fa-edit"></li>
+                </button>
+              </ng-container>
+              <button
+                (click)="changeStateUser(users)"
+                class="rounded-full p-4"
+                [ngClass]="{
+                  'bg-lime-300 hover:bg-lime-500': users.active == 0,
+                  'bg-gray-300 hover:bg-gray-500': users.active == 1
+                }"
+              >
+                <ng-container *ngIf="users.active == 1">
+                  <li class="fa fa-toggle-on"></li>
+                </ng-container>
+                <ng-container *ngIf="users.active == 0">
+                  <li class="fa fa-toggle-off"></li>
+                </ng-container>
+              </button>
+              <button
+                [routerLink]="['/ResguardosUsuarios/', users.id]"
+                class="ml-2 md:hidden bg-blue-300 hover:bg-blue-500 rounded-full p-4 mr-2 inline-block bg-blue-300 hover:bg-blue-500 text-white px-4 py-2 rounded-full"
+              >
+                <li class="fas fa-file-alt"></li>
+              </button>
+            </td>
+
+            <!-- <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ users.category }}</td>
+                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ users.quantity }}</td> -->
+          </tr>
+        </ng-container>
+      </ng-template>
+    </p-table>
+  </div>
+  <!-- component -->
+</div>
+
+<p-dialog
+  header="Agregar Usuario"
+  [(visible)]="visible"
+  [position]="'right'"
+  [style]="{ 'width': getWidthPercentage(), 'height': getHeightPercentage() }"
+>
+  <div class="w-full h-fit">
+    <div class="w-fit h-fit bg-black" *ngIf="showProfiles">
+      <!-- Create By Joker Banny -->
+      <div class="">
+        <div class="w-fit h-fit absolute -left-96 bottom-52">
+          <ng-container>
+            <div class="w-fit bg-white">
+              <nav
+                class="relative z-40 shadow-xl md:flex md:flex-row md:bg-white max-md:w-0 max-md:h-0 max-md:hidden"
+              >
+                <ul class="flex flex-row pt-4 leading-10">
+                  <li
+                    *ngIf="profilesOptionsShow == 1 || profilesOptionsShow == 2"
+                    class="pl-2 pr-2 cursor-pointer transition-all duration-300 hover:text-purple-800"
+                  >
+                    Todos
+                  </li>
+
+                  <li
+                    *ngIf="profilesOptionsShow == 1"
+                    class="pl-2 pr-2 cursor-pointer transition-all duration-300 hover:text-purple-800"
+                  >
+                    Administradores
+                  </li>
+                  <li
+                    *ngIf="profilesOptionsShow == 2 || profilesOptionsShow == 1"
+                    class="pl-2 pr-2 cursor-pointer transition-all duration-300 hover:text-purple-800"
+                  >
+                    Enlance
+                  </li>
+                  <li
+                    *ngIf="profilesOptionsShow == 2 || profilesOptionsShow == 1"
+                    class="pl-2 pr-2 cursor-pointer transition-all duration-300 hover:text-purple-800"
+                  >
+                    Empleados
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </ng-container>
+          <ng-container>
+            <div
+              class="fixed flex flex-col w-fit h-fit mt-0 pt-0 mr-0 pr-0 hover:w-64 md:w-64 bg-white text-gray-600 transition-all duration-300 border-none z-10 sidebar"
+            >
+              <div
+                class="overflow-y-auto overflow-x-hidden flex flex-col justify-between flex-grow shadow-md"
+              >
+                <ul class="flex flex-col py-4 space-y-1 pl-3 pr-4">
+                  <ng-container
+                    *ngIf="profilesOptionsShow == 1 || profilesOptionsShow == 2"
+                  >
+                    <li>
+                      <a
+                        class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-purple-50 hover:rounded-lg text-gray-600 hover:text-gray-800 border-l-4 border-transparent"
+                      >
+                        <!-- Icono Users de Font Awesome -->
+                        <span
+                          class="inline-flex justify-center items-center ml-4"
+                        >
+                          <i class="fas fa-users"></i>
+                        </span>
+                        <span class="ml-2 text-sm tracking-wide truncate"
+                          >Usuarios</span
+                        >
+                      </a>
+                    </li>
+                  </ng-container>
+                  <ng-container
+                    *ngIf="
+                      profilesOptionsShow == 1 ||
+                      profilesOptionsShow == 2 ||
+                      profilesOptionsShow == 3
+                    "
+                  >
+                    <li>
+                      <a
+                        href="#"
+                        class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-purple-50 hover:rounded-lg text-gray-600 hover:text-gray-800 border-l-4 border-transparent"
+                      >
+                        <!-- Icono Store de Font Awesome -->
+                        <span
+                          class="inline-flex justify-center items-center ml-4"
+                        >
+                          <i class="fas fa-lock"></i>
+                        </span>
+                        <span class="ml-2 text-sm tracking-wide truncate"
+                          >Resguardos</span
+                        >
+                      </a>
+                    </li>
+                  </ng-container>
+
+                  <li>
+                    <a
+                      href="#"
+                      class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-purple-50 hover:rounded-lg text-gray-600 hover:text-gray-800 border-l-4 border-transparent"
+                    >
+                      <!-- Icono Sign Out de Font Awesome -->
+                      <span
+                        class="inline-flex justify-center items-center ml-4"
+                      >
+                        <i class="fas fa-sign-out-alt"></i>
+                      </span>
+                      <span class="ml-2 text-sm tracking-wide truncate"
+                        >Cerrar Sesión</span
+                      >
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+    <form
+      class="pt-2 mx-auto w-full"
+      [formGroup]="MyForm"
+      (ngSubmit)="onSubmit()"
+      action=""
+    >
+      <div class="relative z-0 mb-6 w-full group">
+        <input
+          formControlName="email"
+          type="email"
+          name="floating_email"
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          placeholder=" "
+          required
+        />
+        <label
+          for="floating_email"
+          class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+          >Correo</label
+        >
+      </div>
+      <div class="relative z-0 mb-6 w-full group">
+        <input
+          formControlName="payroll"
+          (input)="GetDataUser($event)"
+          type="number"
+          name="floating_email"
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          placeholder=" "
+          required
+        />
+        <label
+          for="floating_email"
+          class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+          >Numero de Nomina</label
+        >
+      </div>
+    
+
+      
+   
+      <div class="relative z-0 mb-6 w-full group">
+        <input
+          readonly
+          formControlName="group"
+          type="text"
+          name="floating_email"
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-200 focus:outline-none appearance-none dark:text-white peer"
+          placeholder=" "
+          required
+        />
+        <label
+          for="floating_email"
+          class="absolute text-sm text-gray-300 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0"
+          >Departamento</label
+        >
+      </div>
+      <div class="flex flex-row w-full">
+        <div class=" h-40 relative z-0 mb-6 w-full group">
+          <input type="text"          [value]="MyForm.get('name')?.value"
+          (input)="GetNameUser($event)"
+          (blur)="onBlur2()" (click)="showAllOptions2()"
+            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer">
+            <label for="floating_email" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Nombre</label>
+    
+    
+          <ul *ngIf="showDropdown2 && names.length > 0"
+            class=" absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-md max-h-40  overflow-y-auto">
+            <li *ngFor="let option of names" (click)="selectOption2(option.Id_Empelado)"
+              class="cursor-pointer px-4 py-2 hover:bg-gray-100">{{ option.nombre}}</li>
+          </ul>
+        </div>
+        <div class="relative inline-block text-left h-full z-0 w-full group">
+          <input
+            formControlName="role"
+            readonly
+            type="text"
+            #textInput
+            class="block py-2.5 w-full text-sm text-gray-900 bg-transparent border-b-2 border-gray-300 focus:border-blue-600 focus:outline-none focus:ring-0 peer"
+            placeholder=" "
+            (click)="toggleDropdown()"
+          />
+  
+          <div
+            *ngIf="isDropdownOpen"
+            class="absolute z-10 right-0 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg"
+          >
+            <ul>
+              <ng-container *ngIf="roleTypeUser < 2">
+                <li
+                  class="group relative"
+                  (click)="hideText()"
+                  (mouseover)="showText(2)"
+                  (mouseout)="hideText()"
+                >
+                  <div
+                    class="hover:bg-gray-200 px-4 py-2 cursor-pointer"
+                    (click)="selectItem('Administrativo', textInput)"
+                  >
+                    Administrativo
+                  </div>
+                </li>
+              </ng-container>
+              <ng-container *ngIf="roleTypeUser < 3">
+                <li
+                  class="group relative"
+                  (click)="hideText()"
+                  (mouseover)="showText(3)"
+                  (mouseout)="hideText()"
+                >
+                  <div
+                    class="hover:bg-gray-200 px-4 py-2 cursor-pointer"
+                    (click)="selectItem('Enlance', textInput)"
+                  >
+                    Enlance
+                  </div>
+                </li>
+              </ng-container>
+              <ng-container *ngIf="roleTypeUser < 4">
+                <li
+                  class="group relative"
+                  (click)="hideText()"
+                  (mouseover)="showText(4)"
+                  (mouseout)="hideText()"
+                >
+                  <div
+                    class="hover:bg-gray-200 px-4 py-2 cursor-pointer"
+                    (click)="selectItem('Empleado', textInput)"
+                  >
+                    Empleado
+                  </div>
+                </li>
+              </ng-container>
+  
+              <!-- Agregar más opciones si es necesario -->
+            </ul>
+          </div>
+  
+          <label
+            for="floating_email"
+            class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+            >Tipo de usuario</label
+          >
+        </div>
+      </div>
+      
+      
+      <ng-container *ngIf="!MyForm.invalid">
+        <button
+          class="shadow-sm bg-purple-300 hover:bg-purple-500 px-4 py-2 rounded-xl mt-6"
+          type="submit"
+        >
+          Registrar
+        </button>
+      </ng-container>
+      <ng-container *ngIf="MyForm.invalid">
+        <button
+          disabled
+          class="shadow-sm bg-gray-50 cursor-not-allowed px-4 py-2 rounded-xl mt-6"
+          type="submit"
+        >
+          Registrar
+        </button>
+      </ng-container>
+    </form>
+  </div>
+</p-dialog>
+
+<p-dialog
+  [header]="'Reporte de ' + group"
+  [resizable]="false"
+  [modal]="true"
+  [maximizable]="true"
+  appendTo="body"
+  [(visible)]="dialogmodal"
+  [style]="{ width: '100vh' }"
+  [contentStyle]="{ height: '300px' }"
+>
+  <div class="mt-5 flex flex-row max-lg:hidden max-lg:w-0 max-lg:h-0">
+    <button
+      pTooltip="EXCEl"
+      (click)="exportExcel()"
+      class="shadow-md cursor-pointer hover:bg-green-400 h-14 rounded-full w-14 pt-2 bg-green-200"
+    >
+      <li class="fa fa-file-excel"></li>
+    </button>
+  </div>
+
+
+
+  
+  <p-table
+    styleClass="mt-3"
+    [value]="report"
+    [responsive]="true"
+    responsiveLayout="stack" [breakpoint]="'960px'" [tableStyle]="{'min-width': '50rem'}"
+    [paginator]="true"
+    [rows]="5"
+    [loading]="loading"
+    editMode="row"
+    [paginator]="true"
+    [rows]="5"
+    [showCurrentPageReport]="true"
+    [globalFilterFields]="[
+      'stock_number',
+      'description',
+      'name',
+      'brand',
+      'type',
+      'state',
+      'serial',
+      'airlne',
+      'payroll',
+      'group',
+      'employeed',
+      'date',
+      'observations'
+    ]"
+    [rowsPerPageOptions]="[5, 10, 25, 50]"
+    [scrollable]="true"
+    scrollWidht="400px"
+    currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} registros"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th
+          class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+        >
+          Foto
+        </th>
+        <th
+          class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+        >
+          Numero de inventario
+        </th>
+
+        <th
+          class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+        >
+          Nombre o Descripcion
+        </th>
+        <th
+          class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+        >
+          Marca y modelo
+        </th>
+        <th
+          class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+        >
+          Tipo
+        </th>
+        <th
+          class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+        >
+          Aerea de adscripcion
+        </th>
+        <th
+          class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+        >
+          Numero de serie
+        </th>
+        <th
+          class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+        >
+          Estado Fisico
+        </th>
+
+        <th
+          class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+        >
+          Observaciones
+        </th>
+        <th
+          class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+        >
+          NOMBRE DEL RESGUARDANTE
+        </th>
+
+        <!-- <th                                     
+      class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+          Rol</th>
+      <th                                     
+      class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+          Quantity</th> -->
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" class="shadow-md" let-guards let-i="rowIndex">
+      <tr
+        [ngClass]="{
+          'bg-gray-50 text-gray-400': guards.active == 0,
+          'bg-teal-100 text-teal-600': guards.user_guard_active == 1
+        }"
+        class="px-5 py-5 border-b border-gray-200 text-sm"
+      >
+        <td>
+          <div class="w-full flex justify-center align-center">
+            <div class="">
+              <div
+                class="bg-white rounded-md shadow-md w-14 h-14 flex items-center justify-center overflow-hidden"
+              >
+                <img
+                  *ngIf="guards.picture"
+                  [src]="guards.picture"
+                  alt="Preview"
+                  class="w-full h-full object-cover"
+                />
+                <div
+                  *ngIf="!guards.picture"
+                  class="flex items-center justify-center text-gray-400 text-4xl"
+                >
+                  <i class="fas fa-image"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+        <td>{{ guards.stock_number }}</td>
+        <td>{{ guards.description }}</td>
+        <td>{{ guards.brand }}</td>
+        <td>{{ guards.type }}</td>
+        <td>{{ guards.airlane }}</td>
+        <td>{{ guards.serial }}</td>
+        <td>{{ guards.state }}</td>
+
+        <td>{{ guards.observations == "null" ? "" : guards.observations }}</td>
+        <td>{{ guards.name }}</td>
+
+        <td class="flex flex-row text-sm"></td>
+
+        <!-- <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ users.category }}</td>
+      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ users.quantity }}</td> -->
+      </tr>
+    </ng-template>
+  </p-table>
+  <ng-template pTemplate="footer">
+    <button
+      type="button"
+      class="hover:bg-red-500"
+      pButton
+      pRipple
+      icon="pi pi-times"
+      (click)="dialogmodal = false"
+      label="Salir"
+      class="p-button-text"
+    ></button>
+  </ng-template>
+</p-dialog>

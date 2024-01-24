@@ -1,0 +1,86 @@
+<div  [@fadeInOutAnimation] class="flex justify-center items-center h-screen bg-gray-100">
+    <div  *ngFor="let item of data" class=" mx-auto p-6 bg-white rounded-lg shadow-xl">
+        <h1 class="text-2xl text-center font-bold mb-4">Información General</h1>
+        <div class="items-center justify-center flex h-full">
+        <img class=" mr-6 h-48 w-48 object-cover object-center"
+        [src]="item.picture=='null'?'../../../assets/gomez.png':item.picture" 
+        [alt]="item.description"  />
+        
+                <div class="grid  md:grid-cols-2 gap-4">
+            
+          
+                    <div class="flex flex-col">
+                        <p class="font-bold">Numero económico:</p>
+                        <div class="flex flex-row my-2">
+                            <i class="flex items-center justify-center bg-gray-400 w-8 rounded-l-xl fas fa-money-bill-alt"></i>
+                            <p class="w-11/12 bg-slate-200 p-2 rounded-r-xl">{{ item.serial }}</p>
+                        </div>
+                    </div>
+                    
+            <div class="flex flex-col">
+                <p class="font-bold">Descripción :</p>
+                <div class="flex flex-row my-2">
+                    <i class="flex items-center justify-center bg-gray-400 w-8 rounded-l-xl fas fa-align-left"></i>
+                    <p class="w-11/12  bg-slate-200 p-2 rounded-r-xl">{{ item.description }}</p>
+                </div>
+            </div>
+            <div class="flex flex-col">
+                <p class="font-bold">Etiqueta :</p>
+                <div class="flex flex-row my-2">
+                    <i class="flex items-center justify-center bg-gray-400 w-8 rounded-l-xl fas fa-tag"></i>
+                    <p class="w-11/12  bg-slate-200 p-2 rounded-r-xl">{{ item.stock_number }}</p>
+                </div>
+            </div>
+            <div class="flex flex-col">
+                <p class="font-bold">Empleado :</p>
+                <div class="flex flex-row my-2">
+                    <i class="flex items-center justify-center  w-8 rounded-l-xl fas fa-user"
+                    [ngClass]="{ 
+                        'bg-gray-200': item.name==null,
+                        'bg-gray-400': item.name!=null,
+
+                }"
+                    ></i>
+                    <p class="w-11/12  p-2 rounded-r-xl" 
+                    [ngClass]="{ 
+                        'bg-slate-50 text-gray-500': item.name==null,
+                        'bg-slate-200': item.name!=null,
+
+                }">
+                        {{ item.name === null ? 'no tiene resguardo' : item.name }}
+                      </p>
+                      
+                </div>
+            </div>
+            <div class="flex flex-col">
+                <p class="font-bold">Numero de Nomina :</p>
+                <div class="flex flex-row my-2">
+                    <i
+                    [ngClass]="{ 
+                        'bg-gray-200': item.payroll==null,
+                        'bg-gray-400': item.payroll!=null,
+
+                }"
+                    class="flex items-center justify-center w-8 rounded-l-xl fas fa-id-card"></i>
+                    <p
+                    [ngClass]="{ 
+                        'bg-slate-50 text-gray-500': item.payroll==null,
+                        'bg-slate-200': item.payroll!=null,
+
+                }"
+                    class="w-11/12  p-2 rounded-r-xl">{{ item.payroll==null?'no tiene resguardo':item.payroll }}</p>
+                </div>
+            </div>
+          
+            <div class="flex flex-col">
+                <p class="font-bold text-start">Departamento :</p>
+                <div class="flex flex-row my-2">
+                    <i class="flex items-center justify-center bg-gray-400 w-8 rounded-l-xl fas fa-building"></i>
+                    <p class="w-11/12  bg-slate-200 p-2 rounded-r-xl">{{ item.group }}</p>
+                </div>
+            </div>
+           
+            <!-- Repite esta estructura para cada sección -->
+        </div>
+    </div>
+</div>

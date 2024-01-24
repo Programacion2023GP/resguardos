@@ -1,0 +1,34 @@
+<style>
+  @media print {
+  /* Define el tamaño del papel */
+  @page {
+    size: 10cm 1.8cm; /* Tamaño del papel: 8 cm por 1.8 cm */
+    margin: 0; /* Establece los márgenes en 0 para aprovechar al máximo el tamaño */
+  }
+
+  /* Estilos adicionales para el contenido a imprimir */
+  #contenidoParaImprimir {
+    /* Estilos para el contenedor del contenido que deseas imprimir */
+    width: 100%; /* Opcional: asegura que ocupe todo el ancho permitido */
+    height: 100%; /* Opcional: asegura que ocupe todo el alto permitido */
+  }
+}
+</style>
+<div id="contenidoParaImprimir">
+  <div class="flex flex-row border border-black mt-4">
+    <img class="flex justify-center items-center" width="50" height="50" src="./../../../assets/gomez.png" alt="">
+  <div class="flex flex-col">
+    <p class="text-center" style="font-size: 8px; font-weight: bold; margin: 0;">{{ guard.guard.group }}</p>
+    <p class="text-center" style="font-size: 20px; font-weight: bold; margin: 0;">{{ guard.guard.stock_number }}</p>
+    <p style="font-size: 10px; margin: 0;">Administración 2022 - 2025</p>
+  </div>
+  <div class="flex justify-center items-center">
+    <!-- Reemplaza este elemento con tu código QR -->
+    <qrcode (qrCodeURL)="onChangeURL($event)" [qrdata]="myAngularxQrCode"
+      class="m-0 p-0 bg-transparent"
+    [width]="54" [errorCorrectionLevel]="'H'"></qrcode>
+  </div>
+  </div>
+  <!-- ... aquí puedes agregar más contenido, imágenes, etc. -->
+</div>
+<button class="w-14 h-14  mt-2 rounded-full bg-blue-300 hover:bg-blue-500" (click)="imprimir()"><i class="fas fa-print"></i></button>
