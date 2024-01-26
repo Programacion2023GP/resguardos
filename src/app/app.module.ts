@@ -50,7 +50,7 @@ import { TypesguardsComponent } from './components/typesguards/typesguards.compo
 import { SignatureComponent } from './components/signature/signature.component';
 import { SignaturePadModule } from 'angular2-signaturepad';
 import { StatesComponent } from './components/states/states.component';
-
+import { PickListModule } from 'primeng/picklist';
 @NgModule({
   declarations: [
     AppComponent,
@@ -95,7 +95,8 @@ import { StatesComponent } from './components/states/states.component';
     QRCodeModule,
     MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule,
     NgxPrintModule,
-    SignaturePadModule
+    SignaturePadModule,
+    PickListModule
     
   ],
   providers: [    

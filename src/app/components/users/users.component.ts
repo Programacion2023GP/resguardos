@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ServiceService } from 'src/app/service.service';
 import { Table } from 'primeng/table';
@@ -30,9 +30,11 @@ interface Option2 {
   styleUrls: ['./users.component.css'],
   animations:[fadeInOutAnimation]
 })
-export class UsersComponent {
+export class UsersComponent implements OnInit {
+
 
   
+  private socket!: WebSocket;
 
   public Toast = Swal.mixin({
     toast: true,
@@ -69,13 +71,23 @@ export class UsersComponent {
   dialogmodal!: boolean;
   report!: any[];
   group!:string
+  groups: any;
+  groupsCopy:any;
+  groupSelects: any[] = []; 
+  openGroups!: Boolean ;
   showDialog() {
     this.MyForm.reset()
+    this.groupSelects =[]
+    this.resetListGroups()
+    this.openGroups = false
     this.action = true
     this.visible = true
   }
   isDropdownOpen = false;
   constructor(private service: ServiceService<any>) {
+    this.GetDataGroups()
+
+    
     this.roleTypeUser = parseInt(this.roleTypeUser)
     this.GetUsers()
     this.GetDataNameUser();
@@ -85,7 +97,9 @@ export class UsersComponent {
       payroll: new FormControl('', [Validators.required, Validators.pattern(/^-?\d+\.?\d*$/)]),
       name: new FormControl('', Validators.required),
       group: new FormControl('', Validators.required),
-      role: new FormControl('', Validators.required)
+      role: new FormControl('', Validators.required),
+      groups: new FormControl('')
+
     });
     this.cols = [
       { field: 'stock_number', header: 'NUMERO DE INVENTARIO', customExportHeader: 'NUMERO DE INVENTARIO' },
@@ -103,7 +117,43 @@ export class UsersComponent {
 
   this.exportColumns = this.cols.map((col) => ({ title: col.header, dataKey: col.field }));
   }
+  GetDataGroups() {
 
+
+    this.service.OtherData<any>(`https://declaraciones.gomezpalacio.gob.mx/nominas/departamentos/infraesctruturagobmxpalaciopeticioninsegura`).subscribe({
+      next: (n:any) => {
+         this.groups = n.RESPONSE.recordsets[0]
+          this.resetListGroups()
+      },
+      error: (e:any) => {
+       
+      }
+  
+    })
+  
+  }
+  resetListGroups(){
+    this.groupsCopy = this.groups.map((group) => {
+      const newGroup = { ...group };
+      newGroup.checked = 0; 
+      return newGroup;
+    });      
+  }
+
+
+  ngOnInit(): void {
+    // this.socket = new WebSocket('ws://localhost:3001');
+
+    // this.socket.addEventListener('open', (event) => {
+    //   console.log('Conexión WebSocket establecida');
+    //   this.socket.send('Hola, servidor!');
+    // });
+
+    // this.socket.addEventListener('message', (event) => {
+    //   console.log('Mensaje desde el servidor:', event.data);
+    // });
+  }
+  
   showText(profile: number): void {
     this.profilesOptionsShow = profile
     this.showProfiles = true; // Borra el texto al salir
@@ -112,11 +162,20 @@ export class UsersComponent {
     this.showDropdown2 = false;
     const exist = this.names.find(item => item.Id_Empelado === id);
     if (exist) {
+      if(localStorage.getItem("group")!=exist.departamento && this.roleTypeUser ==3 ){
+        this.Toast.fire({
+          position: 'top-end',
+          icon: 'warning',
+          title: `no pertenece a tu departamento`,
+        });
+        return
+      }
       this.MyForm.get('name')?.setValue(`${exist.nombre}`)
       this.MyForm.get('group')?.setValue(`${exist.departamento}`)
       this.MyForm.get('payroll')?.setValue(`${exist.codigoEmpleado}`)
 
     }
+   
   }
   hideText(): void {
     this.showProfiles = false; // Borra el texto al salir
@@ -270,18 +329,45 @@ export class UsersComponent {
     })
   }
   editUser(user: any) {
+    let array = [];
+    if (user.departamentos) {
+      array = user.departamentos.split(',');
+    }
+
+    this.resetListGroups()
+    this.groupSelects =[]
+    if (array.length>0) {
+      array.forEach(element => {
+        const foundIndex = this.groupsCopy.findIndex(item => item.departamento.includes(element));
+        if (foundIndex !== -1) {
+          this.groupsCopy[foundIndex].checked = 1;
+          this.groupSelects.push(this.groupsCopy[foundIndex]);
+        }
+      });
+    }
+    // this.groupsCopy = this.groups.map((group) => {
+    //   const newGroup = { ...group };
+    //   newGroup.checked = 0; 
+    //   return newGroup;
+    // });  
+    
     this.MyForm.get('id')?.setValue(user.id)
     this.action = false
     Object.keys(user).forEach(us => {
       if (us =='role') {
         this.MyForm.get(us)?.setValue(user['type_role'])
         this.indicateOption(user['type_role'])
+        if (user['type_role']=="Enlace") {
+          this.openGroups = true
+
+        }
       }
       else{
         this.MyForm.get(us)?.setValue(user[us])
       }
     })
     this.visible = true
+    console.warn(this.MyForm)
   }
   onSubmit() {
     this.loading = true
@@ -335,6 +421,15 @@ export class UsersComponent {
       this.table.filterGlobal(inputValue, 'contains');
     }
   }
+  searchGroups(event: any){
+    if (event && event.target) {
+      // Ahora TypeScript sabe que event.target no es nulo
+      const inputValue: string = event.target.value;
+      this.groupsCopy = this.groups;
+      this.groupsCopy = this.groups.filter(option => option.departamento.toLowerCase().includes(event.target.value));
+
+    }
+  }
   reportGroup(user: any) {
     this.group = user.group
       this.service.Data<any>(`usersguards/guardsgroup/${user.group}`).subscribe({
@@ -382,7 +477,7 @@ export class UsersComponent {
     }
     getWidthPercentage(): string {
       const innerWidth = window.innerWidth;
-      return innerWidth < 1025 ? '100vw' : '40vw';
+      return innerWidth < 1025 ? '100vw' : '60vw';
     }
     
     getHeightPercentage(): string {
@@ -390,7 +485,20 @@ export class UsersComponent {
       return innerWidth < 1025 ? '100vh' : '100vh';
     }
     GetNameUser(event: any) {
+      this.MyForm.get('name')?.setValue(``)
+      this.MyForm.get('group')?.setValue(``)
+      this.MyForm.get('payroll')?.setValue(``)
       this.names =this.namesafter;
       this.names = this.names.filter(option => option.nombre.toLowerCase().includes(event.target.value));
     }
+    groupSelected(group: any) {
+      const existIndex = this.groupSelects.findIndex((item) => item.departamento === group.departamento);
+      if (existIndex !== -1) {
+        this.groupSelects.splice(existIndex, 1);
+      } else {
+        this.groupSelects.push(group);
+      }
+      this.MyForm.get("groups")?.setValue(this.groupSelects);
+    }
+    
 }

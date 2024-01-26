@@ -260,7 +260,7 @@
 <p-dialog
   header="Agregar Usuario"
   [(visible)]="visible"
-  [position]="'right'"
+  [position]="'center'"
   [style]="{ 'width': getWidthPercentage(), 'height': getHeightPercentage() }"
 >
   <div class="w-full h-fit">
@@ -522,8 +522,41 @@
             >Tipo de usuario</label
           >
         </div>
+       
       </div>
-      
+      <ng-container *ngIf="MyForm.get('role')?.value =='Enlance' || openGroups">
+        <div class="w-full h-80  flex flex-row ">
+          <div class="w-full h-full overflow-auto shadow-lg border rounded-b-md p-2">
+            <input
+              pInputText
+              type="text"
+              class="appearance-none mt-2 h-10 w-full border-3 pl-1"
+              (input)="searchGroups($event)"
+              placeholder="buscador"
+            />
+            <div *ngFor="let item of groupsCopy">
+              <div class="flex flex-row bg-white shadow-md p-1 border mt-1 rounded-md">
+                <input 
+                (click)="groupSelected(item)"
+                type="checkbox"
+                [checked]="item.checked==1"
+                
+                class="mr-1 cursor-pointer appearance-none w-6 h-6 border border-gray-900 rounded-md checked:bg-blue-500 checked:border-transparent focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-200">
+                <p class="">{{ item.departamento }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="w-full h-full overflow-auto shadow-lg border rounded-b-md p-2">
+            <div *ngFor="let item of groupSelects">
+              <div class="flex flex-row bg-white shadow-md p-1 border mt-1 rounded-md">
+                <p class="">{{ item.departamento }}</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        
+      </ng-container>
       
       <ng-container *ngIf="!MyForm.invalid">
         <button
