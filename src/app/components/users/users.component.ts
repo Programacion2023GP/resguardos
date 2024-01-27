@@ -55,7 +55,7 @@ export class UsersComponent implements OnInit {
   cols!: Column[];
   filteredOptions2: Option2[] = []; // Opciones filtradas para mostrar en el dropdown
   showDropdown2 = false;
-
+  listVerifyCheckeds :any[]= []
   idUser! : number|null
   loading:any = false
   users: any[] = [];
@@ -138,6 +138,7 @@ export class UsersComponent implements OnInit {
       newGroup.checked = 0; 
       return newGroup;
     });      
+    this.listVerifyCheckeds = this.groupsCopy
   }
 
 
@@ -219,6 +220,7 @@ export class UsersComponent implements OnInit {
     inputElement.value = item;
     this.MyForm.get('role')?.setValue(item)
     this.indicateOption(item)
+    this.openGroups = false
 
     this.isDropdownOpen = false;
   }
@@ -329,6 +331,9 @@ export class UsersComponent implements OnInit {
     })
   }
   editUser(user: any) {
+    this.openGroups = false
+
+    console.warn(user)
     let array = [];
     if (user.departamentos) {
       array = user.departamentos.split(',');
@@ -357,6 +362,7 @@ export class UsersComponent implements OnInit {
       if (us =='role') {
         this.MyForm.get(us)?.setValue(user['type_role'])
         this.indicateOption(user['type_role'])
+        
         if (user['type_role']=="Enlace") {
           this.openGroups = true
 
@@ -367,7 +373,7 @@ export class UsersComponent implements OnInit {
       }
     })
     this.visible = true
-    console.warn(this.MyForm)
+    console.warn(this.MyForm.value)
   }
   onSubmit() {
     this.loading = true
@@ -425,8 +431,8 @@ export class UsersComponent implements OnInit {
     if (event && event.target) {
       // Ahora TypeScript sabe que event.target no es nulo
       const inputValue: string = event.target.value;
-      this.groupsCopy = this.groups;
-      this.groupsCopy = this.groups.filter(option => option.departamento.toLowerCase().includes(event.target.value));
+      this.groupsCopy = this.listVerifyCheckeds;
+      this.groupsCopy = this.listVerifyCheckeds.filter(option => option.departamento.toLowerCase().includes(event.target.value));
 
     }
   }
@@ -492,10 +498,13 @@ export class UsersComponent implements OnInit {
       this.names = this.names.filter(option => option.nombre.toLowerCase().includes(event.target.value));
     }
     groupSelected(group: any) {
+      const index = this.groupsCopy.findIndex((item) => item.departamento === group.departamento);
+
       const existIndex = this.groupSelects.findIndex((item) => item.departamento === group.departamento);
       if (existIndex !== -1) {
         this.groupSelects.splice(existIndex, 1);
       } else {
+        this.listVerifyCheckeds[index].checked = 1;
         this.groupSelects.push(group);
       }
       this.MyForm.get("groups")?.setValue(this.groupSelects);
