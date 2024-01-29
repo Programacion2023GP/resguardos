@@ -48,7 +48,7 @@ export class UsersComponent implements OnInit {
     }
   })
   namesafter:any=[]
-
+  departamentos = localStorage.getItem("departamentos")?.split(",");
   names:any=[]
   originalData:any=[]
   exportColumns!: ExportColumn[];
@@ -86,7 +86,7 @@ export class UsersComponent implements OnInit {
   isDropdownOpen = false;
   constructor(private service: ServiceService<any>) {
     this.GetDataGroups()
-
+    console.warn("departamentos",this.departamentos)
     
     this.roleTypeUser = parseInt(this.roleTypeUser)
     this.GetUsers()
@@ -162,8 +162,10 @@ export class UsersComponent implements OnInit {
   selectOption2(id: Option2): void {
     this.showDropdown2 = false;
     const exist = this.names.find(item => item.Id_Empelado === id);
+   
     if (exist) {
-      if(localStorage.getItem("group")!=exist.departamento && this.roleTypeUser ==3 ){
+      console.log(this.departamentos?.includes(exist.departamento))
+      if(localStorage.getItem("group")!=exist.departamento && this.roleTypeUser ==3 && !this.departamentos?.includes(exist.departamento)   ){
         this.Toast.fire({
           position: 'top-end',
           icon: 'warning',
@@ -265,7 +267,10 @@ export class UsersComponent implements OnInit {
       next: (n:any) => {
         const employed = n.RESPONSE.recordsets[0][0]
         if (this.roleTypeUser ==3) {
-            if (localStorage.getItem('group')==employed.departamento) {
+            
+            
+
+            if (localStorage.getItem('group')==employed.departamento || this.departamentos?.includes(employed.departamento)) {
               this.MyForm.get('name')?.setValue(`${employed.nombreE} ${employed.apellidoP} ${employed.apellidoM}`)
               this.MyForm.get('group')?.setValue(`${employed.departamento}`)
             }
@@ -373,7 +378,6 @@ export class UsersComponent implements OnInit {
       }
     })
     this.visible = true
-    console.warn(this.MyForm.value)
   }
   onSubmit() {
     this.loading = true

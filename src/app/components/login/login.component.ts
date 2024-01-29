@@ -48,14 +48,15 @@ export class LoginComponent implements OnInit  {
   this.Http.Post<any>("auth/login",this.myForm.value).subscribe({
     next:(n:any)=>{
       localStorage.setItem("token",n["data"]["result"]["token"])
-      localStorage.setItem("role",n["data"]["result"]["user"]["role"])
-      localStorage.setItem("id",n["data"]["result"]["user"]["id"])
-      localStorage.setItem("group",n["data"]["result"]["user"]["group"])
+      localStorage.setItem("role",n["data"]["result"]["user"][0]["role"])
+      localStorage.setItem("id",n["data"]["result"]["user"][0]["id"])
+      localStorage.setItem("group",n["data"]["result"]["user"][0]["group"])
+      localStorage.setItem("departamentos",n["data"]["result"]["user"][0]["departamentos"])
 
-      const id =n["data"]["result"]["user"]["id"]
+      const id =n["data"]["result"]["user"][0]["id"]
 
 
-            if (parseInt(n["data"]["result"]["user"]["role"])==4) {
+            if (parseInt(n["data"]["result"]["user"][0]["role"])==4) {
               this.router.navigateByUrl(`/ResguardosUsuarios/${id}`)
             }else{
               this.router.navigateByUrl('/Usuarios');
