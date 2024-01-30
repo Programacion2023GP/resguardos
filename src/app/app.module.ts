@@ -51,6 +51,8 @@ import { SignatureComponent } from './components/signature/signature.component';
 import { SignaturePadModule } from 'angular2-signaturepad';
 import { StatesComponent } from './components/states/states.component';
 import { PickListModule } from 'primeng/picklist';
+import { NotificationsComponent } from './components/notifications/notifications.component';
+import { UnsuscribeguardsComponent } from './componets/unsuscribeguards/unsuscribeguards.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -65,7 +67,9 @@ import { PickListModule } from 'primeng/picklist';
     GroupsComponent,
     TypesguardsComponent,
     SignatureComponent,
-    StatesComponent
+    StatesComponent,
+    NotificationsComponent,
+    UnsuscribeguardsComponent
   ],
   imports: [
     CommonModule,

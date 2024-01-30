@@ -37,10 +37,12 @@
          </div>
        </div>
      </div>
-   </div>
+
+    </div>
    
-   
+
      <div class="flex mt-6 flex-row ">
+
        <ng-container *ngIf="roleTypeUser<4" >
        <button
        (click)="showDialog()"
@@ -55,12 +57,22 @@
        (click)="userprintresguardsactive()"
        pTooltip="Imprimir resguardos"
        class=" shadow-md cursor-pointer  hover:bg-blue-400 h-14 rounded-full mr-2  w-14 pt-2 bg-blue-200 max-lg:hidden max-lg:w-0 max-lg:h-0"><li class="fa fa-print  "></li></button>
+       <button
+       (click)="UnsuscribeGuards()"
+       pTooltip="Cargar solicitud"
+       class=" shadow-md cursor-pointer  hover:bg-yellow-400 h-14 rounded-full mr-2  w-14 pt-2 bg-yellow-200 max-lg:mb-2"><li class="fa fa-file-signature"></li></button>
+      
       </ng-container>
 
        <div
        pTooltip="INFORMACION"
        class="bg-gray-100 p-4 cursor-not-allowed  ml-2 shadow-md mb-4 text-gray-500  rounded-md max-lg:hidden max-lg:w-0 max-lg:h-0">
          Dado de baja
+       </div>
+       <div
+       pTooltip="INFORMACION"
+       class="bg-orange-200 p-4 cursor-not-allowed  ml-2 shadow-md mb-4 text-gray-500  rounded-md max-lg:hidden max-lg:w-0 max-lg:h-0">
+         Esperando  baja
        </div>
        <div
        pTooltip="INFORMACION"
@@ -149,8 +161,9 @@
      </tr>
    </ng-template>
    <ng-template pTemplate="body" class="shadow-md" let-guards let-i="rowIndex">
-   
-     <tr [ngClass]="{'bg-gray-50 text-gray-400':guards.used == 0}" >
+     <tr [ngClass]="{'bg-gray-50 text-gray-400':guards.used == 0 && guards.expecting == 0,
+    'bg-orange-200 text-gray-700': guards.expecting == 1
+    }" >
    
          <td  class="px-5 py-5 border-b border-gray-200  text-sm">{{ guards.stock_number }}</td>
          <td  class="px-5 py-5 border-b border-gray-200  text-sm">{{ guards.description }}</td>
@@ -193,8 +206,8 @@
    
        <div class="mt-4 relative z-0 mb-6 w-full group">
          <input type="text" [(ngModel)]="searchText" (input)="onSearch($event)" (blur)="onBlur()" (click)="showAllOptions()"
-           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-200 focus:outline-none appearance-none dark:text-white    peer">
-           <label for="floating_email" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Resguardo</label>
+           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-200 focus:outline-none appearance-none     peer">
+           <label for="floating_email" class="absolute text-sm text-gray-500  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Resguardo</label>
    
    
          <ul *ngIf="showDropdown && options.length > 0"

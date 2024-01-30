@@ -40,6 +40,7 @@ interface Option2 {
 })
 export class ReguardsComponent  {
 
+
   roleTypeUser:any = localStorage.getItem('role')
 
 
@@ -144,16 +145,16 @@ export class ReguardsComponent  {
     this.DataStates()
 
     this.cols = [
-      { field: 'payroll', header: 'NUMERO DE NOMINA', customExportHeader: 'NUMERO DE NOMINA' },
-      { field: 'name', header: 'NOMBRE DEL RESGUARDANTE', customExportHeader: 'NOMBRE DEL RESGUARDANTE' },
-      { field: 'group', header: 'UBICACIÓN O DEPARTAMENTO', customExportHeader: 'UBICACIÓN O DEPARTAMENTO' },
-      { field: 'type', header: 'TIPO DE RESGUARDO', customExportHeader: 'TIPO DE RESGUARDO' },
-      { field: 'airlane', header: 'AEREA DE ADSCRIPCIÓN', customExportHeader: 'AEREA DE ADSCRIPCIÓN' },
-      { field: 'dateup', header: 'FECHA DE ASIGNACIÓN DEL RESGUARDO', customExportHeader: 'FECHA DE ASIGNACIÓN DEL RESGUARDO' },
-      { field: 'datedown', header: 'FECHA DE ENTREGA DEL RESGUARDO', customExportHeader: 'FECHA DE ENTREGA DEL RESGUARDO' },
-      { field: 'observation', header: 'OBSERVACIONES', customExportHeader: 'OBSERVACIONES' },
-
-
+      { field: 'stock_number', header: 'NUMERO DE INVENTARIO', customExportHeader: 'NUMERO DE INVENTARIO' },
+      { field: 'description', header: 'DESCRIPCIÓN', customExportHeader: 'DESCRIPCIÓN' },
+      { field: 'brand', header: 'MARCA Y MODELO', customExportHeader: 'MARCA Y MODELO' },
+      { field: 'Tipo', header: 'TIPO DE RESGUARDO', customExportHeader: 'TIPO DE RESGUARDO' },
+      { field: 'serial', header: 'NUMERO SERIAL', customExportHeader: 'NUMERO SERIAL' },
+      { field: 'number_korima', header: 'NUMERO DE KORIMA', customExportHeader: 'NUMERO DE KORIMA' },
+      { field: 'Estado', header: 'ESTADO', customExportHeader: 'ESTADO' },
+      { field: 'group', header: 'DEPARTAMENTO', customExportHeader: 'DEPARTAMENTO' },
+      { field: 'motive', header: 'MOTIVO DADO DE BAJA', customExportHeader: 'MOTIVO DADO DE BAJA' },
+      { field: 'observations', header: 'OBSERVACIONES', customExportHeader: 'OBSERVACIONES' },
   ];
 
   this.exportColumns = this.cols.map((col) => ({ title: col.header, dataKey: col.field }));
@@ -165,6 +166,7 @@ export class ReguardsComponent  {
       next: (n:any) => {
         this.history = n['data']['result']
         this.dialogmodal = true
+        console.log("HIS",this.history)
       }
     })
   }
@@ -197,6 +199,22 @@ showDialog(){
 onFileSelected(event: Event) {
   const inputElement = event.target as HTMLInputElement;
   const file = inputElement.files?.[0];
+  if (file) {
+    const imageSizeInBytes = file.size;
+
+    const imageSizeInKB = imageSizeInBytes / 1024;
+  
+    const imageSizeInMB = imageSizeInKB / 1024;  
+    if (imageSizeInMB <= 2) {
+      this.Toast.fire({
+        position: 'top-end',
+        icon: 'error',
+        title: `la imagen supera el tamaño permitido`,
+      });
+      return
+    }
+  }
+  
 
   if (file) {
     const reader = new FileReader();
@@ -332,15 +350,12 @@ exportExcel() {
   import('xlsx').then((xlsx) => {
     const columnKeys = this.exportColumns.map((column) => column.title);
 
-    // Crear una copia de this.guards para no modificar el original directamente
-    const modifiedGuards = this.history.map((guard: { [x: string]: any; }) => {
+    const modifiedGuards = this.history.map((guardSave: { [x: string]: any; }) => {
       const modifiedGuard: any = {};
-      for (const key in guard) {
-        // Buscar una coincidencia en column.dataKey
+      for (const key in guardSave) {
         const matchingColumn = this.exportColumns.find((column) => column.dataKey === key);
         if (matchingColumn) {
-          // Si hay una coincidencia, usa column.title como nueva clave
-          modifiedGuard[matchingColumn.title] = guard[key];
+          modifiedGuard[matchingColumn.title] = guardSave[key];
         }
       }
       return modifiedGuard;
@@ -485,7 +500,31 @@ saveAsExcelFile(buffer: any, fileName: string): void {
       }
     })
   }
+  AcceptRemove(guards:any) {
+    this.loading = true
+    this.service.Delete(`guards/expecting/${guards.id}`).subscribe({
+      next:(n:any)=>{
+        this.Toast.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: `se ha aceptado la baja correctamente`,
+        });
+      },
+      error:(e:any)=>{
+        this.Toast.fire({
+          position: 'top-end',
+          icon: 'error',
+          title: `no se ha podido aceptar la baja`,
+        });
+        this.loading = false
 
+      },
+      complete:()=>{
+        this.loading = false
+        this.getGuards()
+      }
+    })
+    }
  searchEmployeed(event:any ){
   this.service.OtherData<any>(`https://declaraciones.gomezpalacio.gob.mx/nominas/empleados/${event.target.value}/infraesctruturagobmxpalaciopeticioninsegura`).subscribe({
   next:(n:any)=>{
@@ -626,7 +665,7 @@ changeResguardState(guard: any) {
       contentStyle: {'max-height': '100%', 'overflow': 'auto'}
     });
   }
-  
+ 
 
   EditGuard(guard:any){
     console.warn(guard)

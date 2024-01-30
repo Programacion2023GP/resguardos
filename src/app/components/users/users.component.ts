@@ -143,16 +143,32 @@ export class UsersComponent implements OnInit {
 
 
   ngOnInit(): void {
-    // this.socket = new WebSocket('ws://localhost:3001');
+ this.socket = new WebSocket('ws://localhost:3001');
 
-    // this.socket.addEventListener('open', (event) => {
-    //   console.log('Conexión WebSocket establecida');
-    //   this.socket.send('Hola, servidor!');
-    // });
+this.socket.addEventListener('open', (event) => {
+  console.log('Conexión Webthis.socket establecida');
 
-    // this.socket.addEventListener('message', (event) => {
-    //   console.log('Mensaje desde el servidor:', event.data);
-    // });
+  this.socket.send(JSON.stringify({
+    type: 'join',
+    group: 'Luisao',
+    project: 'administrativos',
+    client: 'channel1'
+  }));
+
+  this.socket.send(JSON.stringify({
+    type: 'message',
+    group: 'Luisao',
+    project: 'administrativos',
+    client: 'channel1',
+    message: 'HOLA, ¿CÓMO ESTÁS?'
+  }));
+});
+
+this.socket.addEventListener('message', (event) => {
+  console.log('Mensaje desde el servidor:', event.data);
+
+});
+
   }
   
   showText(profile: number): void {

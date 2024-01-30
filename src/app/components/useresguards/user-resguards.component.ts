@@ -8,6 +8,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { UserprintresguardsactiveComponent } from '../userprintresguardsactive/userprintresguardsactive.component';
 import {  repeatfadeInOutAnimation  } from 'src/app/components/animations/animate';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UnsuscribeguardsComponent } from 'src/app/componets/unsuscribeguards/unsuscribeguards.component';
 
 interface Column {
   field: string;
@@ -203,7 +204,6 @@ loading: boolean|undefined;
       next:(n:any)=>{
         this.loading = false
           this.data =n['data']['result']
-  
           this.dataPrint = this.data.filter((item:Item)=>item.used == 1)
       },
       error:(n:any)=>{
@@ -211,6 +211,17 @@ loading: boolean|undefined;
 
       }
     })
+  }
+  UnsuscribeGuards() {
+    this.service.setData({
+      name:this.name,
+      id:this.userId,
+      guards:this.data.filter((item:any)=>item.expecting == 0)
+    })
+    const ref = this.dialogService.open(UnsuscribeguardsComponent, {
+      width: '80%',
+      contentStyle: {'max-height': '80%', 'overflow': 'auto'}
+    });
   }
   onInputChangeReports(event: any) {
       this.dataPrint = this.data

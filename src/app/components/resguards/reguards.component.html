@@ -1,5 +1,11 @@
 <div [@fadeInOutAnimation] class="container px-4 mx-auto mt-10 pt-10 flex flex-col p-4 items-center justify-center w-full rounded-xl group sm:flex space-x-6  hover:rounded-2xl ">
   <div class="flex flex-row  ">
+    <!-- <ng-container *ngIf="roleTypeUser < 3">
+      <button
+      (click)="exportExcel()" 
+      pTooltip="Agregar"
+      class=" shadow-md cursor-pointer hover:bg-green-400 h-14 rounded-full  mr-2 w-14 pt-2 bg-green-200 max-lg:hidden max-lg:w-0 max-lg:h-0"><li class="fa fa-file-excel"></li></button>
+    </ng-container> -->
     <button
     (click)="showDialog()" 
     pTooltip="Agregar"
@@ -10,7 +16,11 @@
     class="bg-white p-4 cursor-not-allowed  ml-2 shadow-md mb-4 text-gray-600 rounded-md max-lg:w-0 max-lg:h-0 max-lg:hidden">
       Habilitado
     </div>
-
+    <div
+    pTooltip="INFORMACION"
+    class="bg-orange-200 p-4 cursor-not-allowed  ml-2 shadow-md mb-4  rounded-md">
+      Esperando baja
+    </div>
    
     <div
     pTooltip="INFORMACION"
@@ -102,7 +112,13 @@
         </ng-template>
         <ng-template pTemplate="body" class="shadow-md" let-guards let-i="rowIndex">
             
-            <tr [ngClass]="{'bg-gray-50 text-gray-400':guards.active==0,'bg-teal-100 text-teal-600':guards.user_guard_active ==1}" class="px-5 py-5 border-b border-gray-200  text-sm">
+            <tr 
+            
+            [ngClass]="{'bg-gray-50 text-gray-400':guards.active==0 && guards.expecting==0,
+            'bg-teal-100 text-teal-600':guards.user_guard_active ==1 && guards.expecting==0,
+            'bg-orange-200 text-gray-700':guards.expecting==1
+            
+            }" class="px-5 py-5 border-b border-gray-200  text-sm">
               
                 <td >
                   <div class="w-full  flex justify-center align-center">
@@ -158,6 +174,11 @@
 
                    </ng-container>
                  </button>
+                 <ng-container *ngIf="guards.expecting ==1" >
+
+                 <button (click)="AcceptRemove(guards)"  class="mr-2 bg-green-300 hover:bg-green-500 rounded-full p-4 "> <li class="fas fa-check"></li></button>
+                </ng-container>
+
                 </ng-container>
 
                 </td>
@@ -202,8 +223,8 @@ class=""
   <div class="relative z-0 mb-6 w-full group">
       <input
       formControlName="description"
-      type="text" name="floating_email" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-      <label for="floating_email" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+      type="text" name="floating_email" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+      <label for="floating_email" class="absolute text-sm text-gray-500  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
         Nombre o descripcion</label>
       
     </div>
@@ -211,8 +232,8 @@ class=""
     <div class="relative z-0 mb-6 w-full group">
       <input
       formControlName="brand"
-      type="text" name="floating_email" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-      <label for="floating_email" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+      type="text" name="floating_email" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+      <label for="floating_email" class="absolute text-sm text-gray-500  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
         Marca y Modelo</label>
       
     </div>
@@ -222,8 +243,8 @@ class=""
     <div class="relative z-0 mb-6 w-full group">
       <input
       formControlName="serial"
-      type="text" name="floating_email" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-      <label for="floating_email" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+      type="text" name="floating_email" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+      <label for="floating_email" class="absolute text-sm text-gray-500  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
         Numero de serie</label>
       
     </div>
@@ -234,16 +255,16 @@ class=""
     <div class="relative z-0 mb-6 w-full group">
       <input
       formControlName="number_korima"
-      type="number" name="floating_email" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
-      <label for="floating_email" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+      type="number" name="floating_email" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
+      <label for="floating_email" class="absolute text-sm text-gray-500  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
        N° de referencia korima</label>
       
     </div>
     <!-- <div class="relative z-0 mb-6 w-full group">
       <input
       formControlName="group"
-      type="text" name="floating_email" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-      <label for="floating_email" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+      type="text" name="floating_email" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+      <label for="floating_email" class="absolute text-sm text-gray-500  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
         Departamento</label>
       
     </div> -->
@@ -251,8 +272,8 @@ class=""
       <div class="mt-4 relative z-0 mb-6 w-1/3 group">
         <input type="text"          [value]="MyForm.get('state')?.value"
         (input)="onSearch3($event)" (blur)="onBlur3()" (click)="showAllOptions3()"
-          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-200 focus:outline-none appearance-none dark:text-white    peer">
-          <label for="floating_email" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Estado fisico</label>
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-200 focus:outline-none appearance-none     peer">
+          <label for="floating_email" class="absolute text-sm text-gray-500  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Estado fisico</label>
   
   
         <ul *ngIf="showDropdown3 && states.length > 0"
@@ -264,8 +285,8 @@ class=""
       <div class="mt-4 relative z-0 mb-6 w-1/3 group">
         <input type="text"          [value]="MyForm.get('type')?.value"
         (input)="onSearch2($event)" (blur)="onBlur2()" (click)="showAllOptions2()"
-          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-200 focus:outline-none appearance-none dark:text-white    peer">
-          <label for="floating_email" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Tipo</label>
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-200 focus:outline-none appearance-none     peer">
+          <label for="floating_email" class="absolute text-sm text-gray-500  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Tipo</label>
   
   
         <ul *ngIf="showDropdown2 && types.length > 0"
@@ -280,8 +301,8 @@ class=""
         <input type="text" 
         [value]="MyForm.get('group')?.value"
         [(ngModel)]="searchText" (input)="onSearch($event)" (blur)="onBlur()" (click)="showAllOptions()"
-          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-200 focus:outline-none appearance-none dark:text-white    peer">
-          <label for="floating_email" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Departamento</label>
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-200 focus:outline-none appearance-none     peer">
+          <label for="floating_email" class="absolute text-sm text-gray-500  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Departamento</label>
   
   
           <ul *ngIf="showDropdown && groups.length > 0"
@@ -302,8 +323,8 @@ class=""
 <!-- This is an example component -->
 <div class="w-full">
 
-    <div class="mb-4 w-full bg-gray-50 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
-        <div class="flex justify-between items-center py-2 px-3 border-b dark:border-gray-600">
+    <div class="mb-4 w-full bg-gray-50 rounded-lg border border-gray-200 dark:bg-gray-700 ">
+        <div class="flex justify-between items-center py-2 px-3 border-b ">
             <div class="flex flex-wrap items-center divide-gray-200 sm:divide-x dark:divide-gray-600">
                 <div class="flex items-center space-x-1 sm:pr-4">
                   <p>Observaciones</p>
@@ -317,7 +338,7 @@ class=""
         <div class="py-2 px-4 bg-white rounded-b-lg dark:bg-gray-800">
             <textarea
               formControlName="observations"
-            id="editor" rows="12"  class="block px-0 w-full text-sm text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400" placeholder="Escribe las observaciones" ></textarea>
+            id="editor" rows="12"  class="block px-0 w-full text-sm text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 focus:outline-none  dark:placeholder-gray-400" placeholder="Escribe las observaciones" ></textarea>
         </div>
     </div>
   
@@ -359,14 +380,18 @@ class=""
   <div
   pTooltip="INFORMACION"
   class="bg-green-300 p-4 cursor-not-allowed  ml-2 shadow-md mb-4  rounded-md">
-    resguardado
+    Resguardado
   </div>
-
+  <div
+  pTooltip="INFORMACION"
+  class="bg-orange-200 p-4 cursor-not-allowed  ml-2 shadow-md mb-4  rounded-md">
+    Esperando baja
+  </div>
  
   <div
   pTooltip="INFORMACION"
   class="bg-gray-200 p-4 cursor-not-allowed  ml-2 shadow-md mb-4 rounded-md">
-    historial
+    Historial
   </div>
 
 
@@ -396,7 +421,7 @@ class=""
           </tr>
       </ng-template>
       <ng-template pTemplate="body" let-user>
-          <tr [ngClass]="{'bg-green-300':user.used ==1,'bg-gray-200':user.used ==0}" class="px-5 py-5 border-b border-gray-200  text-sm">
+          <tr [ngClass]="{'bg-green-300':user.used ==1 && user.expecting ==0,'bg-orange-200 text-gray-700':user.used ==0 && user.expecting ==1,'bg-gray-200':user.used ==0 && user.expecting ==0}" class="px-5 py-5 border-b border-gray-200  text-sm">
               <td >{{user.payroll}}</td>
               <td >{{user.name}}</td>
               <td >{{user.group}}</td>
