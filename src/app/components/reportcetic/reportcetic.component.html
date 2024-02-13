@@ -1,0 +1,99 @@
+<div id="contenidoParaImprimir" class="relative w-full h-full flex">
+    <img class="opacity-75 absolute z-10" [src]="imageURL" alt="" />
+    <div class="absolute mt-40 z-30 w-full">
+      <h3 class="text-start">C. {{ name }}</h3>
+      <p class="text-start">{{ group }}.</p>
+      <p class="text-start">Asunto: Baja de Resguardo</p>
+      <p class="text-start">Administración Municipal 2022 | 2025.</p>
+      <p class="text-start">Gómez Palacio, Durango</p>
+      <p class="text-start">Presente. -</p>
+      <p class="text-end">Oficio: CETIC/{{ formattedDate }}</p>
+
+      <h1 class="mt-20 text-center underline">DICTAMEN</h1>
+      <p class="mt-20">De acuerdo a revisión que se realizó por parte del personal de Soporte Técnico</p>
+      <br>
+      <p>De esta dirección, se llegó a la conclusión {{ guards.length > 1 ? 'de los siguientes dispositivos' : 'del siguiente dispositivo' }}.</p>
+
+   
+  
+     
+    <div class="pagina"></div>
+  
+    <ng-container *ngFor="let group of divideEnGrupos(guards, 20); let i = index">
+      <ng-container *ngIf="i > 0">
+        <div class="pagina"></div>
+      </ng-container>
+      <p class="relative w-1 h-1"></p>
+      <img class="opacity-75 absolute z-10" [src]="imageURL" alt="" />
+      <div class="absolute mt-40 z-20 w-full">
+        <table class="table-auto w-full">
+          <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
+            <tr>
+              <th
+                class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+              >
+                # de inventario
+              </th>
+              <th
+                class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+              >
+                Descripción
+              </th>
+              <th
+                class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+              >
+                Marca y modelo
+              </th>
+              <th
+                class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+              >
+                # de serie
+              </th>
+              <th
+                class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+              >
+                Resguardante Actual
+              </th>
+            </tr>
+          </thead>
+          <tbody class="text-sm divide-y divide-gray-100">
+            <ng-container *ngFor="let item of group">
+              <tr>
+                <td class="border">{{ item.stock_number }}</td>
+                <td class="border">{{ item.description }}</td>
+                <td class="border">{{ item.brand }}</td>
+                <td class="border">{{ item.serial }}</td>
+                <td class="border">{{ name }}</td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </ng-container>
+    <div class="pagina"></div>
+    <img class="opacity-75 absolute z-10" [src]="imageURL" alt="" />
+    <div class="absolute mt-40 z-20 w-full">
+    <p class="mt-20">{{ guards.length > 1 ? 'Estos dispositivos se encuentran dañados' : 'Este dispositivo se encuentra dañado' }} y en mal estado. Lo cual se recomienda
+    su baja de patrimonio.</p>
+
+   <p>Sin más por el momento me despido. quedando a sus órdenes para cualquier duda o información al respecto	</p>
+  
+    <h1 class="mt-20 text-center">ATENTAMENTE</h1>
+    <hr class="my-4 mt-20 w-1/4 mx-auto border border-gray-900" />
+    <p class="my-4  w-1/4 mx-auto  " >{{ name }}</p>
+    <p class="w-full mx-auto  flex justify-center " >Gómez Palacio, Durango, a {{ fecha }}</p>
+
+    <p class=" mt-20   w-full mx-auto  flex justify-center " >Ing. Roció Guadalupe Ramirez Pacheco </p>
+    <p class="   w-full mx-auto flex justify-center ">Directora del Centro de Tecnologías de la información y Comunicaciones (CETIC)	</p>
+    </div>
+  </div>
+
+
+  </div>
+  <button
+    class="w-14 h-14 absolute z-40 bottom-0 left-2 mt-2 rounded-full bg-blue-300 hover:bg-blue-500"
+    (click)="imprimir()"
+  >
+    <i class="fas fa-print"></i>
+  </button>
+  

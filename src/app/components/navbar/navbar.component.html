@@ -217,10 +217,29 @@
                   <i class="fas fa-shield"></i>
                 </span>
                 <span class="ml-2 text-sm tracking-wide truncate"
-                  >Catalogo Estados</span
+                  >Catalogo Estados/Resguardos</span
                 >
               </a>
             </li>
+            <li
+            (click)="changeItemSelected(5)"
+            [ngClass]="{
+              'bg-purple-200 rounded-lg text-gray-800': selectedItemMenu[5]
+            }"
+          >
+            <a
+              [routerLink]="['/Plantilla']"
+              class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-purple-50 hover:rounded-lg text-gray-600 hover:text-gray-800 border-l-4 border-transparent"
+            >
+              <!-- Icono Users de Font Awesome -->
+              <span class="inline-flex justify-center items-center ml-4">
+                <i class="fas fa-camera"></i>
+              </span>
+              <span class="ml-2 text-sm tracking-wide truncate"
+                >Plantilla de oficios</span
+              >
+            </a>
+          </li>
           </ng-container>
           <li>
             <a
@@ -287,6 +306,8 @@
         >
           <div class="mb-4" *ngFor="let user of users; let index = index">
             <button
+            [pTooltip]=" 'Agregar resguardos a ' + user.name "
+
             [routerLink]="['/ResguardosUsuarios', user.id]"
             [ngClass]="{
               'bg-white': !timeDay,

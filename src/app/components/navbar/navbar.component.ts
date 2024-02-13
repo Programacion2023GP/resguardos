@@ -24,7 +24,7 @@ export class NavbarComponent {
   true, false,false,false
   ];
   selectedItemMenu:Boolean[]=[
-    false, true, false,false,false
+    false, true, false,false,false,false
   ]
 selected: any;
 animationState !:string; 

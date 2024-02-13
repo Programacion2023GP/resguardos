@@ -33,6 +33,9 @@ interface Option2 {
 export class UsersComponent implements OnInit {
 
 
+
+
+
   
   private socket!: WebSocket;
 
@@ -47,9 +50,14 @@ export class UsersComponent implements OnInit {
       toast.addEventListener('mouseleave', Swal.resumeTimer)
     }
   })
+  openModalEnlance!: boolean;
   namesafter:any=[]
+  enlance :any
   departamentos = localStorage.getItem("departamentos")?.split(",");
   names:any=[]
+  namesEnlance:any=[]
+  namesEnlanceSearch: any=[];
+
   originalData:any=[]
   exportColumns!: ExportColumn[];
   cols!: Column[];
@@ -75,6 +83,10 @@ export class UsersComponent implements OnInit {
   groupsCopy:any;
   groupSelects: any[] = []; 
   openGroups!: Boolean ;
+selectedValue: any;
+selectedEnlance: any;
+newEmail: string="";
+existEmali!: Boolean;
   showDialog() {
     this.MyForm.reset()
     this.groupSelects =[]
@@ -102,16 +114,12 @@ export class UsersComponent implements OnInit {
 
     });
     this.cols = [
-      { field: 'stock_number', header: 'NUMERO DE INVENTARIO', customExportHeader: 'NUMERO DE INVENTARIO' },
-      { field: 'description', header: 'NOMBRE O DESCRIPCIÓN	', customExportHeader: 'NOMBRE O DESCRIPCIÓN' },
-      { field: 'brand', header: 'MARCA Y MODELO', customExportHeader: 'Descripción del producto' },
-      { field: 'type', header: 'TIPO', customExportHeader: 'Cantidad o Pieza' },
-      { field: 'state', header: 'ESTADO FISICO', customExportHeader: 'Valor' },
-      { field: 'airlane', header: 'ÁEREA DE ADSCRIPCION', customExportHeader: 'Departamento' },
-      { field: 'group', header: 'UBICACIÓN/DEPARTAMENTO', customExportHeader: 'Numero de etiqueta' },
-      { field: 'dateup', header: 'FECHA DE ASIGNACIÓN DEL RESGUARDO', customExportHeader: 'Numero de nomina' },
-      { field: 'datedown', header: 'FECHA DE BAJA DEL RESGUARDO	', customExportHeader: 'Numero de nomina' },
-      { field: 'name', header: 'NOMBRE DEL RESGUARDANTE', customExportHeader: 'Numero de nomina' },
+      { field: 'name', header: 'NOMBRE', customExportHeader: 'NOMBRE' },
+      { field: 'payroll', header: 'NUMERO DE NOMINA	', customExportHeader: 'NUMERO DE NOMINA' },
+      { field: 'group', header: 'DEPARTAMENTO', customExportHeader: 'DEPARTAMENTO' },
+      { field: 'email', header: 'CORREO', customExportHeader: 'CORREO' },
+      { field: 'type_role', header: 'TIPO DE ROL', customExportHeader: 'TIPO DE ROL' },
+   
 
   ];
 
@@ -140,34 +148,36 @@ export class UsersComponent implements OnInit {
     });      
     this.listVerifyCheckeds = this.groupsCopy
   }
-
+  newEnlance(user: any) {
+    this.selectedEnlance = user
+   }
 
   ngOnInit(): void {
- this.socket = new WebSocket('ws://localhost:3001');
+//  this.socket = new WebSocket('ws://localhost:3001');
 
-this.socket.addEventListener('open', (event) => {
-  console.log('Conexión Webthis.socket establecida');
+// this.socket.addEventListener('open', (event) => {
+//   console.log('Conexión Webthis.socket establecida');
 
-  this.socket.send(JSON.stringify({
-    type: 'join',
-    group: 'Luisao',
-    project: 'administrativos',
-    client: 'channel1'
-  }));
+//   this.socket.send(JSON.stringify({
+//     type: 'join',
+//     group: 'Luisao',
+//     project: 'administrativos',
+//     client: 'channel1'
+//   }));
 
-  this.socket.send(JSON.stringify({
-    type: 'message',
-    group: 'Luisao',
-    project: 'administrativos',
-    client: 'channel1',
-    message: 'HOLA, ¿CÓMO ESTÁS?'
-  }));
-});
+//   this.socket.send(JSON.stringify({
+//     type: 'message',
+//     group: 'Luisao',
+//     project: 'administrativos',
+//     client: 'channel1',
+//     message: 'HOLA, ¿CÓMO ESTÁS?'
+//   }));
+// });
 
-this.socket.addEventListener('message', (event) => {
-  console.log('Mensaje desde el servidor:', event.data);
+// this.socket.addEventListener('message', (event) => {
+//   console.log('Mensaje desde el servidor:', event.data);
 
-});
+// });
 
   }
   
@@ -320,6 +330,15 @@ this.socket.addEventListener('message', (event) => {
       }
     })
   }
+  GetUsersGroup(group:string,id:any) {
+    this.service.Data<any>(`usersgroup/${group}/${id}`).subscribe({
+      next: (n:any) => {
+        this.namesEnlance = n['data']['result']
+        this.namesEnlanceSearch = this.namesEnlance
+
+      }
+    })
+  }
   changeStateUser(user: any) {
     this.loading = true
     this.service.Delete(`usersdestroy/${user.id}`).subscribe({
@@ -413,7 +432,7 @@ this.socket.addEventListener('message', (event) => {
     });
 
 
-    this.service.Post(url, data).subscribe({
+    this.service.Post<any>(url, data).subscribe({
       next: (n:any) => {
         this.GetUsers()
         this.service.setData({ crud: true });
@@ -431,6 +450,17 @@ this.socket.addEventListener('message', (event) => {
         this.MyForm.reset()
         this.visible = false
         this.loading = false
+        if ( e["error"]["data"]["message"] == "Ya existe un usuario con este número de nomina o correo.") {
+          this.Toast.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: `${e["error"]["data"]["message"]}`,
+          });
+          return
+        } 
+        
+      
+      
         this.Toast.fire({
           position: 'top-end',
           icon: 'error',
@@ -456,9 +486,18 @@ this.socket.addEventListener('message', (event) => {
 
     }
   }
+  searchEnlance(event: any) {
+    if (event && event.target) {
+      // Ahora TypeScript sabe que event.target no es nulo
+      const inputValue: string = event.target.value;
+      this.namesEnlanceSearch = this.namesEnlance;
+      this.namesEnlanceSearch = this.namesEnlance.filter(option => option.nombre.toLowerCase().includes(event.target.value));
+
+    };
+    }
   reportGroup(user: any) {
     this.group = user.group
-      this.service.Data<any>(`usersguards/guardsgroup/${user.group}`).subscribe({
+      this.service.Data<any>(`usersguards/guardsgroup/${user.group}/${user.id}`).subscribe({
         next:(n:any)=>{
           this.report =n['data']['result']
           this.dialogmodal = true
@@ -474,7 +513,7 @@ this.socket.addEventListener('message', (event) => {
         const columnKeys = this.exportColumns.map((column) => column.title);
   
         // Crear una copia de this.guards para no modificar el original directamente
-        const modifiedGuards = this.report.map((guard: { [x: string]: any; }) => {
+        const modifiedGuards = this.users.map((guard: { [x: string]: any; }) => {
           const modifiedGuard: any = {};
           for (const key in guard) {
             // Buscar una coincidencia en column.dataKey
@@ -490,7 +529,7 @@ this.socket.addEventListener('message', (event) => {
         const worksheet = xlsx.utils.json_to_sheet(modifiedGuards, { header: columnKeys });
         const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
         const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
-        this.saveAsExcelFile(excelBuffer, 'Resguardos');
+        this.saveAsExcelFile(excelBuffer, 'usuarios');
       });
     }
     saveAsExcelFile(buffer: any, fileName: string): void {
@@ -499,7 +538,7 @@ this.socket.addEventListener('message', (event) => {
       const data: Blob = new Blob([buffer], {
           type: EXCEL_TYPE
       });
-      FileSaver.saveAs(data,this.group + EXCEL_EXTENSION);
+      FileSaver.saveAs(data,'usuarios' + EXCEL_EXTENSION);
     }
     getWidthPercentage(): string {
       const innerWidth = window.innerWidth;
@@ -529,5 +568,49 @@ this.socket.addEventListener('message', (event) => {
       }
       this.MyForm.get("groups")?.setValue(this.groupSelects);
     }
+    showReplaceEnlance(user: any) {
+      this.GetUsersGroup(user.group,user.id)
+      this.selectedEnlance = null
+      this.enlance = user
+     this.openModalEnlance = true
+  }
+  changeEnlance(){
     
+    this.service.Data(`changeEnlance/${this.enlance.id}/${this.selectedEnlance.id}/${this.newEmail}`).subscribe({
+      next: (n:any) => {
+        this.openModalEnlance = false
+        this.GetUsers()
+      
+        this.Toast.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: `Se ha cambiado el enlance correctamente cambia el correo del anterior enlance por uno nuevo`,
+        });
+      },
+      error: (e:any) => {
+        this.GetUsers()
+        this.MyForm.reset()
+        this.visible = false
+        this.loading = false
+        this.Toast.fire({
+          position: 'top-end',
+          icon: 'error',
+          title: ` No se ha podido cambiar el enlance`,
+        });
+
+      },
+    })
+  }
+  verifiEmail(event: any) {
+    this.newEmail = event.target.value;
+
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+    if (emailPattern.test(this.newEmail)) {
+      this.existEmali = true
+    } else {
+      this.existEmali = false
+
+    }
+  }
 }

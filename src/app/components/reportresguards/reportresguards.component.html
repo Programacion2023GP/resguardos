@@ -1,0 +1,120 @@
+<div id="contenidoParaImprimir" #pdfElement class="container mx-auto flex flex-col">
+
+    <div class="flex flex-row items-center justify-start">
+        <div class="w-20 h-20 p-4 flex items-start justify-center overflow-hidden">
+            <img src="../../../assets/icon.png" alt="GOMEZ" class="w-9/12 h-9/12 ">
+        </div>
+        <div class="mx-auto text-center">
+            <h1 class="font-bold m-2">MUNICIPIO GOMEZ PALACIO</h1>
+            <h2 class="font-light m-2">INVENTARIO DE CONTROL</h2>
+        </div>
+      
+    </div>
+    
+    <hr class="my-4 border-2 border-gray-500">
+    <table class="table-auto w-full">
+        <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
+            <tr>
+                <!-- <th                                     
+                class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    Foto</th> -->
+                  <th  
+                  class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      Numero de inventario</th>
+                    
+                      <th                                     
+                      class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                         Nombre o Descripción</th>
+                         <th                                     
+                         class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Marca y modelo</th>
+                          <th                                     
+                          class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                              Tipo</th>
+                            
+                          <th                                     
+                          class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                              Numero de serie</th>
+                              <th                                     
+                          class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                          N° de referencia korima</th>
+                              <th                                     
+                              class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                              Estado Fisico   
+                            </th>   
+                            <th                                     
+                            class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Departamento  
+                          </th>   
+                          <th                                     
+                          class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                          Motivo de baja  
+                        </th>  
+                          <th                                     
+                          class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        Observaciones
+                        </th> 
+                        <th                                     
+                        class="eliminar px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      
+                    </th> 
+                  <!-- <th                                     
+                  class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      Rol</th>
+                  <th                                     
+                  class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      Quantity</th> -->
+              </tr>
+        </thead>
+        <tbody class="text-sm divide-y divide-gray-100">
+           
+            <ng-container *ngFor="let item of guards">
+                <tr>
+                    <!-- <td class="border" >
+                        <div class="w-full  flex justify-center align-center">
+                        <div class="">
+                            <div class=" bg-white rounded-md shadow-md w-14 h-14 flex items-center justify-center overflow-hidden" >
+                            <img *ngIf="item.picture" [src]="item.picture" alt="Preview" class="w-full h-full object-cover">
+                            <div *ngIf="!item.picture" class="flex items-center justify-center text-gray-400 text-4xl">
+                                <i class="fas fa-image"></i>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                        
+                    </td> -->
+                    <td class="border" >{{ item.stock_number }}</td>
+                    <td class="border" >{{ item.description }}</td>
+                    <td class="border" >{{ item.brand }}</td>
+                    <td class="border" >{{ item.Tipo}}</td>
+                    <td class="border" >{{ item.serial }}</td>
+                    <td class="border" >{{ item.number_korima=='null'?'':item.number_korima }}</td>
+
+                    <td class="border" >{{ item.Estado }}</td>
+                    <td class="border" >{{ item.group }}</td>
+                    <td class="border" >{{ item.motive}}</td>
+
+                    <td class="border" >{{ item.observations=='null'?'':item.observations }}</td>
+                    <td class="border eliminar" >
+                        <button (click)="deleteResguard(item)" class="bg-red-300 hover:bg-red-500 rounded-full p-4  mr-2">
+                            <li class="fa fa-trash"></li>
+                          </button>
+                    </td>
+                </tr>
+            </ng-container>
+        </tbody>
+    </table>
+        
+       
+
+    
+      
+        
+</div>
+<button class="w-14 h-14  mt-2 rounded-full bg-blue-300 hover:bg-blue-500" (click)="imprimir()"><i class="fas fa-print"></i></button>
+
+
+<!-- <button
+class=" shadow-md cursor-pointer  hover:bg-blue-500 h-14 rounded-full mr-2  w-14 pt-2 bg-blue-300"
+
+(click)="downloadPDF()"><li class="fas fa-file-pdf"></li></button> -->

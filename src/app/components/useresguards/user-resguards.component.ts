@@ -9,6 +9,7 @@ import { UserprintresguardsactiveComponent } from '../userprintresguardsactive/u
 import {  repeatfadeInOutAnimation  } from 'src/app/components/animations/animate';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UnsuscribeguardsComponent } from 'src/app/componets/unsuscribeguards/unsuscribeguards.component';
+import { ReportceticComponent } from '../reportcetic/reportcetic.component';
 
 interface Column {
   field: string;
@@ -47,6 +48,7 @@ interface Item {
 })
 export class UserResguardsComponent  implements OnInit, OnDestroy   {
 
+
   @ViewChild('dt') table!: Table;
   exportColumns!: ExportColumn[];
   roleTypeUser:any = localStorage.getItem('role')
@@ -69,6 +71,8 @@ searchText = ''; // Texto de búsqueda ingresado por el usuario
 showDropdown = false; // Variable para controlar la visibilidad del dropdow
 selected? : number| null
 loading: boolean|undefined;
+buttonReport: any[]=[];
+buttonInformatica: any[]=[];
   constructor(private route: ActivatedRoute,private service:ServiceService<any>,private dialogService: DialogService){
     this.MyForm = new FormGroup({
       id:new FormControl(''),
@@ -205,6 +209,9 @@ loading: boolean|undefined;
         this.loading = false
           this.data =n['data']['result']
           this.dataPrint = this.data.filter((item:Item)=>item.used == 1)
+         this.buttonReport = this.data.filter((item:any)=>item.expecting == 1 && item.used ==1)
+         this.buttonInformatica = this.data.filter((item:any)=>item.expecting == 1 && item.used ==1 && item.Tipo =='Informática')
+
       },
       error:(n:any)=>{
         this.loading = false
@@ -216,11 +223,13 @@ loading: boolean|undefined;
     this.service.setData({
       name:this.name,
       id:this.userId,
-      guards:this.data.filter((item:any)=>item.expecting == 0)
+      guards:this.data.filter((item:any)=>item.expecting == 1 && item.used ==1)
     })
+
     const ref = this.dialogService.open(UnsuscribeguardsComponent, {
-      width: '80%',
-      contentStyle: {'max-height': '80%', 'overflow': 'auto'}
+      width: '70%',
+      height: '100%',
+      contentStyle: {'max-height': '100%', 'overflow': 'auto'}
     });
   }
   onInputChangeReports(event: any) {
@@ -242,6 +251,7 @@ loading: boolean|undefined;
     );
 }
   deleteResguard(guard:any){
+    console.log(guard)
     Swal.fire({
       title: '¿Estás seguro?',
       text: 'Esta acción no se puede deshacer',
@@ -336,4 +346,19 @@ loading: boolean|undefined;
     const innerWidth = window.innerWidth;
     return innerWidth < 1025 ? '100vh' : '100vh';
   }
+  ReportInformatica() {
+    this.service.setData({
+      name:this.name,
+      group:this.group,
+      id:this.userId,
+      guards:this.data.filter((item:any)=>item.expecting == 1 && item.used ==1 && item.Tipo =='Informática')
+    })
+
+    const ref = this.dialogService.open(ReportceticComponent, {
+      width: '70%',
+      height: '100%',
+      contentStyle: {'max-height': '100%', 'overflow': 'auto'}
+    });
+
+    }
 }

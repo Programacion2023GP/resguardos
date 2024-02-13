@@ -12,6 +12,7 @@ import 'jspdf-autotable';
 import { ServiceService } from 'src/app/service.service';
 import { Route, Router } from '@angular/router';
 import { TicketComponent } from '../ticket/ticket.component';
+import { ReportresguardsComponent } from '../reportresguards/reportresguards.component';
 
 interface Column {
   field: string;
@@ -205,7 +206,8 @@ onFileSelected(event: Event) {
     const imageSizeInKB = imageSizeInBytes / 1024;
   
     const imageSizeInMB = imageSizeInKB / 1024;  
-    if (imageSizeInMB <= 2) {
+    console.warn(imageSizeInMB)
+    if (imageSizeInMB >= 2) {
       this.Toast.fire({
         position: 'top-end',
         icon: 'error',
@@ -350,12 +352,15 @@ exportExcel() {
   import('xlsx').then((xlsx) => {
     const columnKeys = this.exportColumns.map((column) => column.title);
 
-    const modifiedGuards = this.history.map((guardSave: { [x: string]: any; }) => {
+    // Crear una copia de this.guards para no modificar el original directamente
+    const modifiedGuards = this.guardSave.map((guard: { [x: string]: any; }) => {
       const modifiedGuard: any = {};
-      for (const key in guardSave) {
+      for (const key in guard) {
+        // Buscar una coincidencia en column.dataKey
         const matchingColumn = this.exportColumns.find((column) => column.dataKey === key);
         if (matchingColumn) {
-          modifiedGuard[matchingColumn.title] = guardSave[key];
+          // Si hay una coincidencia, usa column.title como nueva clave
+          modifiedGuard[matchingColumn.title] = guard[key];
         }
       }
       return modifiedGuard;
@@ -367,18 +372,13 @@ exportExcel() {
     this.saveAsExcelFile(excelBuffer, 'Resguardos');
   });
 }
-
-
-
-
-
 saveAsExcelFile(buffer: any, fileName: string): void {
   let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
   let EXCEL_EXTENSION = '.xlsx';
   const data: Blob = new Blob([buffer], {
       type: EXCEL_TYPE
   });
-  FileSaver.saveAs(data,this.resguardSelected+ EXCEL_EXTENSION);
+  FileSaver.saveAs(data,"resguardos" + EXCEL_EXTENSION);
 }
 
   onSubmit() {
@@ -661,11 +661,20 @@ changeResguardState(guard: any) {
     this.service.setData({guard})
     const ref = this.dialogService.open(TicketComponent, {
       // header: this.name,
-      width: '100%',
-      contentStyle: {'max-height': '100%', 'overflow': 'auto'}
+      width: '80%',
+      contentStyle: {'max-height': '80%', 'overflow': 'auto'}
     });
   }
- 
+  reportResguards() {
+    this.service.setData({
+      guards : this.guardSave.filter((item:any)=>item.active == 1)
+    })
+    const ref = this.dialogService.open(ReportresguardsComponent, {
+      // header: this.name,
+      width: '90%',
+      contentStyle: {'max-height': '90%', 'overflow': 'auto'}
+    });
+  }
 
   EditGuard(guard:any){
     console.warn(guard)

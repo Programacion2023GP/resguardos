@@ -396,3 +396,12 @@ body{
   letter-spacing:1px;
   
 }
+p-checkbox .p-checkbox-box {
+  border: 2px solid #0c69f5;
+  background: #b91111 !important;
+  width: 22px;
+  height: 22px;
+  color: #0063ed;
+  border-radius: 6px;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}

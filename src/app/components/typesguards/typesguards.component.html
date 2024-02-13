@@ -73,13 +73,15 @@
          <td  class="px-5 py-5 border-b border-gray-200  text-sm">
             <button 
             (click)="edit(types)"
-
+              pTooltip="Editar"
             class="bg-yellow-300 hover:bg-yellow-500 rounded-full p-4  mr-2">
               <li class="fa fa-edit"></li>
 
             </button>    
             <button 
             (click)="removeType(types.id)"
+            pTooltip="Eliminar"
+
             class="bg-red-300 hover:bg-red-500 rounded-full p-4  mr-2">
               <li class="fa fa-trash"></li>
 

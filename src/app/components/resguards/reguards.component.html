@@ -6,11 +6,23 @@
       pTooltip="Agregar"
       class=" shadow-md cursor-pointer hover:bg-green-400 h-14 rounded-full  mr-2 w-14 pt-2 bg-green-200 max-lg:hidden max-lg:w-0 max-lg:h-0"><li class="fa fa-file-excel"></li></button>
     </ng-container> -->
-    <button
+   
+  <button
     (click)="showDialog()" 
     pTooltip="Agregar"
     class=" shadow-md cursor-pointer hover:bg-purple-400 h-14 rounded-full  w-14 pt-2 bg-purple-200 "><li class="fa fa-plus"></li></button>
- 
+    <ng-container *ngIf="roleTypeUser < 3">
+      <button
+      (click)="exportExcel()"
+      pTooltip="Excel"
+      class=" ml-2 shadow-md cursor-pointer hover:bg-green-400 h-14 rounded-full  mr-2 w-14 pt-2 bg-green-200 max-lg:hidden max-lg:w-0 max-lg:h-0"><li class="fa fa-file-excel"></li></button>
+
+      <button
+    pTooltip="Reporte"
+    (click)="reportResguards()"
+  class=" ml-2 shadow-md cursor-pointer hover:bg-cyan-400 h-14 rounded-full  w-14 pt-2 bg-cyan-200  "><i class="fas fa-file-alt"></i>
+      </button>
+    </ng-container> 
     <div
     pTooltip="INFORMACION"
     class="bg-white p-4 cursor-not-allowed  ml-2 shadow-md mb-4 text-gray-600 rounded-md max-lg:w-0 max-lg:h-0 max-lg:hidden">
@@ -69,7 +81,7 @@
                   
                     <th                                     
                     class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                       Nombre o Descripcion</th>
+                       Nombre o Descripción</th>
                        <th                                     
                        class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                           Marca y modelo</th>
@@ -114,7 +126,7 @@
             
             <tr 
             
-            [ngClass]="{'bg-gray-50 text-gray-400':guards.active==0 && guards.expecting==0,
+            [ngClass]="{'bg-gray-50 text-gray-400':guards.active==0 && guards.expecting==0 || guards.active==0 && guards.expecting==null,
             'bg-teal-100 text-teal-600':guards.user_guard_active ==1 && guards.expecting==0,
             'bg-orange-200 text-gray-700':guards.expecting==1
             
@@ -149,16 +161,29 @@
                 <td  class=" flex flex-row text-sm">
                   <ng-container *ngIf="roleTypeUser < 3">
 
-                  <button (click)="print(guards)" class="mr-2 bg-indigo-300 hover:bg-indigo-500 rounded-full p-4 "><i class="fas fa-print"></i>                  </button>
+                  <button 
+                  pTooltip="Etiqueta"
+
+                  (click)="print(guards)" class="mr-2 bg-indigo-300 hover:bg-indigo-500 rounded-full p-4 "><i class="fas fa-print"></i>                  </button>
 
                   </ng-container>
-                  <button (click)="showTableReport(guards)" class="mr-2 bg-blue-300 hover:bg-blue-500 rounded-full p-4 "><i class="fas fa-file-alt"></i>
+                  
+                  <button
+                  pTooltip="Reporte de resguardo"
+
+                  (click)="showTableReport(guards)" class="mr-2 bg-blue-300 hover:bg-blue-500 rounded-full p-4 "><i class="fas fa-file-alt"></i>
 
                   </button>
-                  <button (click)="EditGuard(guards)"  class="mr-2 bg-yellow-300 hover:bg-yellow-500 rounded-full p-4 "> <li class="fa fa-edit"></li></button>
+                  <button
+                  pTooltip="Editar"
+
+                  (click)="EditGuard(guards)"  class="mr-2 bg-yellow-300 hover:bg-yellow-500 rounded-full p-4 "> <li class="fa fa-edit"></li></button>
                   <ng-container *ngIf="roleTypeUser < 3">
 
-                  <button (click)="changeResguardState(guards)" class=" rounded-full p-4 mr-2 "
+                  <button 
+                  pTooltip="Cambiar status"
+
+                  (click)="changeResguardState(guards)" class=" rounded-full p-4 mr-2 "
                   [ngClass]="{'bg-lime-300 hover:bg-lime-500':guards.active ==0,
                   'bg-gray-300 hover:bg-gray-500':guards.active ==1
                }"> 
@@ -176,7 +201,10 @@
                  </button>
                  <ng-container *ngIf="guards.expecting ==1" >
 
-                 <button (click)="AcceptRemove(guards)"  class="mr-2 bg-green-300 hover:bg-green-500 rounded-full p-4 "> <li class="fas fa-check"></li></button>
+                 <button
+                 pTooltip="Aceptar baja del resguardo"
+
+                 (click)="AcceptRemove(guards)"  class="mr-2 bg-green-300 hover:bg-green-500 rounded-full p-4 "> <li class="fas fa-check"></li></button>
                 </ng-container>
 
                 </ng-container>
@@ -225,7 +253,7 @@ class=""
       formControlName="description"
       type="text" name="floating_email" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
       <label for="floating_email" class="absolute text-sm text-gray-500  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-        Nombre o descripcion</label>
+        Nombre o Descripción</label>
       
     </div>
  
@@ -373,6 +401,7 @@ class=""
  [style]="{ 'width': getWidthPercentage(), 'height': getHeightPercentage() }"
  [contentStyle]="{height: '300px'}">
  <div class=" mt-5 flex flex-row max-lg:hidden max-lg:w-0 max-lg:h-0">
+  
   <button
   pTooltip="EXCEl"
   (click)="exportExcel()"
@@ -421,7 +450,7 @@ class=""
           </tr>
       </ng-template>
       <ng-template pTemplate="body" let-user>
-          <tr [ngClass]="{'bg-green-300':user.used ==1 && user.expecting ==0,'bg-orange-200 text-gray-700':user.used ==0 && user.expecting ==1,'bg-gray-200':user.used ==0 && user.expecting ==0}" class="px-5 py-5 border-b border-gray-200  text-sm">
+          <tr [ngClass]="{'bg-green-300':user.used ==1 && user.expecting ==0,'bg-orange-200 text-gray-700':user.used ==1 && user.expecting ==1,'bg-gray-200':user.used ==0 && user.expecting ==0 || user.used ==0 && user.expecting === null}" class="px-5 py-5 border-b border-gray-200  text-sm">
               <td >{{user.payroll}}</td>
               <td >{{user.name}}</td>
               <td >{{user.group}}</td>

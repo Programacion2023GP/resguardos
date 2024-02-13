@@ -15,6 +15,7 @@ import { GroupsComponent } from './components/groups/groups.component';
 import { TypesguardsComponent } from './components/typesguards/typesguards.component';
 import { SignatureComponent } from './components/signature/signature.component';
 import { StatesComponent } from './components/states/states.component';
+import { ChangebackgroundimageComponent } from './components/changebackgroundimage/changebackgroundimage.component';
 
 const routes: Routes = [
   {path:"",component:LoginComponent,
@@ -51,6 +52,10 @@ const routes: Routes = [
   {
     path:'Estados',
     component:StatesComponent
+  },
+  {
+    path:'Plantilla',
+    component:ChangebackgroundimageComponent
   },
   {
     path:'Firma',

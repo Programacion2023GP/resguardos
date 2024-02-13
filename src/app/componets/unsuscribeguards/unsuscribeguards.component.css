@@ -1,0 +1,22 @@
+/* Oculta la tabla en la vista normal */
+table {
+  display: none;
+}
+
+@media print {
+  @page {
+    margin: 0;
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+  body::after {
+    content: none; /* Elimina la información adicional después del contenido */
+  }
+  .pagina {
+    page-break-after: always;
+  }
+  /* Muestra la tabla durante la impresión */
+  table {
+    display: table !important; /* Añadido !important para garantizar prioridad */
+  }
+}

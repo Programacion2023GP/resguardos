@@ -1,1 +1,81 @@
-<div class=""></div>
+<div id="contenidoParaImprimir" class="relative w-full h-full flex">
+  <img class="opacity-75 absolute z-10" [src]="imageURL" alt="" />
+  <div class="absolute mt-40 z-30 w-full">
+    <h3 class="text-end">Gómez Palacio, Dfo., a {{ formattedDate }}</h3>
+    <!-- <p class="text-end">Oficio No.</p> -->
+    <p class="text-end">Asunto: Baja de Resguardo</p>
+
+    <h3 class="mt-20">LIC. GERARDO ALFREDO BURCIAGA AVENDAÑO</h3>
+    <p>Dir. De Recursos Materiales y Patrimoniales</p>
+    <p class="mt-20">
+      Por este conducto, me peermito extenderle un cordial saludo y al mismo
+      tiempo anexarle a este oficio el listado de bienes adscritos a esta
+      Dirreción para solicitarte sean dados de baja ya que son bienes inmuebles
+      que ya no se encuentran en condicones óptimas para su uso.
+    </p>
+    <p class="mt-20">Sin otro particular, quedo a sus órdenes</p>
+
+    <h1 class="mt-20 text-center">ATENTAMENTE</h1>
+    <hr class="my-4 mt-20 w-1/4 mx-auto border border-gray-900" />
+    <p class="my-4  w-1/4 mx-auto  " >{{ name }}</p>
+  </div>
+  <div class="pagina"></div>
+
+  <ng-container *ngFor="let group of divideEnGrupos(guards, 20); let i = index">
+    <ng-container *ngIf="i > 0">
+      <div class="pagina"></div>
+    </ng-container>
+    <p class="relative w-1 h-1"></p>
+    <img class="opacity-75 absolute z-10" [src]="imageURL" alt="" />
+    <div class="absolute mt-40 z-20 w-full">
+      <table class="table-auto w-full">
+        <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
+          <tr>
+            <th
+              class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+            >
+              # de inventario
+            </th>
+            <th
+              class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+            >
+              Descripción
+            </th>
+            <th
+              class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+            >
+              Marca y modelo
+            </th>
+            <th
+              class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+            >
+              # de serie
+            </th>
+            <th
+              class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+            >
+              Resguardante Actual
+            </th>
+          </tr>
+        </thead>
+        <tbody class="text-sm divide-y divide-gray-100">
+          <ng-container *ngFor="let item of group">
+            <tr>
+              <td class="border">{{ item.stock_number }}</td>
+              <td class="border">{{ item.description }}</td>
+              <td class="border">{{ item.brand }}</td>
+              <td class="border">{{ item.serial }}</td>
+              <td class="border">{{ name }}</td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </ng-container>
+</div>
+<button
+  class="w-14 h-14 absolute z-40 bottom-0 left-2 mt-2 rounded-full bg-blue-300 hover:bg-blue-500"
+  (click)="imprimir()"
+>
+  <i class="fas fa-print"></i>
+</button>

@@ -1,0 +1,14 @@
+<div class="w-full h-full border shadow-lg rounded-md overflow-hidden">
+    <p class="text-lg text-center mt-2">presiona la imagen para cambiarla</p>
+    <label class="block w-full h-full cursor-pointer">
+      <!-- Muestra la imagen cargada si está disponible -->
+      <img *ngIf="isImageLoaded" [src]="imageURL" alt="Preview" class="w-full h-full object-cover">
+      
+      <!-- Muestra la imagen predeterminada si no hay imagen cargada -->
+      <img *ngIf="!isImageLoaded" [src]="imageURL" alt="Default Preview" class="w-full h-full object-cover" (click)="openFileInput()">
+      
+      <!-- Input para cargar la imagen -->
+      <input #fileInput type="file" (change)="handleImageLoad($event)" class="hidden">
+    </label>
+  </div>
+  

@@ -4,6 +4,7 @@ import { fadeInOutAnimation } from 'src/app/components/animations/animate';
 import { Table } from 'jspdf-autotable';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ServiceService } from 'src/app/service.service';
+
 @Component({
   selector: 'app-states',
   templateUrl: './states.component.html',

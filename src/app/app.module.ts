@@ -53,6 +53,9 @@ import { StatesComponent } from './components/states/states.component';
 import { PickListModule } from 'primeng/picklist';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { UnsuscribeguardsComponent } from './componets/unsuscribeguards/unsuscribeguards.component';
+import { ReportresguardsComponent } from './components/reportresguards/reportresguards.component';
+import { ReportceticComponent } from './components/reportcetic/reportcetic.component';
+import { ChangebackgroundimageComponent } from './components/changebackgroundimage/changebackgroundimage.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -69,7 +72,10 @@ import { UnsuscribeguardsComponent } from './componets/unsuscribeguards/unsuscri
     SignatureComponent,
     StatesComponent,
     NotificationsComponent,
-    UnsuscribeguardsComponent
+    UnsuscribeguardsComponent,
+    ReportresguardsComponent,
+    ReportceticComponent,
+    ChangebackgroundimageComponent
   ],
   imports: [
     CommonModule,

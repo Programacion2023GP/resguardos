@@ -46,7 +46,7 @@
        <ng-container *ngIf="roleTypeUser<4" >
        <button
        (click)="showDialog()"
-       pTooltip="Agregar"
+       pTooltip="Agregar resguardos"
        class=" shadow-md cursor-pointer  hover:bg-purple-400 h-14 rounded-full mr-2  w-14 pt-2 bg-purple-200 max-lg:mb-2"><li class="fa fa-plus"></li></button>
        <button
        (click)="exportExcel()"
@@ -57,12 +57,21 @@
        (click)="userprintresguardsactive()"
        pTooltip="Imprimir resguardos"
        class=" shadow-md cursor-pointer  hover:bg-blue-400 h-14 rounded-full mr-2  w-14 pt-2 bg-blue-200 max-lg:hidden max-lg:w-0 max-lg:h-0"><li class="fa fa-print  "></li></button>
+       <ng-container *ngIf="buttonReport.length>0" >
        <button
        (click)="UnsuscribeGuards()"
-       pTooltip="Cargar solicitud"
+       pTooltip="Oficio de baja patrimonio"
        class=" shadow-md cursor-pointer  hover:bg-yellow-400 h-14 rounded-full mr-2  w-14 pt-2 bg-yellow-200 max-lg:mb-2"><li class="fa fa-file-signature"></li></button>
-      
       </ng-container>
+      <ng-container *ngIf="buttonInformatica.length>0" >
+      <button
+
+      (click)="ReportInformatica()"
+      pTooltip="Oficio informatica"
+      class=" shadow-md cursor-pointer  hover:bg-zinc-400 h-14 rounded-full mr-2  w-14 pt-2 bg-zinc-200 max-lg:mb-2"><li class="fa fa-headset"></li></button>
+    </ng-container>
+  
+    </ng-container>
 
        <div
        pTooltip="INFORMACION"
@@ -98,7 +107,7 @@
    [tableStyle]="{ 'min-width': '50rem','overflow-auto':true}"
    scrollDirection="both"
    [rows]="5"
-   [globalFilterFields]="['payroll','name','group','email','type_role']"
+   [globalFilterFields]="['payroll','name','group','email','type_role','Tipo','Estado']"
    currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} registros"
    [rowsPerPageOptions]="[5,10, 25, 50]"
    editMode="row"
@@ -180,9 +189,12 @@
    
          <td  class="px-5 py-5 border-b border-gray-200  text-sm">
            <div class="flex flex-row">
-             <ng-container *ngIf="guards.used==1" >
+             <ng-container *ngIf="guards.used==1 && guards.expecting == 0" >
    
-               <button (click)="deleteResguard(guards)" class="bg-red-300 hover:bg-red-500 rounded-full p-4  mr-2">
+               <button 
+               pTooltip="Dar de baja"
+
+               (click)="deleteResguard(guards)" class="bg-red-300 hover:bg-red-500 rounded-full p-4  mr-2">
                  <li class="fa fa-trash"></li>
                </button>
              </ng-container>
