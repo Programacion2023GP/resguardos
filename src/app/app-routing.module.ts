@@ -16,6 +16,7 @@ import { TypesguardsComponent } from './components/typesguards/typesguards.compo
 import { SignatureComponent } from './components/signature/signature.component';
 import { StatesComponent } from './components/states/states.component';
 import { ChangebackgroundimageComponent } from './components/changebackgroundimage/changebackgroundimage.component';
+import { ChartsComponent } from './components/charts/charts.component';
 
 const routes: Routes = [
   {path:"",component:LoginComponent,
@@ -40,6 +41,11 @@ const routes: Routes = [
     path:'Usuarios',
     pathMatch: 'full',
     component:UsersComponent
+  },
+  {
+    path:'Graficas',
+    pathMatch: 'full',
+    component:ChartsComponent
   },
   {
     path:'ResguardosUsuarios/:id',

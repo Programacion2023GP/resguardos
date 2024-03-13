@@ -56,6 +56,7 @@ import { UnsuscribeguardsComponent } from './componets/unsuscribeguards/unsuscri
 import { ReportresguardsComponent } from './components/reportresguards/reportresguards.component';
 import { ReportceticComponent } from './components/reportcetic/reportcetic.component';
 import { ChangebackgroundimageComponent } from './components/changebackgroundimage/changebackgroundimage.component';
+import { ChartsComponent } from './components/charts/charts.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -75,7 +76,8 @@ import { ChangebackgroundimageComponent } from './components/changebackgroundima
     UnsuscribeguardsComponent,
     ReportresguardsComponent,
     ReportceticComponent,
-    ChangebackgroundimageComponent
+    ChangebackgroundimageComponent,
+    ChartsComponent
   ],
   imports: [
     CommonModule,

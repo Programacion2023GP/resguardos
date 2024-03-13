@@ -26,6 +26,7 @@
     "angularx-qrcode": "^17.0.0",
     "file-saver": "^2.0.5",
     "handsontable": "^13.1.0",
+    "highcharts": "^11.3.0",
     "html2pdf.js": "^0.10.1",
     "jspdf-autotable": "^3.7.1",
     "ngx-print": "^1.5.1",

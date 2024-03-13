@@ -224,7 +224,26 @@
             <li
             (click)="changeItemSelected(5)"
             [ngClass]="{
-              'bg-purple-200 rounded-lg text-gray-800': selectedItemMenu[5]
+              'bg-purple-500 rounded-lg text-gray-800': selectedItemMenu[5]
+            }"
+          >
+            <a
+              [routerLink]="['/Graficas']"
+              class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-purple-50 hover:rounded-lg text-gray-600 hover:text-gray-800 border-l-4 border-transparent"
+            >
+              <!-- Icono Store de Font Awesome -->
+              <span class="inline-flex justify-center items-center ml-4">
+<i class="fas fa-chart-bar"></i>
+              </span>
+              <span class="ml-2 text-sm tracking-wide truncate"
+                >Graficas</span
+              >
+            </a>
+          </li>
+            <li
+            (click)="changeItemSelected(6)"
+            [ngClass]="{
+              'bg-purple-200 rounded-lg text-gray-800': selectedItemMenu[6]
             }"
           >
             <a
@@ -356,7 +375,7 @@
         'bg-white': !timeDay
       }"
     >
-      <div class=" ">
+      <div class="w-full ">
         <router-outlet></router-outlet>
       </div>
     </div>
