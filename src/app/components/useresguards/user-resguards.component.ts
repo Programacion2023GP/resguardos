@@ -251,7 +251,6 @@ buttonInformatica: any[]=[];
     );
 }
   deleteResguard(guard:any){
-    console.log(guard)
     Swal.fire({
       title: '¿Estás seguro?',
       text: 'Esta acción no se puede deshacer',
@@ -262,6 +261,7 @@ buttonInformatica: any[]=[];
       confirmButtonText: 'Continuar',
       cancelButtonText: 'Cancelar'
     }).then((result) => {
+      
       if (result.isConfirmed) {
         Swal.fire({
           title: 'Motivo de la baja',
@@ -298,12 +298,6 @@ buttonInformatica: any[]=[];
         });
       }
     });
-
-
-
-
-
-
   }
   exportExcel() {
     import('xlsx').then((xlsx) => {

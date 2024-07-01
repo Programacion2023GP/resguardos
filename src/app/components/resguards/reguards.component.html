@@ -1,292 +1,415 @@
-<div [@fadeInOutAnimation] class="container px-4 mx-auto mt-10 pt-10 flex flex-col p-4 items-center justify-center w-full rounded-xl group sm:flex space-x-6  hover:rounded-2xl ">
-  <div class="flex flex-row  ">
+<div
+  [@fadeInOutAnimation]
+  class="container px-4 mx-auto mt-10 pt-10 flex flex-col p-4 items-center justify-center w-full rounded-xl group sm:flex space-x-6 hover:rounded-2xl"
+>
+  <div class="flex flex-row">
     <!-- <ng-container *ngIf="roleTypeUser < 3">
       <button
       (click)="exportExcel()" 
       pTooltip="Agregar"
       class=" shadow-md cursor-pointer hover:bg-green-400 h-14 rounded-full  mr-2 w-14 pt-2 bg-green-200 max-lg:hidden max-lg:w-0 max-lg:h-0"><li class="fa fa-file-excel"></li></button>
     </ng-container> -->
-   
-  <button
-    (click)="showDialog()" 
-    pTooltip="Agregar"
-    class=" shadow-md cursor-pointer hover:bg-purple-400 h-14 rounded-full  w-14 pt-2 bg-purple-200 "><li class="fa fa-plus"></li></button>
+
+    <button
+      (click)="showDialog()"
+      pTooltip="Agregar"
+      class="shadow-md cursor-pointer hover:bg-purple-400 h-14 rounded-full w-14 pt-2 bg-purple-200"
+    >
+      <li class="fa fa-plus"></li>
+    </button>
     <ng-container *ngIf="roleTypeUser < 3">
       <button
-      (click)="exportExcel()"
-      pTooltip="Excel"
-      class=" ml-2 shadow-md cursor-pointer hover:bg-green-400 h-14 rounded-full  mr-2 w-14 pt-2 bg-green-200 max-lg:hidden max-lg:w-0 max-lg:h-0"><li class="fa fa-file-excel"></li></button>
+        (click)="exportExcel()"
+        pTooltip="Excel"
+        class="ml-2 shadow-md cursor-pointer hover:bg-green-400 h-14 rounded-full mr-2 w-14 pt-2 bg-green-200 max-lg:hidden max-lg:w-0 max-lg:h-0"
+      >
+        <li class="fa fa-file-excel"></li>
+      </button>
 
       <button
-    pTooltip="Reporte"
-    (click)="reportResguards()"
-  class=" ml-2 shadow-md cursor-pointer hover:bg-cyan-400 h-14 rounded-full  w-14 pt-2 bg-cyan-200  "><i class="fas fa-file-alt"></i>
+        pTooltip="Reporte"
+        (click)="reportResguards()"
+        class="ml-2 shadow-md cursor-pointer hover:bg-cyan-400 h-14 rounded-full w-14 pt-2 bg-cyan-200"
+      >
+        <i class="fas fa-file-alt"></i>
       </button>
-    </ng-container> 
+    </ng-container>
     <div
-    pTooltip="INFORMACION"
-    class="bg-white p-4 cursor-not-allowed  ml-2 shadow-md mb-4 text-gray-600 rounded-md max-lg:w-0 max-lg:h-0 max-lg:hidden">
+      pTooltip="INFORMACION"
+      class="bg-white p-4 cursor-not-allowed ml-2 shadow-md mb-4 text-gray-600 rounded-md max-lg:w-0 max-lg:h-0 max-lg:hidden"
+    >
       Habilitado
     </div>
     <div
-    pTooltip="INFORMACION"
-    class="bg-orange-200 p-4 cursor-not-allowed  ml-2 shadow-md mb-4  rounded-md">
+      pTooltip="INFORMACION"
+      class="bg-orange-200 p-4 cursor-not-allowed ml-2 shadow-md mb-4 rounded-md"
+    >
       Esperando baja
     </div>
-   
+
     <div
-    pTooltip="INFORMACION"
-    class="bg-gray-100 p-4 cursor-not-allowed  ml-2 shadow-md mb-4 text-gray-500  rounded-md max-lg:w-0 max-lg:h-0 max-lg:hidden">
+      pTooltip="INFORMACION"
+      class="bg-gray-100 p-4 cursor-not-allowed ml-2 shadow-md mb-4 text-gray-500 rounded-md max-lg:w-0 max-lg:h-0 max-lg:hidden"
+    >
       Deshabilitado
     </div>
 
+    <input
+      pInputText
+      type="text"
+      class="shadow-md mr-2 ml-6 pl-4 mt-2 justify-end items-end right-0 appearance-none rounded-full h-10 w-60 bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600"
+      (input)="onInputChangeReports($event)"
+      placeholder="buscador"
+    />
+  </div>
 
-  <input pInputText 
-  type="text" 
-  class=" shadow-md mr-2 ml-6 pl-4 mt-2 justify-end items-end right-0 appearance-none rounded-full h-10  w-60 bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600"
-
-  (input)="onInputChangeReports($event)" 
-  placeholder="buscador" />
-  </div> 
-  
-    <div class="w-full">
+  <div class="w-full">
     <p-table
-          #dt
-          [tableStyle]="{ 'min-width': '50rem','overflow-auto':true}"
-  scrollWidht="100px"
+      #dt
+      [tableStyle]="{ 'min-width': '50rem', 'overflow-auto': true }"
+      scrollWidht="100px"
       scrollDirection="both"
-          [value]="guardSave" 
-          [paginator]="true"
-          [rows]="5"
-          [loading]="loading"
-          editMode="row"
-          [paginator]="true"
-          [rows]="5"
-          [showCurrentPageReport]="true"
-          [globalFilterFields]="['stock_number','description','brand','type','state','serial','airlne','payroll','group','employeed','date','observations']"
-          [rowsPerPageOptions]="[5, 10, 25, 50]"
-          [scrollable]="true"
-          scrollWidht="400px"
-          currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} registros"
+      [value]="guardSave"
+      [paginator]="true"
+      [rows]="5"
+      [loading]="loading"
+      editMode="row"
+      [paginator]="true"
+      [rows]="5"
+      [showCurrentPageReport]="true"
+      [globalFilterFields]="[
+        'stock_number',
+        'description',
+        'brand',
+        'type',
+        'state',
+        'serial',
+        'airlne',
+        'payroll',
+        'group',
+        'employeed',
+        'date',
+        'observations'
+      ]"
+      [rowsPerPageOptions]="[5, 10, 25, 50]"
+      [scrollable]="true"
+      scrollWidht="400px"
+      currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} registros"
     >
-        
-        <ng-template pTemplate="header">
-            <tr>
-              <th                                     
-              class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Foto</th>
-                <th  
-                class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    Numero de inventario</th>
-                  
-                    <th                                     
-                    class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                       Nombre o Descripción</th>
-                       <th                                     
-                       class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                          Marca y modelo</th>
-                        <th                                     
-                        class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                            Tipo</th>
-                          
-                        <th                                     
-                        class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                            Numero de serie</th>
-                            <th                                     
-                        class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                        N° de referencia korima</th>
-                            <th                                     
-                            class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                            Estado Fisico   
-                          </th>   
-                          <th                                     
-                          class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                          Departamento  
-                        </th>   
-                        <th                                     
-                        class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                        Motivo de baja  
-                      </th>  
-                        <th                                     
-                        class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                      Observaciones
-                      </th> 
-                      <th                                     
-                      class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    </th> 
-                <!-- <th                                     
+      <ng-template pTemplate="header">
+        <tr>
+          <th
+            class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+          >
+            Foto
+          </th>
+          <th
+            class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+          >
+            Numero de inventario
+          </th>
+
+          <th
+            class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+          >
+            Nombre o Descripción
+          </th>
+          <th
+            class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+          >
+            Marca y modelo
+          </th>
+          <th
+            class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+          >
+            Tipo
+          </th>
+
+          <th
+            class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+          >
+            Numero de serie
+          </th>
+          <th
+            class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+          >
+            N° de referencia korima
+          </th>
+          <th
+            class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+          >
+            Estado Fisico
+          </th>
+          <th
+            class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+          >
+            Departamento
+          </th>
+          <th
+            class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+          >
+            Motivo de baja
+          </th>
+          <th
+            class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+          >
+            Observaciones
+          </th>
+          <th
+            class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+          ></th>
+          <!-- <th                                     
                 class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                     Rol</th>
                 <th                                     
                 class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                     Quantity</th> -->
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" class="shadow-md" let-guards let-i="rowIndex">
-            
-            <tr 
-            
-            [ngClass]="{'bg-gray-50 text-gray-400':guards.active==0 && guards.expecting==0 || guards.active==0 && guards.expecting==null,
-            'bg-teal-100 text-teal-600':guards.user_guard_active ==1 && guards.expecting==0,
-            'bg-orange-200 text-gray-700':guards.expecting==1
-            
-            }" class="px-5 py-5 border-b border-gray-200  text-sm">
-              
-                <td >
-                  <div class="w-full  flex justify-center align-center">
-                    <div class="">
-                      <div class=" bg-white rounded-md shadow-md w-14 h-14 flex items-center justify-center overflow-hidden" >
-                        <img *ngIf="guards.picture" [src]="guards.picture" alt="Preview" class="w-full h-full object-cover">
-                        <div *ngIf="!guards.picture" class="flex items-center justify-center text-gray-400 text-4xl">
-                          <i class="fas fa-image"></i>
-                        </div>
-                      </div>
-                    </div>
+        </tr>
+      </ng-template>
+      <ng-template
+        pTemplate="body"
+        class="shadow-md"
+        let-guards
+        let-i="rowIndex"
+      >
+        <tr
+          [ngClass]="{
+            'bg-gray-50 text-gray-400':
+              (guards.active == 0 && guards.expecting == 0) ||
+              (guards.active == 0 && guards.expecting == null),
+            'bg-teal-100 text-teal-600':
+              guards.user_guard_active == 1 && guards.expecting == 0,
+            'bg-orange-200 text-gray-700': guards.expecting == 1
+          }"
+          class="px-5 py-5 border-b border-gray-200 text-sm"
+        >
+          <td>
+            <div class="w-full flex justify-center align-center">
+              <div class="">
+                <div
+                  class="bg-white rounded-md shadow-md w-14 h-14 flex items-center justify-center overflow-hidden"
+                >
+                  <img
+                    *ngIf="guards.picture"
+                    [src]="guards.picture"
+                    alt="Preview"
+                    class="w-full h-full object-cover"
+                  />
+                  <div
+                    *ngIf="!guards.picture"
+                    class="flex items-center justify-center text-gray-400 text-4xl"
+                  >
+                    <i class="fas fa-image"></i>
                   </div>
-                  
-                </td>
-                <td >{{ guards.stock_number }}</td>
-                <td >{{ guards.description }}</td>
-                <td >{{ guards.brand }}</td>
-                <td >{{ guards.Tipo}}</td>
-                <td >{{ guards.serial }}</td>
-                <td >{{ guards.number_korima=='null'?'':guards.number_korima }}</td>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td>{{ guards.stock_number }}</td>
+          <td>{{ guards.description }}</td>
+          <td>{{ guards.brand }}</td>
+          <td>{{ guards.Tipo }}</td>
+          <td>{{ guards.serial }}</td>
+          <td>
+            {{ guards.number_korima == "null" ? "" : guards.number_korima }}
+          </td>
 
-                <td >{{ guards.Estado }}</td>
-                <td >{{ guards.group }}</td>
-                <td >{{ guards.motive}}</td>
+          <td>{{ guards.Estado }}</td>
+          <td>{{ guards.group }}</td>
+          <td>{{ guards.motive }}</td>
 
-                <td >{{ guards.observations=='null'?'':guards.observations }}</td>
+          <td>
+            {{ guards.observations == "null" ? "" : guards.observations }}
+          </td>
 
-                <td  class=" flex flex-row text-sm">
-                  <ng-container *ngIf="roleTypeUser < 3">
+          <td class="flex flex-row text-sm">
+            <ng-container *ngIf="roleTypeUser < 3">
+              <button
+                pTooltip="Etiqueta"
+                (click)="print(guards)"
+                class="mr-2 bg-indigo-300 hover:bg-indigo-500 rounded-full p-4"
+              >
+                <i class="fas fa-print"></i>
+              </button>
+            </ng-container>
 
-                  <button 
-                  pTooltip="Etiqueta"
-
-                  (click)="print(guards)" class="mr-2 bg-indigo-300 hover:bg-indigo-500 rounded-full p-4 "><i class="fas fa-print"></i>                  </button>
-
-                  </ng-container>
-                  
-                  <button
-                  pTooltip="Reporte de resguardo"
-
-                  (click)="showTableReport(guards)" class="mr-2 bg-blue-300 hover:bg-blue-500 rounded-full p-4 "><i class="fas fa-file-alt"></i>
-
-                  </button>
-                  <button
-                  pTooltip="Editar"
-
-                  (click)="EditGuard(guards)"  class="mr-2 bg-yellow-300 hover:bg-yellow-500 rounded-full p-4 "> <li class="fa fa-edit"></li></button>
-                  <ng-container *ngIf="roleTypeUser < 3">
-
-                  <button 
-                  pTooltip="Cambiar status"
-
-                  (click)="changeResguardState(guards)" class=" rounded-full p-4 mr-2 "
-                  [ngClass]="{'bg-lime-300 hover:bg-lime-500':guards.active ==0,
-                  'bg-gray-300 hover:bg-gray-500':guards.active ==1
-               }"> 
-               
-                   <ng-container *ngIf="guards.active ==1" >
-
-                     <li class="fa fa-toggle-on"></li>
-
-                   </ng-container>
-                   <ng-container *ngIf="guards.active ==0" >
-
-                     <li class="fa fa-toggle-off"></li>
-
-                   </ng-container>
-                 </button>
-                 <ng-container *ngIf="guards.expecting ==1" >
-
-                 <button
-                 pTooltip="Aceptar baja del resguardo"
-
-                 (click)="AcceptRemove(guards)"  class="mr-2 bg-green-300 hover:bg-green-500 rounded-full p-4 "> <li class="fas fa-check"></li></button>
+            <button
+              pTooltip="Reporte de resguardo"
+              (click)="showTableReport(guards)"
+              class="mr-2 bg-blue-300 hover:bg-blue-500 rounded-full p-4"
+            >
+              <i class="fas fa-file-alt"></i>
+            </button>
+            <button
+              pTooltip="Editar"
+              (click)="EditGuard(guards)"
+              class="mr-2 bg-yellow-300 hover:bg-yellow-500 rounded-full p-4"
+            >
+              <li class="fa fa-edit"></li>
+            </button>
+            <ng-container *ngIf="roleTypeUser < 3">
+              <button
+                pTooltip="Cambiar status"
+                (click)="changeResguardState(guards)"
+                class="rounded-full p-4 mr-2"
+                [ngClass]="{
+                  'bg-lime-300 hover:bg-lime-500': guards.active == 0,
+                  'bg-gray-300 hover:bg-gray-500': guards.active == 1
+                }"
+              >
+                <ng-container *ngIf="guards.active == 1">
+                  <li class="fa fa-toggle-on"></li>
                 </ng-container>
-
+                <ng-container *ngIf="guards.active == 0">
+                  <li class="fa fa-toggle-off"></li>
                 </ng-container>
+              </button>
+              <ng-container *ngIf="guards.expecting == 1">
+                <button
+                  pTooltip="Aceptar baja del resguardo"
+                  (click)="AcceptRemove(guards)"
+                  class="mr-2 bg-green-300 hover:bg-green-500 rounded-full p-4"
+                >
+                  <li class="fas fa-check"></li>
+                </button>
+              </ng-container>
 
-                </td>
+              <ng-container
+                *ngIf="guards.resguard == 1 || guards.expecting == 1"
+              >
+                <button
+                  pTooltip="Regresar al stock de resguardos"
+                  (click)="deleteResguard(guards)"
+                  class="mr-2 bg-orange-300 hover:bg-orange-500 rounded-full p-4"
+                >
+                  <i class="fas fa-box"></i>
+                </button>
+              </ng-container>
+            </ng-container>
+          </td>
 
-                <!-- <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ users.category }}</td>
+          <!-- <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ users.category }}</td>
                 <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ users.quantity }}</td> -->
-            </tr>
-        </ng-template>
+        </tr>
+      </ng-template>
     </p-table>
+  </div>
+  <!-- component -->
 </div>
-<!-- component -->
 
-</div>
-
-
-
-
-
-<p-dialog header="Agregar Resguardo" [(visible)]="modal" [position]="'center'" 
-class=""
-[style]="{ 'width': getWidthPercentage(), 'height': getHeightPercentage() }"
+<p-dialog
+  header="Agregar Resguardo"
+  [(visible)]="modal"
+  [position]="'center'"
+  class=""
+  [style]="{ width: getWidthPercentage(), height: getHeightPercentage() }"
 >
- <form class="relative pt-2 mx-auto w-full" [formGroup]="MyForm" (ngSubmit)="onSubmit()" action="">
-  <div class="w-full  flex justify-center align-center">
-    <div class="p-8">
-      <label for="fileInput" class="block text-gray-700 text-sm font-bold mb-2 cursor-pointer">
-        Seleccionar archivo:
-        <input type="file" #fileInput class="hidden" accept="image/*" (change)="onFileSelected($event)">
-      </label>
-      <div class="cursor-pointer bg-white rounded-md shadow-md w-48 h-48 flex items-center justify-center overflow-hidden" (click)="openFileInput()">
-        <img *ngIf="imagePreview" [src]="imagePreview" alt="Preview" class="w-full h-full object-cover">
-        <div *ngIf="!imagePreview" class="flex items-center justify-center text-gray-400 text-4xl">
-          <i class="fas fa-image"></i>
+  <form
+    class="relative pt-2 mx-auto w-full"
+    [formGroup]="MyForm"
+    (ngSubmit)="onSubmit()"
+    action=""
+  >
+    <div class="w-full flex justify-center align-center">
+      <div class="p-8">
+        <label
+          for="fileInput"
+          class="block text-gray-700 text-sm font-bold mb-2 cursor-pointer"
+        >
+          Seleccionar archivo:
+          <input
+            type="file"
+            #fileInput
+            class="hidden"
+            accept="image/*"
+            (change)="onFileSelected($event)"
+          />
+        </label>
+        <div
+          class="cursor-pointer bg-white rounded-md shadow-md w-48 h-48 flex items-center justify-center overflow-hidden"
+          (click)="openFileInput()"
+        >
+          <img
+            *ngIf="imagePreview"
+            [src]="imagePreview"
+            alt="Preview"
+            class="w-full h-full object-cover"
+          />
+          <div
+            *ngIf="!imagePreview"
+            class="flex items-center justify-center text-gray-400 text-4xl"
+          >
+            <i class="fas fa-image"></i>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  
-  
-  
 
-  <div class="relative z-0 mb-6 w-full group">
-      <input
-      formControlName="description"
-      type="text" name="floating_email" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-      <label for="floating_email" class="absolute text-sm text-gray-500  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-        Nombre o Descripción</label>
-      
-    </div>
- 
     <div class="relative z-0 mb-6 w-full group">
       <input
-      formControlName="brand"
-      type="text" name="floating_email" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-      <label for="floating_email" class="absolute text-sm text-gray-500  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-        Marca y Modelo</label>
-      
+        formControlName="description"
+        type="text"
+        name="floating_email"
+        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+        placeholder=" "
+        required
+      />
+      <label
+        for="floating_email"
+        class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+      >
+        Nombre o Descripción</label
+      >
     </div>
-   
-  
-    
+
     <div class="relative z-0 mb-6 w-full group">
       <input
-      formControlName="serial"
-      type="text" name="floating_email" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-      <label for="floating_email" class="absolute text-sm text-gray-500  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-        Numero de serie</label>
-      
+        formControlName="brand"
+        type="text"
+        name="floating_email"
+        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+        placeholder=" "
+        required
+      />
+      <label
+        for="floating_email"
+        class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+      >
+        Marca y Modelo</label
+      >
     </div>
-    <div class="relative z-0 mb-6 w-full group">
-    
-      
-    </div>
+
     <div class="relative z-0 mb-6 w-full group">
       <input
-      formControlName="number_korima"
-      type="number" name="floating_email" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
-      <label for="floating_email" class="absolute text-sm text-gray-500  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-       N° de referencia korima</label>
-      
+        formControlName="serial"
+        type="text"
+        name="floating_email"
+        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+        placeholder=" "
+        required
+      />
+      <label
+        for="floating_email"
+        class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+      >
+        Numero de serie</label
+      >
+    </div>
+    <div class="relative z-0 mb-6 w-full group"></div>
+    <div class="relative z-0 mb-6 w-full group">
+      <input
+        formControlName="number_korima"
+        type="number"
+        name="floating_email"
+        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+        placeholder=" "
+      />
+      <label
+        for="floating_email"
+        class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+      >
+        N° de referencia korima</label
+      >
     </div>
     <!-- <div class="relative z-0 mb-6 w-full group">
       <input
@@ -298,170 +421,261 @@ class=""
     </div> -->
     <div class="flex flex-row">
       <div class="mt-4 relative z-0 mb-6 w-1/3 group">
-        <input type="text"          [value]="MyForm.get('state')?.value"
-        (input)="onSearch3($event)" (blur)="onBlur3()" (click)="showAllOptions3()"
-          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-200 focus:outline-none appearance-none     peer">
-          <label for="floating_email" class="absolute text-sm text-gray-500  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Estado fisico</label>
-  
-  
-        <ul *ngIf="showDropdown3 && states.length > 0"
-          class=" absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-md max-h-32 overflow-y-auto">
-          <li *ngFor="let option of filteredOptions3" (click)="selectOption3(option)"
-            class="cursor-pointer px-4 py-2 hover:bg-gray-100">{{ option.name }}</li>
+        <input
+          type="text"
+          [value]="MyForm.get('state')?.value"
+          (input)="onSearch3($event)"
+          (blur)="onBlur3()"
+          (click)="showAllOptions3()"
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-200 focus:outline-none appearance-none peer"
+        />
+        <label
+          for="floating_email"
+          class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+          >Estado fisico</label
+        >
+
+        <ul
+          *ngIf="showDropdown3 && states.length > 0"
+          class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-md max-h-32 overflow-y-auto"
+        >
+          <li
+            *ngFor="let option of filteredOptions3"
+            (click)="selectOption3(option)"
+            class="cursor-pointer px-4 py-2 hover:bg-gray-100"
+          >
+            {{ option.name }}
+          </li>
         </ul>
       </div>
       <div class="mt-4 relative z-0 mb-6 w-1/3 group">
-        <input type="text"          [value]="MyForm.get('type')?.value"
-        (input)="onSearch2($event)" (blur)="onBlur2()" (click)="showAllOptions2()"
-          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-200 focus:outline-none appearance-none     peer">
-          <label for="floating_email" class="absolute text-sm text-gray-500  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Tipo</label>
-  
-  
-        <ul *ngIf="showDropdown2 && types.length > 0"
-          class=" absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-md max-h-32 overflow-y-auto">
-          <li *ngFor="let option of filteredOptions2" (click)="selectOption2(option)"
-            class="cursor-pointer px-4 py-2 hover:bg-gray-100">{{ option.name }}</li>
+        <input
+          type="text"
+          [value]="MyForm.get('type')?.value"
+          (input)="onSearch2($event)"
+          (blur)="onBlur2()"
+          (click)="showAllOptions2()"
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-200 focus:outline-none appearance-none peer"
+        />
+        <label
+          for="floating_email"
+          class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+          >Tipo</label
+        >
+
+        <ul
+          *ngIf="showDropdown2 && types.length > 0"
+          class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-md max-h-32 overflow-y-auto"
+        >
+          <li
+            *ngFor="let option of filteredOptions2"
+            (click)="selectOption2(option)"
+            class="cursor-pointer px-4 py-2 hover:bg-gray-100"
+          >
+            {{ option.name }}
+          </li>
         </ul>
       </div>
       <ng-container *ngIf="roleTypeUser < 3">
+        <div class="mt-4 relative z-0 mb-6 w-1/3 group">
+          <input
+            type="text"
+            [value]="MyForm.get('group')?.value"
+            [(ngModel)]="searchText"
+            (input)="onSearch($event)"
+            (blur)="onBlur()"
+            (click)="showAllOptions()"
+            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-200 focus:outline-none appearance-none peer"
+          />
+          <label
+            for="floating_email"
+            class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+            >Departamento</label
+          >
 
-      <div class="mt-4 relative z-0 mb-6 w-1/3 group">
-        <input type="text" 
-        [value]="MyForm.get('group')?.value"
-        [(ngModel)]="searchText" (input)="onSearch($event)" (blur)="onBlur()" (click)="showAllOptions()"
-          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-200 focus:outline-none appearance-none     peer">
-          <label for="floating_email" class="absolute text-sm text-gray-500  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Departamento</label>
-  
-  
-          <ul *ngIf="showDropdown && groups.length > 0"
-           class=" absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-md max-h-32 overflow-y-auto">
-           <li *ngFor="let groups of filteredOptions" (click)="selectOption(groups)"
-             class="cursor-pointer px-4 py-2 hover:bg-gray-100">{{ groups.departamento }}</li>
-         </ul>           
-        
-      </div>
+          <ul
+            *ngIf="showDropdown && groups.length > 0"
+            class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-md max-h-32 overflow-y-auto"
+          >
+            <li
+              *ngFor="let groups of filteredOptions"
+              (click)="selectOption(groups)"
+              class="cursor-pointer px-4 py-2 hover:bg-gray-100"
+            >
+              {{ groups.departamento }}
+            </li>
+          </ul>
+        </div>
       </ng-container>
     </div>
-    
 
-    
-       
-<!-- component -->
+    <!-- component -->
 
-<!-- This is an example component -->
-<div class="w-full">
-
-    <div class="mb-4 w-full bg-gray-50 rounded-lg border border-gray-200 dark:bg-gray-700 ">
-        <div class="flex justify-between items-center py-2 px-3 border-b ">
-            <div class="flex flex-wrap items-center divide-gray-200 sm:divide-x dark:divide-gray-600">
-                <div class="flex items-center space-x-1 sm:pr-4">
-                  <p>Observaciones</p>
-                </div>
-                <div class="flex flex-wrap items-center space-x-1 sm:pl-4">
-                
-                </div>
+    <!-- This is an example component -->
+    <div class="w-full">
+      <div
+        class="mb-4 w-full bg-gray-50 rounded-lg border border-gray-200 dark:bg-gray-700"
+      >
+        <div class="flex justify-between items-center py-2 px-3 border-b">
+          <div
+            class="flex flex-wrap items-center divide-gray-200 sm:divide-x dark:divide-gray-600"
+          >
+            <div class="flex items-center space-x-1 sm:pr-4">
+              <p>Observaciones</p>
             </div>
-       
+            <div class="flex flex-wrap items-center space-x-1 sm:pl-4"></div>
+          </div>
         </div>
         <div class="py-2 px-4 bg-white rounded-b-lg dark:bg-gray-800">
-            <textarea
-              formControlName="observations"
-            id="editor" rows="12"  class="block px-0 w-full text-sm text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 focus:outline-none  dark:placeholder-gray-400" placeholder="Escribe las observaciones" ></textarea>
+          <textarea
+            formControlName="observations"
+            id="editor"
+            rows="12"
+            class="block px-0 w-full text-sm text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 focus:outline-none dark:placeholder-gray-400"
+            placeholder="Escribe las observaciones"
+          ></textarea>
         </div>
+      </div>
     </div>
-  
 
-
-</div>
-
-
-    <ng-container  *ngIf="!MyForm.invalid">
+    <ng-container *ngIf="!MyForm.invalid">
       <button
-       class="shadow-sm bg-purple-300 hover:bg-purple-500 px-4 py-2 rounded-xl mt-6" type="submit">
+        class="shadow-sm bg-purple-300 hover:bg-purple-500 px-4 py-2 rounded-xl mt-6"
+        type="submit"
+      >
         Registrar
       </button>
     </ng-container>
-    <ng-container  *ngIf="MyForm.invalid">
+    <ng-container *ngIf="MyForm.invalid">
       <button
-      disabled
-      class="shadow-sm bg-gray-50 cursor-not-allowed px-4 py-2 rounded-xl mt-6" type="submit">
+        disabled
+        class="shadow-sm bg-gray-50 cursor-not-allowed px-4 py-2 rounded-xl mt-6"
+        type="submit"
+      >
         Registrar
       </button>
-     
     </ng-container>
-    
- </form>
-    
+  </form>
 </p-dialog>
 
-
-
 <p-dialog
- [header]="'Reporte de ' + resguardSelected" [resizable]="false" [modal]="true" [maximizable]="true" appendTo="body" [(visible)]="dialogmodal" 
- [style]="{ 'width': getWidthPercentage(), 'height': getHeightPercentage() }"
- [contentStyle]="{height: '300px'}">
- <div class=" mt-5 flex flex-row max-lg:hidden max-lg:w-0 max-lg:h-0">
-  
-  <button
-  pTooltip="EXCEl"
-  (click)="exportExcel()"
-  class=" shadow-md cursor-pointer hover:bg-green-400 h-14 rounded-full  w-14 pt-2 bg-green-200"><li class="fa fa-file-excel"></li></button>
-  <div
-  pTooltip="INFORMACION"
-  class="bg-green-300 p-4 cursor-not-allowed  ml-2 shadow-md mb-4  rounded-md">
-    Resguardado
+  [header]="'Reporte de ' + resguardSelected"
+  [resizable]="false"
+  [modal]="true"
+  [maximizable]="true"
+  appendTo="body"
+  [(visible)]="dialogmodal"
+  [style]="{ width: getWidthPercentage(), height: getHeightPercentage() }"
+  [contentStyle]="{ height: '300px' }"
+>
+  <div class="mt-5 flex flex-row max-lg:hidden max-lg:w-0 max-lg:h-0">
+    <button
+      pTooltip="EXCEl"
+      (click)="exportExcel()"
+      class="shadow-md cursor-pointer hover:bg-green-400 h-14 rounded-full w-14 pt-2 bg-green-200"
+    >
+      <li class="fa fa-file-excel"></li>
+    </button>
+    <div
+      pTooltip="INFORMACION"
+      class="bg-green-300 p-4 cursor-not-allowed ml-2 shadow-md mb-4 rounded-md"
+    >
+      Resguardado
+    </div>
+    <div
+      pTooltip="INFORMACION"
+      class="bg-orange-200 p-4 cursor-not-allowed ml-2 shadow-md mb-4 rounded-md"
+    >
+      Esperando baja
+    </div>
+
+    <div
+      pTooltip="INFORMACION"
+      class="bg-gray-200 p-4 cursor-not-allowed ml-2 shadow-md mb-4 rounded-md"
+    >
+      Historial
+    </div>
   </div>
-  <div
-  pTooltip="INFORMACION"
-  class="bg-orange-200 p-4 cursor-not-allowed  ml-2 shadow-md mb-4  rounded-md">
-    Esperando baja
-  </div>
- 
-  <div
-  pTooltip="INFORMACION"
-  class="bg-gray-200 p-4 cursor-not-allowed  ml-2 shadow-md mb-4 rounded-md">
-    Historial
-  </div>
 
-
-</div> 
- 
- <p-table 
- [paginator]="true"
- [rows]="5"
- currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} registros"
- [rowsPerPageOptions]="[5,10, 25, 50]"
- editMode="row"
- [rows]="5"
- [showCurrentPageReport]="true"
- [scrollable]="true"
- scrollWidht="400px"
- 
- styleClass="mt-1"  [value]="history" [scrollable]="true" scrollHeight="flex" >
-      <ng-template pTemplate="header">
-          <tr>
-            <th class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Numero de nomina</th>
-              <th class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Nombre del resguardante</th>
-              <th class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Ubicación o departamento</th>
-              <th class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Fecha de asignación del resguardo</th>
-              <th class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">fecha de entrega del resguardo</th>
-              <th class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">observaciones</th>
-
-          </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-user>
-          <tr [ngClass]="{'bg-green-300':user.used ==1 && user.expecting ==0,'bg-orange-200 text-gray-700':user.used ==1 && user.expecting ==1,'bg-gray-200':user.used ==0 && user.expecting ==0 || user.used ==0 && user.expecting === null}" class="px-5 py-5 border-b border-gray-200  text-sm">
-              <td >{{user.payroll}}</td>
-              <td >{{user.name}}</td>
-              <td >{{user.group}}</td>
-              <td >{{user.dateup}}</td>
-              <td >{{user.datedown}}</td>
-              <td >{{user.observation}}</td>
-
-          </tr>
-      </ng-template>
+  <p-table
+    [paginator]="true"
+    [rows]="5"
+    currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} registros"
+    [rowsPerPageOptions]="[5, 10, 25, 50]"
+    editMode="row"
+    [rows]="5"
+    [showCurrentPageReport]="true"
+    [scrollable]="true"
+    scrollWidht="400px"
+    styleClass="mt-1"
+    [value]="history"
+    [scrollable]="true"
+    scrollHeight="flex"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th
+          class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+        >
+          Numero de nomina
+        </th>
+        <th
+          class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+        >
+          Nombre del resguardante
+        </th>
+        <th
+          class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+        >
+          Ubicación o departamento
+        </th>
+        <th
+          class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+        >
+          Fecha de asignación del resguardo
+        </th>
+        <th
+          class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+        >
+          fecha de entrega del resguardo
+        </th>
+        <th
+          class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+        >
+          observaciones
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user>
+      <tr
+        [ngClass]="{
+          'bg-green-300': user.used == 1 && user.expecting == 0,
+          'bg-orange-200 text-gray-700': user.used == 1 && user.expecting == 1,
+          'bg-gray-200':
+            (user.used == 0 && user.expecting == 0) ||
+            (user.used == 0 && user.expecting === null)
+        }"
+        class="px-5 py-5 border-b border-gray-200 text-sm"
+      >
+        <td>{{ user.payroll }}</td>
+        <td>{{ user.name }}</td>
+        <td>{{ user.group }}</td>
+        <td>{{ user.dateup }}</td>
+        <td>{{ user.datedown }}</td>
+        <td>{{ user.observation }}</td>
+      </tr>
+    </ng-template>
   </p-table>
   <ng-template pTemplate="footer">
-      <button type="button" class="hover:bg-red-500" pButton pRipple icon="pi pi-times" (click)="dialogmodal=false" label="Salir" class="p-button-text"></button>
+    <button
+      type="button"
+      class="hover:bg-red-500"
+      pButton
+      pRipple
+      icon="pi pi-times"
+      (click)="dialogmodal = false"
+      label="Salir"
+      class="p-button-text"
+    ></button>
   </ng-template>
 </p-dialog>
