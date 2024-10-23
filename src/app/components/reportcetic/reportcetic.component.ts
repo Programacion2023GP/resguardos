@@ -27,7 +27,7 @@ export class ReportceticComponent {
 
     this.formattedDate = ` ${this.fechaActual.getFullYear()}`;
     this.service.data$.subscribe((data: any) => {
-      this.guards = data.guards
+      this.guards = data.guards 
       this.name = data.name
       this.group = data.group
 

@@ -353,12 +353,13 @@ existEmali!: Boolean;
         });
       },
       error:(e:any)=>{
+        console.log("ERROR",e)
         this.loading = false
        if (user.active ==1) {
         this.Toast.fire({
           position: 'top-end',
           icon: 'error',
-          title: `el usuario tiene resguardos`,
+          title: `${e}`,
         });
        }else{
         this.Toast.fire({

@@ -57,9 +57,14 @@ import { ReportresguardsComponent } from './components/reportresguards/reportres
 import { ReportceticComponent } from './components/reportcetic/reportcetic.component';
 import { ChangebackgroundimageComponent } from './components/changebackgroundimage/changebackgroundimage.component';
 import { ChartsComponent } from './components/charts/charts.component';
+import { KorimaComponent } from './components/korima/korima.component';
+import { HttpClientModule } from '@angular/common/http';
+import { PicturesComponent } from './components/pictures/pictures.component';
+
 @NgModule({
   declarations: [
     AppComponent,
+    PicturesComponent,
     NavbarComponent,
     LoginComponent,
     UsersComponent,
@@ -77,9 +82,11 @@ import { ChartsComponent } from './components/charts/charts.component';
     ReportresguardsComponent,
     ReportceticComponent,
     ChangebackgroundimageComponent,
-    ChartsComponent
+    ChartsComponent,
+    KorimaComponent
   ],
   imports: [
+    HttpClientModule,
     CommonModule,
     BrowserModule,
     AppRoutingModule,

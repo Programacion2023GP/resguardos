@@ -17,6 +17,7 @@ import { SignatureComponent } from './components/signature/signature.component';
 import { StatesComponent } from './components/states/states.component';
 import { ChangebackgroundimageComponent } from './components/changebackgroundimage/changebackgroundimage.component';
 import { ChartsComponent } from './components/charts/charts.component';
+import { KorimaComponent } from './components/korima/korima.component';
 
 const routes: Routes = [
   {path:"",component:LoginComponent,
@@ -66,6 +67,10 @@ const routes: Routes = [
   {
     path:'Firma',
     component:SignatureComponent
+  },
+  {
+    path:'Korima',
+    component:KorimaComponent
   },
   ]
 

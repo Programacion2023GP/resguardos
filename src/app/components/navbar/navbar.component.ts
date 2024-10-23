@@ -20,11 +20,13 @@ export class NavbarComponent {
   roleTypeUser:any = localStorage.getItem('role')
   users: any[]=[];
   listUsers:any[]=[]
+  nomina: string | null ="";
+
   selectedUser:Boolean[]=[
   true, false,false,false
   ];
   selectedItemMenu:Boolean[]=[
-    false, true, false,false,false,false,false
+    false, true, false,false,false,false,false,false
   ]
 selected: any;
 animationState !:string; 
@@ -32,10 +34,12 @@ constructor(private service:ServiceService<any>,private router: Router){
     this.GetUsers()
     this.roleTypeUser = parseInt(this.roleTypeUser)
     this.service.data$.subscribe((data:any) => {
+      this.nomina = localStorage.getItem('id');
 
      this.GetUsers()
     });
   }
+  
   changeTimeday() {
     if (this.isExpanded) {
         this.isExpanded = false

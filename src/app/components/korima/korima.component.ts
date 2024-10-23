@@ -1,9 +1,9 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ServiceService } from 'src/app/service.service';
+import FileSaver from 'file-saver';
 import { ActivatedRoute } from '@angular/router';
 import { Table } from 'primeng/table';
-import { ServiceService } from 'src/app/service.service';
 import Swal from 'sweetalert2';
-import * as FileSaver from 'file-saver';
 import { DialogService } from 'primeng/dynamicdialog';
 import { UserprintresguardsactiveComponent } from '../userprintresguardsactive/userprintresguardsactive.component';
 import {  repeatfadeInOutAnimation  } from 'src/app/components/animations/animate';
@@ -40,15 +40,173 @@ interface Item {
   // ... otros campos
 }
 
+
 @Component({
-  selector: 'app-user-resguards',
-  templateUrl: './user-resguards.component.html',
-  styleUrls: ['./user-resguards.component.css'],
+  selector: 'app-korima',
+  templateUrl: './korima.component.html',
+  styleUrls: ['./korima.component.css'],
   animations:[repeatfadeInOutAnimation]
+
 })
-export class UserResguardsComponent  implements OnInit, OnDestroy   {
+// ServiceService
+export class KorimaComponent implements OnInit {
+descripcion: any;
+  imagen: any;
+  korima :any[] = []
+  empleado: number | null =0  
+  public Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
+
+  onFileChange(event: any) {
+    if (event.target.files.length > 0) {
+      this.imagen = event.target.files[0]; // Captura el archivo seleccionado
+    }
+  }
+
+  // Método para manejar el submit del formulario
+  onSubmit() {
+  
+
+    // Crear FormData para enviar los datos del formulario
+    const formData = new FormData();
+
+    const payroll = localStorage.getItem('payroll');
+
+    if (payroll) {
+        formData.append('payroll', payroll);
+    } 
+
+    formData.append('id', this.idResguardo); // Agrega la imagen
+
+    formData.append('korima', this.korimaNumber); // Agrega la imagen
+    formData.append('picture', this.imagen); // Agrega la imagen
+    this.descripcion && formData.append('observation', this.descripcion); // Agrega la descripción
+
+    // Aquí puedes hacer la llamada a tu servicio para enviar los datos
+
+    // Restablecer valores después del submit
+    this.descripcion = '';
+    this.imagen = null;
+    this.visible = false; 
+    this.loading = true
+    this.service.Post(`${this.idResguardo?"korima/update":"korima"}`,formData).subscribe({
+      next:(n)=>{
+        this.Toast.fire({
+          position: 'top-end',
+          icon:'success',
+          title: `${this.idResguardo?"se ha actualizado correctamente":"se ha insertado correctamente"}`,
+        });
+        this.loading = false
+
+      },
+      error:(e)=>{
+        this.Toast.fire({
+          position: 'top-end',
+          icon:'error',
+          title: 'No se ha podido hacer la accion intente nuevamente',
+        });
+        this.loading = false
+
+      },
+      complete: () => {
+        this.descripcion = null;
+        this.imagen = null;
+        this.idResguardo = null;
+       this.prueba();
+       this.loading = false
+
+        // this.loading = false;
+      }
+    })
+  }
 
   
+  
+  
+  
+ 
+  onInputChange(event: any) {
+    if (event.target.value.length >=4) {
+      this.loading = true
+      this.service.OtherData<any>(`https://predial.gomezpalacio.gob.mx:4433/api/vistakorima/${event.target.value}`).subscribe({
+      next: (n: any) => {
+        this.empleado = event.target.value
+        this.name = n[0].Nombres + " " +n[0].ApellidoPaterno + " " + n[0].ApellidoPaterno
+        this.group = n[0].NombreDepartamento
+        this.payroll = `${this.empleado}`;
+        this.getKorima(n)
+        this.loading = false
+
+      },
+      error:(e)=>{
+      this.loading = false
+
+      }
+    })
+    }
+    // console.log('Input value:', event.target.value);
+  }
+  prueba() {
+      this.service.OtherData<any>(`https://predial.gomezpalacio.gob.mx:4433/api/vistakorima/${this.empleado}`).subscribe({
+      next: (n: any) => {
+        this.getKorima(n)
+
+      }
+    })
+    }
+    // console.log('Input value:', event.target.value);
+    resetForm(){
+      this.empleado = null
+    }
+  getKorima(n:any) {
+    let dataApiResguardos = [];
+    const dataApiKorima = n;
+
+    this.service.Data<any>('korima').subscribe({
+        next: (n:any) => {
+            const newData: any[] = [];
+            dataApiResguardos = n['data']['result'];
+        this.loading = false
+
+            // Log para verificar el contenido de dataApiResguardos
+           
+            dataApiKorima.map((item: any) => {
+                // Verifica si existe al menos un elemento en dataApiResguardos que coincida
+                const exists = dataApiResguardos.some((element: any) => element?.korima == item?.NumeroEconomicoKorima);
+                if (exists) {
+                    const it: any = dataApiResguardos.filter((element: any) => element?.korima == item?.NumeroEconomicoKorima);
+
+                    if (it.length > 0) {
+                        item.picture = it[0].picture || "";
+                        item.observation = it[0].observation || "";
+                        item.idResguardos = it[0].id || "";
+
+                    }
+                } else {
+                    item.picture = null;
+                    item.observation = "";
+                    item.idResguardos = null;
+
+                }
+
+                item.existe = exists;
+                newData.push(item);
+            });
+
+            this.korima = newData;
+        },
+    });
+}
+
   @ViewChild('dt') table!: Table;
   exportColumns!: ExportColumn[];
   roleTypeUser:any = localStorage.getItem('role')
@@ -65,15 +223,26 @@ options: Option[] = [
 ];
 cols!: Column[];
 data:any
+korimaNumber:any
 dataPrint!:Item[]
 filteredOptions: Option[] = []; // Opciones filtradas para mostrar en el dropdown
 searchText = ''; // Texto de búsqueda ingresado por el usuario
 showDropdown = false; // Variable para controlar la visibilidad del dropdow
 selected? : number| null
-loading: boolean|undefined;
+loading: boolean = false;
 buttonReport: any[]=[];
 buttonInformatica: any[]=[];
   constructor(private route: ActivatedRoute,private service:ServiceService<any>,private dialogService: DialogService){
+    this.empleado = parseInt(localStorage.getItem('role')!) > 2
+    ? localStorage.getItem('nomina') 
+      ? parseInt(localStorage.getItem('nomina') ?? '0') 
+      : null
+    : null;
+    if (this.empleado !== null && !isNaN(this.empleado) && this.empleado > 100) {
+      this.prueba();
+    }
+    
+
     this.MyForm = new FormGroup({
       id:new FormControl(''),
       name:new FormControl('',Validators.required)
@@ -81,23 +250,29 @@ buttonInformatica: any[]=[];
     this.userId = this.route.snapshot.paramMap.get('id');
     this.roleTypeUser = parseInt(this.roleTypeUser)
       this.cols = [
-      { field: 'stock_number', header: 'NUMERO DE INVENTARIO', customExportHeader: 'NUMERO DE INVENTARIO' },
-      { field: 'description', header: 'NOMBRE O DESCRIPCIÓN	', customExportHeader: 'NOMBRE O DESCRIPCIÓN' },
-      { field: 'brand', header: 'MARCA Y MODELO', customExportHeader: 'Descripción del producto' },
-      { field: 'type', header: 'TIPO', customExportHeader: 'Cantidad o Pieza' },
-      { field: 'serial', header: 'NUMERO DE SERIE', customExportHeader: 'NUMERO DE SERIE' },
+      { field: 'NumeroEconomicoKorima', header: 'NUMERO DE INVENTARIO', customExportHeader: 'NUMERO DE INVENTARIO' },
+      { field: 'Descripcion', header: 'NOMBRE O DESCRIPCIÓN	', customExportHeader: 'NOMBRE O DESCRIPCIÓN' },
+      { field: 'Marca', header: 'MARCA Y MODELO', customExportHeader: 'Descripción del producto' },
+      { field: 'NoSerie', header: 'NUMERO DE SERIE', customExportHeader: 'NUMERO DE SERIE' },
 
-      { field: 'state', header: 'ESTADO FISICO', customExportHeader: 'Valor' },
-      { field: 'airlane', header: 'ÁEREA DE ADSCRIPCION', customExportHeader: 'Departamento' },
-      { field: 'group', header: 'UBICACIÓN/DEPARTAMENTO', customExportHeader: 'Numero de etiqueta' },
-      { field: 'dateup', header: 'FECHA DE ASIGNACIÓN DEL RESGUARDO', customExportHeader: 'Numero de nomina' },
-      { field: 'datedown', header: 'FECHA DE BAJA DEL RESGUARDO	', customExportHeader: 'Numero de nomina' },
+      { field: 'Estatus', header: 'Estatus', customExportHeader: 'Valor' },
+      { field: 'NombreDepartamento', header: 'UBICACIÓN/DEPARTAMENTO', customExportHeader: 'Valor' },
+      { field: 'FechaAlta', header: 'FechaAlta', customExportHeader: 'Valor' },
+
+      // { field: 'airlane', header: 'ÁEREA DE ADSCRIPCION', customExportHeader: 'Departamento' },
+      // { field: 'group', header: 'UBICACIÓN/DEPARTAMENTO', customExportHeader: 'Numero de etiqueta' },
+      // { field: 'dateup', header: 'FECHA DE ASIGNACIÓN DEL RESGUARDO', customExportHeader: 'Numero de nomina' },
+      // { field: 'datedown', header: 'FECHA DE BAJA DEL RESGUARDO	', customExportHeader: 'Numero de nomina' },
 
   ];
 
   this.exportColumns = this.cols.map((col) => ({ title: col.header, dataKey: col.field }));
   }
-  showDialog(){
+  idResguardo:any
+  showDialog(korima:any,idResguardos){
+    this.imagen = null
+    this.idResguardo = idResguardos
+    this.korimaNumber = korima
     this.selected = null
     this.searchText = ''
     this.visible = true
@@ -105,10 +280,10 @@ buttonInformatica: any[]=[];
   userprintresguardsactive() {
     this.service.setData({
       person:[{
-        name:this.name,
-        group:this.group
+        name:localStorage.getItem('name'),
+        group:localStorage.getItem('group')
       }],
-      data:this.dataPrint
+      data:this.korima
     })
     const ref = this.dialogService.open(UserprintresguardsactiveComponent, {
       header: this.name,
@@ -118,24 +293,24 @@ buttonInformatica: any[]=[];
   }
   ngOnInit(): void {
 
-    this.route.params.subscribe(params => {
-      this.playAnimation();
+    // this.route.params.subscribe(params => {
+    //   this.playAnimation();
 
-      this.userId = params['id'];
-      this.GetData()
-      this.service.Data<any>(`user/${this.userId}`).subscribe({
-        next:(n:any)=>{
-          this.name = n['data']['result']['name']
-          this.group = n['data']['result']['group']
-          this.payroll = n['data']['result']['payroll']
+    //   this.userId = params['id'];
+    //   this.GetData()
+    //   this.service.Data<any>(`user/${this.userId}`).subscribe({
+    //     next:(n:any)=>{
+           this.name = localStorage.getItem('name')?? '';
+          this.group = localStorage.getItem('group')?? '';
+         this.payroll = localStorage.getItem('nomina')?? '';
 
-        },
-        error:(e:any)=>{
+    //     },
+    //     error:(e:any)=>{
 
-        }
-      })
-      this.guards()
-    });
+    //     }
+    //   })
+    //   this.guards()
+    // });
   }
   playAnimation() {
     this.animationState = (this.animationState === 'start') ? 'end' : 'start';
@@ -304,7 +479,7 @@ buttonInformatica: any[]=[];
       const columnKeys = this.exportColumns.map((column) => column.title);
 
       // Crear una copia de this.guards para no modificar el original directamente
-      const modifiedGuards = this.data.map((guard: { [x: string]: any; }) => {
+      const modifiedGuards = this.korima.map((guard: { [x: string]: any; }) => {
         const modifiedGuard: any = {};
         for (const key in guard) {
           // Buscar una coincidencia en column.dataKey
@@ -329,7 +504,7 @@ buttonInformatica: any[]=[];
     const data: Blob = new Blob([buffer], {
         type: EXCEL_TYPE
     });
-    FileSaver.saveAs(data,this.name + EXCEL_EXTENSION);
+    FileSaver.saveAs(data,'Korima'+ EXCEL_EXTENSION);
   }
   getWidthPercentage(): string {
     const innerWidth = window.innerWidth;
@@ -345,7 +520,7 @@ buttonInformatica: any[]=[];
       name:this.name,
       group:this.group,
       id:this.userId,
-      guards:this.data.filter((item:any)=>item.expecting == 1 && item.used ==1 && item.Tipo =='Informática')
+      data:this.korima
     })
 
     const ref = this.dialogService.open(ReportceticComponent, {
