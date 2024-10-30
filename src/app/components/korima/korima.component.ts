@@ -52,6 +52,8 @@ interface Item {
 export class KorimaComponent implements OnInit {
 descripcion: any;
   imagen: any;
+  tag_picture: any;
+
   korima :any[] = []
   empleado: number | null =0  
   public Toast = Swal.mixin({
@@ -71,7 +73,20 @@ descripcion: any;
       this.imagen = event.target.files[0]; // Captura el archivo seleccionado
     }
   }
-
+  onFileChange2(event: any) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0]; // Captura el archivo seleccionado
+  
+      // Opcional: Validaciones
+      const validTypes = ['image/jpeg', 'image/png', 'image/gif']; // Tipos de archivo permitidos
+      if (validTypes.includes(file.type)) {
+        this.tag_picture = file; // Solo asigna si el tipo es válido
+      } else {
+        alert('Por favor, selecciona un archivo de imagen válido (JPEG, PNG, GIF).');
+        this.tag_picture = null; // Resetea si el tipo no es válido
+      }
+    }
+  }
   // Método para manejar el submit del formulario
   onSubmit() {
   
@@ -89,6 +104,8 @@ descripcion: any;
 
     formData.append('korima', this.korimaNumber); // Agrega la imagen
     formData.append('picture', this.imagen); // Agrega la imagen
+    formData.append('tag_picture', this.tag_picture); // Agrega la imagen
+
     this.descripcion && formData.append('observation', this.descripcion); // Agrega la descripción
 
     // Aquí puedes hacer la llamada a tu servicio para enviar los datos
@@ -96,6 +113,8 @@ descripcion: any;
     // Restablecer valores después del submit
     this.descripcion = '';
     this.imagen = null;
+    this.tag_picture = null;
+
     this.visible = false; 
     this.loading = true
     this.service.Post(`${this.idResguardo?"korima/update":"korima"}`,formData).subscribe({
@@ -120,6 +139,8 @@ descripcion: any;
       complete: () => {
         this.descripcion = null;
         this.imagen = null;
+        this.tag_picture = null;
+
         this.idResguardo = null;
        this.prueba();
        this.loading = false
@@ -135,12 +156,13 @@ descripcion: any;
   
  
   onInputChange(event: any) {
+    
     if (event.target.value.length >=4) {
       this.loading = true
       this.service.OtherData<any>(`https://predial.gomezpalacio.gob.mx:4433/api/vistakorima/${event.target.value}`).subscribe({
-      next: (n: any) => {
+        next: (n: any) => {
         this.empleado = event.target.value
-        this.name = n[0].Nombres + " " +n[0].ApellidoPaterno + " " + n[0].ApellidoPaterno
+        this.name = n[0].Nombres + " " +n[0].ApellidoPaterno + " " + n[0].ApellidoMaterno
         this.group = n[0].NombreDepartamento
         this.payroll = `${this.empleado}`;
         this.getKorima(n)
@@ -148,18 +170,55 @@ descripcion: any;
 
       },
       error:(e)=>{
-      this.loading = false
+        this.Toast.fire({
+          position: 'top-end',
+          icon:'error',
+          title: `si no te deja avanzar es posible que el numero de nomina no exista o no tiene ningun resguardo en korima`,
+        });      this.korima = [];
+      this.service.Data<any>(`user/nomina/${this.empleado}`).subscribe({
+        next:(n)=>{
+          const item = n["data"]["result"][0]
+          this.name = item.name
+          this.group = item.group
+          this.payroll = item.payroll
+          this.loading = false
+      
+        },error:(e)=>{
+          this.loading = false
 
+        }
+      })
       }
     })
     }
     // console.log('Input value:', event.target.value);
   }
   prueba() {
+    this.loading = true
+
       this.service.OtherData<any>(`https://predial.gomezpalacio.gob.mx:4433/api/vistakorima/${this.empleado}`).subscribe({
       next: (n: any) => {
+        this.name = n[0].Nombres + " " +n[0].ApellidoPaterno + " " + n[0].ApellidoMaterno
+        this.group = n[0].NombreDepartamento
+        this.payroll = `${this.empleado}`;
         this.getKorima(n)
+        this.loading = false
 
+      },
+      error:(e)=>{
+        this.korima = [];
+        this.service.Data<any>(`user/nomina/${this.empleado}`).subscribe({
+          next:(n)=>{
+            const item = n["data"]["result"][0]
+            this.name = item.name
+            this.group = item.group
+            this.payroll = item.payroll
+            this.loading = false
+          },error:(e)=>{
+            this.loading = false
+
+          }
+        })
       }
     })
     }
@@ -186,13 +245,17 @@ descripcion: any;
                     const it: any = dataApiResguardos.filter((element: any) => element?.korima == item?.NumeroEconomicoKorima);
 
                     if (it.length > 0) {
-                        item.picture = it[0].picture || "";
+                      item.picture = it[0].picture || "";
+                        item.tag_picture = it[0].tag_picture || "";
+                        
                         item.observation = it[0].observation || "";
                         item.idResguardos = it[0].id || "";
 
                     }
                 } else {
                     item.picture = null;
+                    item.tag_picture = null;
+
                     item.observation = "";
                     item.idResguardos = null;
 
@@ -232,16 +295,26 @@ selected? : number| null
 loading: boolean = false;
 buttonReport: any[]=[];
 buttonInformatica: any[]=[];
-  constructor(private route: ActivatedRoute,private service:ServiceService<any>,private dialogService: DialogService){
-    this.empleado = parseInt(localStorage.getItem('role')!) > 2
-    ? localStorage.getItem('nomina') 
-      ? parseInt(localStorage.getItem('nomina') ?? '0') 
-      : null
-    : null;
-    if (this.empleado !== null && !isNaN(this.empleado) && this.empleado > 100) {
-      this.prueba();
+id: string | null = null;
+
+constructor(private route: ActivatedRoute,private service:ServiceService<any>,private dialogService: DialogService,private param: ActivatedRoute){
+  this.route.params.subscribe(params => {
+    if (!params['id']) {
+      this.empleado = parseInt(localStorage.getItem('role')!) > 2
+      ? localStorage.getItem('nomina') 
+        ? parseInt(localStorage.getItem('nomina') ?? '0') 
+        : null
+      : null;
+      if (this.empleado !== null && !isNaN(this.empleado) && this.empleado > 100) {
+        this.prueba();
+      }      
     }
+
+  });
     
+    
+   
+
 
     this.MyForm = new FormGroup({
       id:new FormControl(''),
@@ -250,7 +323,7 @@ buttonInformatica: any[]=[];
     this.userId = this.route.snapshot.paramMap.get('id');
     this.roleTypeUser = parseInt(this.roleTypeUser)
       this.cols = [
-      { field: 'NumeroEconomicoKorima', header: 'NUMERO DE INVENTARIO', customExportHeader: 'NUMERO DE INVENTARIO' },
+      { field: 'Etiqueta', header: 'NUMERO DE ETIQUETA', customExportHeader: 'NUMERO DE INVENTARIO' },
       { field: 'Descripcion', header: 'NOMBRE O DESCRIPCIÓN	', customExportHeader: 'NOMBRE O DESCRIPCIÓN' },
       { field: 'Marca', header: 'MARCA Y MODELO', customExportHeader: 'Descripción del producto' },
       { field: 'NoSerie', header: 'NUMERO DE SERIE', customExportHeader: 'NUMERO DE SERIE' },
@@ -271,6 +344,8 @@ buttonInformatica: any[]=[];
   idResguardo:any
   showDialog(korima:any,idResguardos){
     this.imagen = null
+    this.tag_picture = null
+
     this.idResguardo = idResguardos
     this.korimaNumber = korima
     this.selected = null
@@ -292,7 +367,15 @@ buttonInformatica: any[]=[];
     });
   }
   ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      this.id = params['id'];
+      if (parseInt(params['id'], 10) >1000) {
+        this.empleado =  parseInt(params['id'], 10);
+        this.prueba();
+        
+      }
 
+    });
     // this.route.params.subscribe(params => {
     //   this.playAnimation();
 
@@ -528,6 +611,15 @@ buttonInformatica: any[]=[];
       height: '100%',
       contentStyle: {'max-height': '100%', 'overflow': 'auto'}
     });
+
+    }
+    expandImage = ""
+    zoomIn(id:string,picture:string){
+      this.expandImage =picture
+    }
+    zoomOut(id:string,picture:string){
+      this.expandImage =""
+
 
     }
 }

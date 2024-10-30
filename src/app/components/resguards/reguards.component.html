@@ -183,18 +183,28 @@
           }"
           class="px-5 py-5 border-b border-gray-200 text-sm"
         >
-          <td>
+          <td class="cursor-pointer">
             <div class="w-full flex justify-center align-center">
               <div class="">
                 <div
                   class="bg-white rounded-md shadow-md w-14 h-14 flex items-center justify-center overflow-hidden"
                 >
-                  <img
-                    *ngIf="guards.picture"
-                    [src]="guards.picture"
-                    alt="Preview"
-                    class="w-full h-full object-cover"
-                  />
+                <img
+                (mouseenter)="zoomIn(guards.id, guards.picture)"
+                (mouseleave)="zoomOut(guards.id, guards.picture)"
+                [src]="guards.picture"
+                alt="Preview"
+                class="w-14 h-14 object-cover"
+              />
+              
+            
+                        <img
+                        [name]="'zoom' + guards.id"
+                        *ngIf="guards.picture == expandImage"
+                        [src]="guards.picture"
+                        alt="Preview"
+                        class=" border-2 border-black object-cover fixed z-50 top-2 right-12 w-[800px] h-[500px]"
+                        />
                   <div
                     *ngIf="!guards.picture"
                     class="flex items-center justify-center text-gray-400 text-4xl"

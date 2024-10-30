@@ -130,7 +130,7 @@
  [tableStyle]="{ 'min-width': '50rem','overflow-auto':true}"
  scrollDirection="both"
  [rows]="5"
- [globalFilterFields]="['NumeroEconomicoKorima','Descripcion','Marca','NoSerie','Estatus','NombreDepartamento']"
+ [globalFilterFields]="['Etiqueta','Descripcion','Marca','NoSerie','Estatus','NombreDepartamento']"
  currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} registros"
  [rowsPerPageOptions]="[5,10, 25, 50]"
  editMode="row"
@@ -146,10 +146,13 @@
    <tr>
     <th
     class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-        Imagen</th>
+        Imagen resguardo</th>
+        <th
+        class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            Imagen con etiqueta</th>
      <th
      class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-         Numero de inventario</th>
+         Numero de etiqueta</th>
        <th
        class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
            Nombre o descripción</th>
@@ -203,26 +206,54 @@
       <td> no se a asignado imagen</td>
     </ng-container>
  <ng-container *ngIf="guards.picture">
-  <td>
-    <div class="w-full flex justify-center align-center">
-      <div class="">
-        <div
-          class="bg-white rounded-md shadow-md w-14 h-14 flex items-center justify-center overflow-hidden"
-        >
-          <img
-            *ngIf="guards.picture"
+  
+  <td class="cursor-pointer  ">
+    <img
+    (mouseenter)="zoomIn(guards.NumeroEconomicoKorima, guards.picture)"
+    (mouseleave)="zoomOut(guards.NumeroEconomicoKorima, guards.picture)"
+    [src]="guards.picture"
+    alt="Preview"
+    class="w-14 h-14 object-cover"
+  />
+  
+
+            <img
+            [name]="'zoom' + guards.NumeroEconomicoKorima"
+            *ngIf="guards.picture == expandImage"
             [src]="guards.picture"
             alt="Preview"
-            class="w-full h-full object-cover"
-          />
-         
-        </div>
-      </div>
-    </div>
+            class=" border-2 border-black object-cover fixed z-50 top-2 right-12 w-[800px] h-[500px]"
+            />
   </td>
+  
+  
  </ng-container>
-    
-       <td  class="px-5 py-5 border-b border-gray-200  text-sm">{{ guards.NumeroEconomicoKorima }}</td>
+ <ng-container *ngIf="!guards.tag_picture">
+  <td> no se a asignado imagen</td>
+</ng-container>
+<ng-container *ngIf="guards.tag_picture">
+  <td class="cursor-pointer  ">
+    <img
+    (mouseenter)="zoomIn(guards.NumeroEconomicoKorima, guards.tag_picture)"
+    (mouseleave)="zoomOut(guards.NumeroEconomicoKorima, guards.tag_picture)"
+    [src]="guards.tag_picture"
+    alt="Preview"
+    class="w-14 h-14 object-cover"
+  />
+  
+
+            <img
+            [name]="'zoom' + guards.NumeroEconomicoKorima"
+            *ngIf="guards.tag_picture == expandImage"
+            [src]="guards.tag_picture"
+            alt="Preview"
+            class=" border-2 border-black object-cover fixed z-50 top-2 right-12 w-[800px] h-[500px]"
+            />
+  </td>
+  
+
+</ng-container>
+       <td  class="px-5 py-5 border-b border-gray-200  text-sm">{{ guards.Etiqueta }}</td>
        <td  class="px-5 py-5 border-b border-gray-200  text-sm">{{ guards.Descripcion }}</td>
        <td  class="px-5 py-5 border-b border-gray-200  text-sm">{{ guards.Marca  }}</td>
        <!-- <td  class="px-5 py-5 border-b border-gray-200  text-sm">{{ guards.Tipo }}</td> -->
@@ -269,12 +300,27 @@
           (change)="onFileChange($event)" 
           accept="image/*" 
           class="hidden" 
-          id="fileInput" />
-        <label for="fileInput" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm bg-white text-gray-700 text-center py-2 cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
-          Elegir archivo
+          id="fileInput1" /> <!-- Cambiado a fileInput1 -->
+        <label for="fileInput1" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm bg-white text-gray-700 text-center py-2 cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
+          Imagen de resguardo
         </label>
         <p *ngIf="imagen" class="text-gray-600 mt-2">Archivo seleccionado: {{ imagen.name }}</p>
       </div>
+      
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Subir Imagen</label>
+        <input 
+          type="file" 
+          (change)="onFileChange2($event)" 
+          accept="image/*" 
+          class="hidden" 
+          id="fileInput2" /> <!-- Cambiado a fileInput2 -->
+        <label for="fileInput2" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm bg-white text-gray-700 text-center py-2 cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
+          Imagen con etiqueta 
+        </label>
+        <p *ngIf="tag_picture" class="text-gray-600 mt-2">Archivo seleccionado: {{ tag_picture.name }}</p>
+      </div>
+      
       <!-- Textarea para la descripción -->
       <div>
         <label class="block text-sm font-medium text-gray-700">Observaciones</label>

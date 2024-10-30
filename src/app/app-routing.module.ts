@@ -72,6 +72,10 @@ const routes: Routes = [
     path:'Korima',
     component:KorimaComponent
   },
+  {
+    path:'Korima/:id',
+    component:KorimaComponent
+  },
   ]
 
 },

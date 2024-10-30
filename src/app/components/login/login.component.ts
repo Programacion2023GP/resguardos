@@ -36,7 +36,6 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.Http.Post<any>('auth/login', this.myForm.value).subscribe({
       next: (n: any) => {
-        console.log(n['data']['result']);
         localStorage.setItem('token', n['data']['result']['token']);
         localStorage.setItem('role', n['data']['result']['user'][0]['role']);
         localStorage.setItem('id', n['data']['result']['user'][0]['id']);

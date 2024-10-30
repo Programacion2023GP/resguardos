@@ -205,11 +205,12 @@
                 </ng-container>
               </button>
               <button
-                [routerLink]="['/ResguardosUsuarios/', users.id]"
-                class="ml-2 md:hidden bg-blue-300 hover:bg-blue-500 rounded-full p-4 mr-2 inline-block bg-blue-300 hover:bg-blue-500 text-white px-4 py-2 rounded-full"
+              pTooltip="resguardos korima"
+                [routerLink]="['/Korima/', users.payroll]"
+                class="ml-2  bg-zinc-300 hover:bg-zinc-500 rounded-full p-4 mr-2 inline-block bg-zinc-300 hover:bg-zinc-500 text-white px-4 py-2 rounded-full"
               >
-                <li class="fas fa-file-alt"></li>
-              </button>
+              <i class="fas fa-lock"></i>
+            </button>
             </td>
 
             <!-- <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ users.category }}</td>
@@ -278,6 +279,7 @@
               >
                 <li class="fas fa-file-alt"></li>
               </button>
+           
             </td>
 
             <!-- <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ users.category }}</td>

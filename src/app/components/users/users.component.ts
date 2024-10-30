@@ -353,13 +353,12 @@ existEmali!: Boolean;
         });
       },
       error:(e:any)=>{
-        console.log("ERROR",e)
         this.loading = false
        if (user.active ==1) {
         this.Toast.fire({
           position: 'top-end',
           icon: 'error',
-          title: `${e}`,
+          title: `${e.error.data.message}`,
         });
        }else{
         this.Toast.fire({

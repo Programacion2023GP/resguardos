@@ -247,6 +247,7 @@ export class ReguardsComponent {
 
   showDialog() {
     this.imagePreview = null;
+    
     this.clearFileInput();
     this.MyForm.reset();
     this.action = 'insert';
@@ -754,7 +755,15 @@ export class ReguardsComponent {
       contentStyle: { 'max-height': '90%', overflow: 'auto' },
     });
   }
+  expandImage = ""
+  zoomIn(id:string,picture:string){
+    this.expandImage =picture
+  }
+  zoomOut(id:string,picture:string){
+    this.expandImage =""
 
+
+  }
   EditGuard(guard: any) {
     console.warn(guard);
     this.MyForm.get('id')?.setValue(guard.id);

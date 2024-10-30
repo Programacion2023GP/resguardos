@@ -158,8 +158,10 @@ buttonInformatica: any[]=[];
   }
   onSearch(event: Event): void {
     const searchText = (event.target as HTMLInputElement).value.toLowerCase();
-    this.filteredOptions = this.options.filter(option => option.text.toLowerCase().includes(searchText));
-  }
+ 
+    this.filteredOptions = this.options.filter(option =>
+      option.text ? option.text.toLowerCase().includes(searchText) : false
+    );  }
 
   showAllOptions(): void {
     
