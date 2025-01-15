@@ -193,6 +193,38 @@ descripcion: any;
     }
     // console.log('Input value:', event.target.value);
   }
+  downKorima(id: number) {
+    Swal.fire({
+      title: 'Motivo de baja',
+      input: 'text',
+      inputPlaceholder: 'Escribe el motivo de la baja...',
+      showCancelButton: true,
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar',
+      inputValidator: (value) => {
+        if (!value) {
+          return 'Por favor, escribe un motivo para continuar.';
+        }
+        return null;
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const motivo = result.value; // Obtén el motivo introducido por el usuario
+  
+        // Realiza la petición al servicio con el motivo
+        this.service.Post<any>('korima/down', { id, motive_down:motivo }).subscribe({
+          next: (response) => {
+            Swal.fire('¡Éxito!', 'La baja ha sido registrada correctamente.', 'success');
+            this.prueba();
+          },
+          error: (error) => {
+            Swal.fire('Error', 'Ocurrió un problema al dar de baja.', 'error');
+          }
+        });
+      }
+    });
+  }
+  
   prueba() {
     this.loading = true
 
@@ -247,7 +279,7 @@ descripcion: any;
                     if (it.length > 0) {
                       item.picture = it[0].picture || "";
                         item.tag_picture = it[0].tag_picture || "";
-                        
+                        item.motive_down = it[0].motive_down || null;
                         item.observation = it[0].observation || "";
                         item.idResguardos = it[0].id || "";
 
@@ -615,6 +647,7 @@ constructor(private route: ActivatedRoute,private service:ServiceService<any>,pr
     }
     expandImage = ""
     zoomIn(id:string,picture:string){
+      console.log(picture)
       this.expandImage =picture
     }
     zoomOut(id:string,picture:string){

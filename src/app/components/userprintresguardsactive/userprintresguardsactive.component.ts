@@ -102,39 +102,10 @@ export class UserprintresguardsactiveComponent implements OnInit {
 //   }
 // }
   downloadPDF() {
-    // let imageUrl ='https://api.resguardosinternos.gomezpalacio.gob.mx/public/Resguardos/2024-01-31_18-32-19_IMG-20240126-WA0033.jpg';
-    // fetch(imageUrl)
-    //   .then((response) => response.blob())
-    //   .then((blob) => {
-    //     const reader = new FileReader();
-    //     reader.onloadend = () => {
-    //       imageUrl = reader.result as string; // Esto es la cadena base64
-    //     };
-    //     reader.readAsDataURL(blob);
-    //   });
+   
     const element = document.getElementById('pEl');
     console.log(element);
     html2pdf().from(element).set(this.options).save();
-    //   const pEl = this.pdfEl.nativeElement;
-    //   // Clonar el elemento para evitar que se modifique el original
-    //   const clone = pEl.cloneNode(true);
-    //   // Esperar a que todas las imágenes se carguen antes de crear el PDF
-    //   const images = clone.getElementsByTagName('img');
-    //   const imagePromises: Promise<void>[] = [];
-    //   for (const img of images) {
-    //     imagePromises.push(
-    //       new Promise((resolve) => {
-    //         img.onload = () => resolve();
-    //         img.onerror = () => resolve(); // Resuelve aunque falle para evitar bloqueos
-    //       })
-    //     );
-    //   }
-    //   console.log('REVISAR LAS IMAGENES PROMISE', imagePromises);
-    //   // Esperar a que todas las imágenes se hayan cargado
-    //   Promise.all(imagePromises).then(() => {
-    //     this.options.filename = this.person[0].picture;
-    //     html2pdf().from(clone).set(this.options).save();
-    //   });
-    // }
+    
   }
 }

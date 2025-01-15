@@ -2,13 +2,8 @@
   [@fadeInOutAnimation]
   class="container px-4 mx-auto mt-10 pt-10 flex flex-col p-4 items-center justify-center w-full rounded-xl group sm:flex space-x-6 hover:rounded-2xl"
 >
-  <div class="flex flex-row">
-    <!-- <ng-container *ngIf="roleTypeUser < 3">
-      <button
-      (click)="exportExcel()" 
-      pTooltip="Agregar"
-      class=" shadow-md cursor-pointer hover:bg-green-400 h-14 rounded-full  mr-2 w-14 pt-2 bg-green-200 max-lg:hidden max-lg:w-0 max-lg:h-0"><li class="fa fa-file-excel"></li></button>
-    </ng-container> -->
+  <!-- <div class="flex flex-row">
+  
 
     <button
       (click)="showDialog()"
@@ -61,10 +56,248 @@
       (input)="onInputChangeReports($event)"
       placeholder="buscador"
     />
+  </div> -->
+  <div class="flex flex-row items-center justify-between space-x-4 p-4 bg-white rounded-lg shadow-md mb-4">
+    <!-- Botón para Agregar -->
+    <ng-container *ngIf="roleTypeUser < 4">
+      <button
+        (click)="showDialog()"
+        pTooltip="Agregar"
+        class="flex items-center justify-center h-12 w-12 bg-purple-200 hover:bg-purple-400 rounded-full shadow transition duration-200"
+        aria-label="Agregar"
+      >
+        <li class="fa fa-plus text-lg"></li>
+      </button>
+    </ng-container>
+  
+    <!-- Botón para Exportar a Excel -->
+    <ng-container *ngIf="roleTypeUser < 3">
+      <button
+        (click)="exportExcel()"
+        pTooltip="Exportar a Excel"
+        class="flex items-center justify-center h-12 w-12 bg-green-200 hover:bg-green-400 rounded-full shadow transition duration-200"
+        aria-label="Exportar a Excel"
+      >
+        <li class="fa fa-file-excel text-lg"></li>
+      </button>
+    </ng-container>
+  
+    <!-- Botón para Reportes -->
+    <ng-container *ngIf="roleTypeUser < 3">
+      <button
+        (click)="reportResguards()"
+        pTooltip="Reporte"
+        class="flex items-center justify-center h-12 w-12 bg-cyan-200 hover:bg-cyan-400 rounded-full shadow transition duration-200"
+        aria-label="Reporte"
+      >
+        <i class="fas fa-file-alt text-lg"></i>
+      </button>
+    </ng-container>
+  
+    <!-- Estados de información -->
+    <div class="flex items-center space-x-2">
+      <div
+        *ngIf="roleTypeUser < 2"
+        pTooltip="INFORMACION"
+        class="bg-blue-100 p-2 text-blue-500 rounded-md hidden md:block"
+      >
+        Administrativo
+      </div>
+      <div
+        *ngIf="roleTypeUser < 3"
+        pTooltip="INFORMACION"
+        class="bg-cyan-100 p-2 text-cyan-500 rounded-md hidden md:block"
+      >
+        Enlaces
+      </div>
+      <div
+        *ngIf="roleTypeUser < 4"
+        pTooltip="INFORMACION"
+        class="bg-teal-100 p-2 text-teal-500 rounded-md hidden md:block"
+      >
+        Empleado
+      </div>
+      <div
+        *ngIf="roleTypeUser < 4"
+        pTooltip="INFORMACION"
+        class="bg-gray-100 p-2 text-gray-500 rounded-md hidden md:block"
+      >
+        Deshabilitado
+      </div>
+    </div>
+  
+    <!-- Input de Buscador -->
+    <ng-container *ngIf="roleTypeUser < 4">
+      <input
+        pInputText
+        type="text"
+        class="shadow-sm border rounded-full h-10 w-60 pl-4 text-sm placeholder-gray-400 focus:ring-2 focus:ring-blue-300 transition duration-200"
+        (input)="onInputChangeReports($event)"
+        placeholder="Buscador"
+        aria-label="Buscador"
+      />
+    </ng-container>
   </div>
-
+  
   <div class="w-full">
     <p-table
+    #dt
+    [tableStyle]="{ 'min-width': '50rem', 'overflow-auto': true }"
+    scrollWidht="400px"
+    scrollDirection="both"
+    [value]="guardSave"
+    [paginator]="true"
+    [rows]="5"
+    [loading]="loading"
+    editMode="row"
+    [showCurrentPageReport]="true"
+    [globalFilterFields]="[
+      'stock_number',
+      'description',
+      'brand',
+      'type',
+      'state',
+      'serial',
+      'airline',
+      'payroll',
+      'group',
+      'employeed',
+      'date',
+      'observations'
+    ]"
+    [rowsPerPageOptions]="[5, 10, 25, 50]"
+    [scrollable]="true"
+    currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} registros"
+  >
+    <ng-template pTemplate="header">
+      <tr class="bg-gray-200 text-gray-600 text-xs font-semibold uppercase tracking-wider">
+        <th class="px-5 py-3 border-b-2">Foto</th>
+        <th class="px-5 py-3 border-b-2">Número de inventario</th>
+        <th class="px-5 py-3 border-b-2">Nombre o Descripción</th>
+        <th class="px-5 py-3 border-b-2">Marca y modelo</th>
+        <th class="px-5 py-3 border-b-2">Tipo</th>
+        <th class="px-5 py-3 border-b-2">Número de serie</th>
+        <th class="px-5 py-3 border-b-2">N° de referencia Korima</th>
+        <th class="px-5 py-3 border-b-2">Estado Físico</th>
+        <th class="px-5 py-3 border-b-2">Departamento</th>
+        <th class="px-5 py-3 border-b-2">Motivo de baja</th>
+        <th class="px-5 py-3 border-b-2">Observaciones</th>
+        <th class="px-5 py-3 border-b-2"></th>
+      </tr>
+    </ng-template>
+  
+    <ng-template pTemplate="body" let-guards let-i="rowIndex">
+      <tr
+        [ngClass]="{
+          'bg-gray-50 text-gray-400': (guards.active == 0 && guards.expecting == 0) || (guards.active == 0 && guards.expecting == null),
+          'bg-teal-100 text-teal-600': guards.user_guard_active == 1 && guards.expecting == 0,
+          'bg-orange-200 text-gray-700': guards.expecting == 1
+        }"
+        class="border-b border-gray-200 text-sm"
+      >
+        <td class="cursor-pointer">
+          <div class="flex justify-center">
+            <div class="bg-white rounded-md shadow-md w-14 h-14 flex items-center justify-center overflow-hidden">
+              <img
+                (mouseenter)="zoomIn(guards.id, guards.picture)"
+                (mouseleave)="zoomOut(guards.id, guards.picture)"
+                [src]="guards.picture"
+                alt="Preview"
+                class="w-14 h-14 object-cover"
+              />
+              <img
+                [name]="'zoom' + guards.id"
+                *ngIf="guards.picture == expandImage"
+                [src]="guards.picture"
+                alt="Preview"
+                class="border-2 border-black object-cover fixed z-50 top-2 right-12 w-[800px] h-[500px]"
+              />
+              <div *ngIf="!guards.picture" class="flex items-center justify-center text-gray-400 text-4xl">
+                <i class="fas fa-image"></i>
+              </div>
+            </div>
+          </div>
+        </td>
+        <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ guards.stock_number }}</td>
+        <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ guards.description }}</td>
+        <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ guards.brand }}</td>
+        <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ guards.Tipo }}</td>
+        <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ guards.serial }}</td>
+        <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ guards.number_korima === "null" ? "" : guards.number_korima }}</td>
+        <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ guards.Estado }}</td>
+        <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ guards.group }}</td>
+        <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ guards.motive }}</td>
+        <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ guards.observations === "null" ? "" : guards.observations }}</td>
+        <td class="flex flex-row text-sm">
+          <ng-container *ngIf="roleTypeUser < 3">
+            <button
+              pTooltip="Etiqueta"
+              (click)="print(guards)"
+              class="mr-2 bg-indigo-300 hover:bg-indigo-500 text-white rounded-full p-2 transition duration-300"
+            >
+              <i class="fas fa-print"></i>
+            </button>
+          </ng-container>
+  
+          <button
+            pTooltip="Reporte de resguardo"
+            (click)="showTableReport(guards)"
+            class="mr-2 bg-blue-300 hover:bg-blue-500 text-white rounded-full p-2 transition duration-300"
+          >
+            <i class="fas fa-file-alt"></i>
+          </button>
+          <button
+            pTooltip="Editar"
+            (click)="EditGuard(guards)"
+            class="mr-2 bg-yellow-300 hover:bg-yellow-500 text-white rounded-full p-2 transition duration-300"
+          >
+            <li class="fa fa-edit"></li>
+          </button>
+          <ng-container *ngIf="roleTypeUser < 3">
+            <button
+              pTooltip="Cambiar estado"
+              (click)="changeResguardState(guards)"
+              class="rounded-full p-2 mr-2 transition duration-300"
+              [ngClass]="{
+                'bg-lime-300 hover:bg-lime-500 text-white': guards.active == 0,
+                'bg-gray-300 hover:bg-gray-500 text-white': guards.active == 1
+              }"
+            >
+              <ng-container *ngIf="guards.active == 1">
+                <li class="fa fa-toggle-on"></li>
+              </ng-container>
+              <ng-container *ngIf="guards.active == 0">
+                <li class="fa fa-toggle-off"></li>
+              </ng-container>
+            </button>
+            <ng-container *ngIf="guards.expecting == 1">
+              <button
+                pTooltip="Aceptar baja del resguardo"
+                (click)="AcceptRemove(guards)"
+                class="mr-2 bg-green-300 hover:bg-green-500 text-white rounded-full p-2 transition duration-300"
+              >
+                <li class="fas fa-check"></li>
+              </button>
+            </ng-container>
+  
+            <ng-container *ngIf="guards.resguard == 1 || guards.expecting == 1">
+              <button
+                pTooltip="Regresar al stock de resguardos"
+                (click)="deleteResguard(guards)"
+                class="mr-2 bg-orange-300 hover:bg-orange-500 text-white rounded-full p-2 transition duration-300"
+              >
+                <i class="fas fa-box"></i>
+              </button>
+            </ng-container>
+          </ng-container>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  
+  
+
+    <!-- <p-table
       #dt
       [tableStyle]="{ 'min-width': '50rem', 'overflow-auto': true }"
       scrollWidht="100px"
@@ -158,12 +391,7 @@
           <th
             class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
           ></th>
-          <!-- <th                                     
-                class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    Rol</th>
-                <th                                     
-                class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    Quantity</th> -->
+ 
         </tr>
       </ng-template>
       <ng-template
@@ -298,11 +526,10 @@
             </ng-container>
           </td>
 
-          <!-- <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ users.category }}</td>
-                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ users.quantity }}</td> -->
+          
         </tr>
       </ng-template>
-    </p-table>
+    </p-table> -->
   </div>
   <!-- component -->
 </div>

@@ -60,6 +60,10 @@ import { ChartsComponent } from './components/charts/charts.component';
 import { KorimaComponent } from './components/korima/korima.component';
 import { HttpClientModule } from '@angular/common/http';
 import { PicturesComponent } from './components/pictures/pictures.component';
+import { ArchivistComponent } from './components/archivist/archivist.component';
+import { AutorizeddownsComponent } from './components/autorizeddowns/autorizeddowns.component';
+import { ReportgroupsguardsComponent } from './components/reportgroupsguards/reportgroupsguards.component';
+import { ReportkorimaComponent } from './components/reportkorima/reportkorima.component';
 
 @NgModule({
   declarations: [
@@ -83,7 +87,11 @@ import { PicturesComponent } from './components/pictures/pictures.component';
     ReportceticComponent,
     ChangebackgroundimageComponent,
     ChartsComponent,
-    KorimaComponent
+    KorimaComponent,
+    ArchivistComponent,
+    AutorizeddownsComponent,
+    ReportgroupsguardsComponent,
+    ReportkorimaComponent
   ],
   imports: [
     HttpClientModule,

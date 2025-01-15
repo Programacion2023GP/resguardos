@@ -98,7 +98,6 @@ existEmali!: Boolean;
   isDropdownOpen = false;
   constructor(private service: ServiceService<any>) {
     this.GetDataGroups()
-    console.warn("departamentos",this.departamentos)
     
     this.roleTypeUser = parseInt(this.roleTypeUser)
     this.GetUsers()

@@ -28,7 +28,7 @@ export class ChartsComponent implements OnInit {
     {
       id: 'chart3',
       chart: 'column',
-      name: 'Departamentos',
+      name: ' Los 10 departamentos con mas resguardos',
       url: 'charts/groups',
       titles: [],
       values: [],
@@ -51,13 +51,41 @@ export class ChartsComponent implements OnInit {
             item.titles.push(element.nombre);
             item.values.push(element.total);
           });
-          this.createChart(
-            item.id,
-            item.chart,
-            item.name,
-            item.titles,
-            item.values
-          );
+          if (item.url =="charts/groups") {
+            // console.log("entro",item.name)
+            const combinedData = item.titles.map((title, index) => ({
+              title,
+              value: item.values[index]
+            }));
+            
+            // Ordenamos los departamentos en base a los valores de mayor a menor
+            const topDepartments = combinedData
+              .sort((a, b) => b.value - a.value)  // Ordena de mayor a menor
+              .slice(0, 10);  // Obtiene los 10 primeros
+            
+            // Separamos los títulos y valores en arrays separados
+            const topDepartmentsFormatted = {
+              titles: topDepartments.map(department => department.title),
+              values: topDepartments.map(department => department.value)
+            };
+            this.createChart(
+              item.id,
+              item.chart,
+              item.name,
+              topDepartmentsFormatted.titles,
+              topDepartmentsFormatted.values
+            );
+          }
+          else{
+
+            this.createChart(
+              item.id,
+              item.chart,
+              item.name,
+              item.titles,
+              item.values
+            );
+          }
           // this.createChart("chart1", "column", "Tipos/resguardos", ["s", "c"], [100, 300]);
         },
       });

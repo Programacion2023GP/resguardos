@@ -1,0 +1,72 @@
+<div
+  [@fadeInOutAnimation]
+  class="container px-4 mx-auto mt-10 pt-10 flex flex-col items-center justify-center"
+>
+  <!-- Buscador centrado -->
+  <div class="w-full flex justify-center mb-8">
+    <div
+      class="flex flex-row items-center justify-between space-x-4 p-4 bg-white rounded-lg shadow-md"
+    >
+    <button
+    pTooltip="EXCEl"
+    (click)="exportExcel()"
+    class="shadow-md cursor-pointer hover:bg-green-400 h-14 rounded-full w-14 pt-2 bg-green-200"
+  >
+    <li class="fa fa-file-excel"></li>
+  </button>
+    <h3 class="w-full text-center text-2xl font-semibold text-gray-100 bg-gradient-to-r from-purple-300 via-violet-300 to-purple-300 text-white py-4 rounded-md shadow-md">
+      Reporte de Resguardos por Departamento
+    </h3>
+    
+          <input
+        pInputText
+        type="text"
+        class="shadow-md border rounded-full h-10 w-80 pl-4 text-sm placeholder-gray-400 focus:bg-white focus:placeholder-gray-600 transition duration-200"
+        (input)="onInputChangeReports($event)"
+        placeholder="Buscador"
+        aria-label="Buscador"
+      />
+    </div>
+  </div>
+
+  <!-- Tabla -->
+  <div class="w-full h-full">
+    <p-table
+      #dt
+      [value]="data"
+      [scrollable]="true"
+      class="overflow-x-auto"
+      [tableStyle]="{ 'min-width': '50rem', 'overflow-auto': true }"
+      scrollWidht="100px"
+      scrollDirection="both"
+      [paginator]="true"
+      [rows]="5"
+      [globalFilterFields]="['nombre', 'total']"
+      currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} registros"
+      [rowsPerPageOptions]="[5, 10, 25, 50]"
+      editMode="row"
+      [showCurrentPageReport]="true"
+      styleClass="h-full"
+    >
+      <ng-template pTemplate="header">
+        <tr
+          class="bg-gray-200 text-gray-600 text-xs font-semibold uppercase tracking-wider"
+        >
+          <th class="px-5 py-3 border-b-2">Departamento</th>
+          <th class="px-5 py-3 border-b-2">Total</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-users let-i="rowIndex">
+        <tr>
+          <td class="px-5 py-5 border-b border-gray-200 text-sm">
+            {{ users.nombre }}
+          </td>
+          <td class="px-5 py-5 border-b border-gray-200 text-sm">
+            {{ users.total }}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

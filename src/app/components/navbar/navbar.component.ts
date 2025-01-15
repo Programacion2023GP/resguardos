@@ -21,17 +21,19 @@ export class NavbarComponent {
   users: any[]=[];
   listUsers:any[]=[]
   nomina: string | null ="";
-
+  payroll: string | null ="";
   selectedUser:Boolean[]=[
   true, false,false,false
   ];
   selectedItemMenu:Boolean[]=[
-    false, true, false,false,false,false,false,false
+    false, true, false,false,false,false,false,false,false,false,false,false
   ]
 selected: any;
 animationState !:string; 
 constructor(private service:ServiceService<any>,private router: Router){
     this.GetUsers()
+    this.payroll = localStorage.getItem('nomina');
+
     this.roleTypeUser = parseInt(this.roleTypeUser)
     this.service.data$.subscribe((data:any) => {
       this.nomina = localStorage.getItem('id');

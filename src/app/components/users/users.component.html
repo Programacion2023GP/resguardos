@@ -1,293 +1,178 @@
 <div  [@fadeInOutAnimation]
   class=" container px-4 mx-auto mt-10 pt-10 flex flex-col p-4 items-center justify-center">
-  <div class=" flex flex-row " >
+  <div class="flex flex-row items-center justify-between space-x-4 p-4 bg-white rounded-lg shadow-md mb-4">
     <ng-container *ngIf="roleTypeUser < 4">
       <button
         (click)="showDialog()"
         pTooltip="Agregar"
-        class="shadow-md cursor-pointer hover:bg-purple-400 h-14 rounded-full w-14 pt-2 bg-purple-200 max-lg:mb-2"
+        class="flex items-center justify-center h-12 w-12 bg-purple-200 hover:bg-purple-400 rounded-full shadow transition duration-200"
+        aria-label="Agregar"
       >
-        <li class="fa fa-plus"></li>
+        <li class="fa fa-plus text-lg"></li>
       </button>
     </ng-container>
+  
     <ng-container *ngIf="roleTypeUser < 3">
-
-    <button
-      (click)="exportExcel()"
-      pTooltip="Excel"
-      class=" ml-2 shadow-md cursor-pointer hover:bg-green-400 h-14 rounded-full  mr-2 w-14 pt-2 bg-green-200 max-lg:hidden max-lg:w-0 max-lg:h-0"><li class="fa fa-file-excel"></li></button>
-    </ng-container>
-
-
-    <ng-container *ngIf="roleTypeUser < 2">
-      <div
-        pTooltip="INFORMACION"
-        class="bg-blue-100 p-4 ml-2 cursor-not-allowed shadow-md mb-4 text-blue-500 rounded-md max-lg:hidden max-lg:w-0 max-lg:h-0"
+      <button
+        (click)="exportExcel()"
+        pTooltip="Exportar a Excel"
+        class="flex items-center justify-center h-12 w-12 bg-green-200 hover:bg-green-400 rounded-full shadow transition duration-200"
+        aria-label="Exportar a Excel"
       >
-        Administrativo
-      </div>
+        <li class="fa fa-file-excel text-lg"></li>
+      </button>
     </ng-container>
-    <ng-container *ngIf="roleTypeUser < 3">
-      <div
-        pTooltip="INFORMACION"
-        class="bg-cyan-100 p-4 ml-2 cursor-not-allowed shadow-md mb-4 text-cyan-500 rounded-md max-lg:hidden max-lg:w-0 max-lg:h-0"
-      >
-      Enlaces
-      </div>
-    </ng-container>
-    <ng-container *ngIf="roleTypeUser < 4">
-      <div
-        pTooltip="INFORMACION"
-        class="bg-teal-100 p-4 cursor-not-allowed ml-2 shadow-md mb-4 text-teal-500 rounded-md max-lg:hidden max-lg:w-0 max-lg:h-0"
-      >
-        Empleado
-      </div>
-      <div
-        pTooltip="INFORMACION"
-        class="bg-gray-100 p-4 cursor-not-allowed ml-2 shadow-md mb-4 text-gray-500 rounded-md max-lg:hidden max-lg:w-0 max-lg:h-0"
-      >
-        Deshabilitado
-      </div>
-    </ng-container>
+  
+    <div class="flex items-center space-x-2">
+      <ng-container *ngIf="roleTypeUser < 2">
+        <div
+          pTooltip="INFORMACION"
+          class="bg-blue-100 p-2 text-blue-500 rounded-md hidden md:block"
+        >
+          Administrativo
+        </div>
+      </ng-container>
+  
+      <ng-container *ngIf="roleTypeUser < 3">
+        <div
+          pTooltip="INFORMACION"
+          class="bg-cyan-100 p-2 text-cyan-500 rounded-md hidden md:block"
+        >
+          Enlaces
+        </div>
+      </ng-container>
+  
+      <ng-container *ngIf="roleTypeUser < 4">
+        <div
+          pTooltip="INFORMACION"
+          class="bg-teal-100 p-2 text-teal-500 rounded-md hidden md:block"
+        >
+          Empleado
+        </div>
+        <div
+          pTooltip="INFORMACION"
+          class="bg-gray-100 p-2 text-gray-500 rounded-md hidden md:block"
+        >
+          Deshabilitado
+        </div>
+      </ng-container>
+    </div>
+  
     <ng-container *ngIf="roleTypeUser < 4">
       <input
         pInputText
         type="text"
-        class="shadow-md mr-2 ml-6 pl-4 mt-2 justify-end items-end right-0 appearance-none rounded-full h-10 w-60 bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600"
+        class="shadow-sm border rounded-full h-10 w-60 pl-4 text-sm placeholder-gray-400 focus:ring-2 focus:ring-blue-300 transition duration-200"
         (input)="onInputChangeReports($event)"
-        placeholder="buscador"
+        placeholder="Buscador"
+        aria-label="Buscador"
       />
     </ng-container>
   </div>
+  
 
   <div class="w-full h-full  ">
     
     <p-table
-      #dt
-      [value]="users"
-      [scrollable]="true" 
-      class="overflow-x-auto"
-      [tableStyle]="{ 'min-width': '50rem','overflow-auto':true}"
-      scrollWidht="100px"
-      scrollDirection="both"
-      [paginator]="true"
-      [rows]="5"
-      [globalFilterFields]="['name', 'payroll', 'group', 'email', 'type_role']"
-      [loading]="loading"
-      currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} registros"
-      [rowsPerPageOptions]="[5, 10, 25, 50]"
-      editMode="row"
-      [showCurrentPageReport]="true"
-      styleClass="h-full"
-      class="h-full"
-    >
-      <ng-template pTemplate="header">
-        <tr>
-          <th
-            class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-          >
-            Nombre
-          </th>
-          <th
-            class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-          >
-            Numero de Nomina
-          </th>
-          <th
-            class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-          >
-            Correo
-          </th>
-          <ng-container *ngIf="roleTypeUser < 3">
-
-          <th
-            class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-          >
-            Departamento
-          </th>
-          </ng-container>
-
-          <th
-            class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-          >
-            Tipo de usuario
-          </th>
-          
-          <th
-            class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-          ></th>
-          <!-- <th
-                class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    Rol</th>
-                <th
-                class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    Quantity</th> -->
-        </tr>
-      </ng-template>
-      <ng-template
-        pTemplate="body"
-        class="shadow-md"
-        let-users
-        let-i="rowIndex"
+    #dt
+    [value]="users"
+    [scrollable]="true"
+    class="overflow-x-auto"
+    [tableStyle]="{ 'min-width': '50rem', 'overflow-auto': true }"
+    scrollWidht="100px"
+    scrollDirection="both"
+    [paginator]="true"
+    [rows]="5"
+    [globalFilterFields]="['name', 'payroll', 'group', 'email', 'type_role']"
+    [loading]="loading"
+    currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} registros"
+    [rowsPerPageOptions]="[5, 10, 25, 50]"
+    editMode="row"
+    [showCurrentPageReport]="true"
+    styleClass="h-full"
+  >
+    <ng-template pTemplate="header">
+      <tr class="bg-gray-200 text-gray-600 text-xs font-semibold uppercase tracking-wider">
+        <th class="px-5 py-3 border-b-2">Nombre</th>
+        <th class="px-5 py-3 border-b-2">Numero de Nómina</th>
+        <th class="px-5 py-3 border-b-2">Correo</th>
+        <ng-container *ngIf="roleTypeUser < 3">
+          <th class="px-5 py-3 border-b-2">Departamento</th>
+        </ng-container>
+        <th class="px-5 py-3 border-b-2">Tipo de Usuario</th>
+        <th class="px-5 py-3 border-b-2"></th>
+      </tr>
+    </ng-template>
+  
+    <ng-template pTemplate="body" class="shadow-md" let-users let-i="rowIndex">
+      <tr
+        [ngClass]="{
+          'bg-blue-100 text-blue-500': users.role == 2,
+          'bg-cyan-100 text-cyan-500': users.role == 3,
+          'bg-teal-100 text-teal-500': users.role == 4,
+          'bg-gray-100 text-gray-400': users.active == 0
+        }"
       >
-        <ng-container *ngIf="users.active == 1">
-          <tr
-            [ngClass]="{
-              'bg-blue-100 text-blue-500': users.role == 2,
-              'bg-cyan-100 text-cyan-500': users.role == 3,
-              'bg-teal-100 text-cyan-500': users.role == 4
-            }"
-          >
-            <td class="px-5 py-5 border-b border-gray-200 text-sm">
-              {{ users.name }}
-            </td>
-            <td class="px-5 py-5 border-b border-gray-200 text-sm">
-              {{ users.payroll }}
-            </td>
-            <td class="px-5 py-5 border-b border-gray-200 text-sm">
-              {{ users.email }}
-            </td>
-            <ng-container *ngIf="roleTypeUser < 3">
-
-            <td class="px-5 py-5 border-b border-gray-200 text-sm">
-              {{ users.group }}
-            </td>
-            </ng-container>
-            <td class="px-5 py-5 border-b border-gray-200 text-sm">
-              {{ users.type_role }}
-            </td>
-            <td
-              class="px-5 py-5 border-b border-gray-200 text-sm flex flex-row"
+        <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ users.name }}</td>
+        <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ users.payroll }}</td>
+        <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ users.email }}</td>
+        <ng-container *ngIf="roleTypeUser < 3">
+          <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ users.group }}</td>
+        </ng-container>
+        <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ users.type_role }}</td>
+        <td class="px-5 py-5 border-b border-gray-200 text-sm flex flex-row space-x-2">
+          <ng-container *ngIf="users.type_role == 'Enlace'">
+            <button
+              (click)="showReplaceEnlance(users)"
+              pTooltip="Cambiar Enlace"
+              class="bg-sky-300 hover:bg-sky-500 text-white rounded-full p-2 transition-colors duration-200"
             >
-          
-              <ng-container *ngIf="users.type_role == 'Enlace'">
-                <button
-                (click)="showReplaceEnlance(users)"
-                pTooltip="Cambiar Enlace"
-                class="bg-sky-300 hover:bg-sky-500 rounded-full p-4 mr-2"
-                >
-                <li class="fa  fa-sync-alt"></li>
-              </button>
-                <button
-                  (click)="reportGroup(users)"
-                  class="bg-blue-300 hover:bg-blue-500 rounded-full p-4 mr-2"
-                  pTooltip="reporte de su departamento"
-
-                >
-                  <li class="fas fa-file-alt"></li>
-                </button>
-              </ng-container>
-              <ng-container *ngIf="users.active == 1">
-                <button
-                  (click)="editUser(users)"
-                  pTooltip="editar información"
-
-                  class="bg-yellow-300 hover:bg-yellow-500 rounded-full p-4 mr-2"
-                >
-                  <li class="fa fa-edit"></li>
-                </button>
-              </ng-container>
-              <button
-                (click)="changeStateUser(users)"
-                class="rounded-full p-4"
-                pTooltip="cambiar su status"
-
-                [ngClass]="{
-                  'bg-lime-300 hover:bg-lime-500': users.active == 0,
-                  'bg-gray-300 hover:bg-gray-500': users.active == 1
-                }"
-              >
-                <ng-container *ngIf="users.active == 1">
-                  <li class="fa fa-toggle-on"></li>
-                </ng-container>
-                <ng-container *ngIf="users.active == 0">
-                  <li class="fa fa-toggle-off"></li>
-                </ng-container>
-              </button>
-              <button
-              pTooltip="resguardos korima"
-                [routerLink]="['/Korima/', users.payroll]"
-                class="ml-2  bg-zinc-300 hover:bg-zinc-500 rounded-full p-4 mr-2 inline-block bg-zinc-300 hover:bg-zinc-500 text-white px-4 py-2 rounded-full"
-              >
-              <i class="fas fa-lock"></i>
+              <i class="fa fa-sync-alt"></i>
             </button>
-            </td>
-
-            <!-- <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ users.category }}</td>
-                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ users.quantity }}</td> -->
-          </tr>
-        </ng-container>
-        <ng-container *ngIf="users.active == 0">
-          <tr>
-            <td
-              class="bg-gray-50 text-gray-400 px-5 py-5 border-b border-gray-200 text-sm"
+            <button
+              (click)="reportGroup(users)"
+              class="bg-blue-300 hover:bg-blue-500 text-white rounded-full p-2 transition-colors duration-200"
+              pTooltip="Reporte de su departamento"
             >
-              {{ users.name }}
-            </td>
-            <td
-              class="bg-gray-50 text-gray-400 px-5 py-5 border-b border-gray-200 text-sm"
-            >
-              {{ users.payroll }}
-            </td>
-            <td
-              class="bg-gray-50 text-gray-400 px-5 py-5 border-b border-gray-200 text-sm"
-            >
-              {{ users.email }}
-            </td>
-            <ng-container *ngIf="roleTypeUser < 3">
-
-            <td
-              class="bg-gray-50 text-gray-400 px-5 py-5 border-b border-gray-200 text-sm"
-            >
-              {{ users.group }}
-            </td>
-            </ng-container>
-            <td
-              class="bg-gray-50 text-gray-400 px-5 py-5 border-b border-gray-200 text-sm"
-            >
-              {{ users.type_role }}
-            </td>
-            <td
-              class="bg-gray-50 text-gray-400 px-5 py-5 border-b border-gray-200 text-sm"
+              <i class="fas fa-file-alt"></i>
+            </button>
+          </ng-container>
+          <button
+            (click)="editUser(users)"
+            pTooltip="Editar información"
+            class="bg-yellow-300 hover:bg-yellow-500 text-white rounded-full p-2 transition-colors duration-200"
+          >
+            <i class="fa fa-edit"></i>
+          </button>
+          <ng-container *ngIf="roleTypeUser < 3">
+            <button
+              (click)="changeStateUser(users)"
+              class="rounded-full p-2 transition-colors duration-200"
+              [ngClass]="{
+                'bg-lime-300 hover:bg-lime-500': users.active == 0,
+                'bg-gray-300 hover:bg-gray-500': users.active == 1
+              }"
             >
               <ng-container *ngIf="users.active == 1">
-                <button
-                  (click)="editUser(users)"
-                  class="bg-yellow-300 hover:bg-yellow-500 rounded-full p-4 mr-2"
-                >
-                  <li class="fa fa-edit"></li>
-                </button>
+                <i class="fa fa-toggle-on"></i>
               </ng-container>
-              <button
-                (click)="changeStateUser(users)"
-                class="rounded-full p-4"
-                [ngClass]="{
-                  'bg-lime-300 hover:bg-lime-500': users.active == 0,
-                  'bg-gray-300 hover:bg-gray-500': users.active == 1
-                }"
-              >
-                <ng-container *ngIf="users.active == 1">
-                  <li class="fa fa-toggle-on"></li>
-                </ng-container>
-                <ng-container *ngIf="users.active == 0">
-                  <li class="fa fa-toggle-off"></li>
-                </ng-container>
-              </button>
-              <button
-                [routerLink]="['/ResguardosUsuarios/', users.id]"
-                class="ml-2 md:hidden bg-blue-300 hover:bg-blue-500 rounded-full p-4 mr-2 inline-block bg-blue-300 hover:bg-blue-500 text-white px-4 py-2 rounded-full"
-              >
-                <li class="fas fa-file-alt"></li>
-              </button>
-           
-            </td>
-
-            <!-- <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ users.category }}</td>
-                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ users.quantity }}</td> -->
-          </tr>
-        </ng-container>
-      </ng-template>
-    </p-table>
+              <ng-container *ngIf="users.active == 0">
+                <i class="fa fa-toggle-off"></i>
+              </ng-container>
+            </button>
+          </ng-container>
+          <button
+            pTooltip="Resguardos Korima"
+            [routerLink]="['/Korima/', users.payroll]"
+            class="bg-zinc-300 hover:bg-zinc-500 text-white rounded-full p-2 transition-colors duration-200"
+          >
+          <i class="fas fa-folder-open"></i>
+        </button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  
   </div>
   <!-- component -->
 </div>

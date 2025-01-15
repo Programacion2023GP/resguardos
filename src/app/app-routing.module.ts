@@ -18,6 +18,9 @@ import { StatesComponent } from './components/states/states.component';
 import { ChangebackgroundimageComponent } from './components/changebackgroundimage/changebackgroundimage.component';
 import { ChartsComponent } from './components/charts/charts.component';
 import { KorimaComponent } from './components/korima/korima.component';
+import { ArchivistComponent } from './components/archivist/archivist.component';
+import { ReportgroupsguardsComponent } from './components/reportgroupsguards/reportgroupsguards.component';
+import { ReportkorimaComponent } from './components/reportkorima/reportkorima.component';
 
 const routes: Routes = [
   {path:"",component:LoginComponent,
@@ -43,6 +46,17 @@ const routes: Routes = [
     pathMatch: 'full',
     component:UsersComponent
   },
+  {
+    path:'Reportedepartamentos',
+    pathMatch: 'full',
+    component:ReportgroupsguardsComponent
+  },
+{
+  path:'ReporteKorima',
+  pathMatch: 'full',
+  component:ReportkorimaComponent
+},
+  
   {
     path:'Graficas',
     pathMatch: 'full',
@@ -75,6 +89,10 @@ const routes: Routes = [
   {
     path:'Korima/:id',
     component:KorimaComponent
+  },
+  {
+    path:'Archivos',
+    component:ArchivistComponent
   },
   ]
 

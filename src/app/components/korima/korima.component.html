@@ -1,48 +1,48 @@
 <div *ngIf="!empleado" class="bg-slate-700 absolute inset-0 flex items-center justify-center z-50 bg-opacity-60 backdrop-blur-sm transition-opacity duration-300 ease-out">
-  <div class="relative w-11/12 sm:w-5/6 lg:w-1/2 max-w-4xl mx-auto rounded-xl shadow-2xl bg-white transform transition-transform duration-300 ease-out scale-100">
-    <div class="flex justify-between items-center p-6 bg-white border-b border-gray-100 rounded-t-xl">
+  <div class="relative w-11/12 sm:w-5/6 lg:w-1/2 max-w-4xl mx-auto rounded-xl shadow-lg bg-white transform transition-transform duration-300 ease-out scale-100">
+    <div class="flex justify-between items-center p-6 bg-gray-50 border-b border-gray-200 rounded-t-xl">
       <p class="text-lg font-semibold text-gray-800">
-        Buscar por numero de nomina
+        Buscar por número de nómina
       </p>
       <svg
         (click)="(empleado = 1)"
-        class="w-6 h-6 cursor-pointer text-gray-500 hover:text-gray-800 transition duration-200"
+        class="w-6 h-6 cursor-pointer text-gray-500 hover:text-red-600 transition duration-200"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
           d="M6 18L18 6M6 6l12 12"
         ></path>
       </svg>
     </div>
-
-    <div class="px-6 py-2 bg-white">
+  
+    <div class="px-6 py-4 bg-white">
       <div class="relative z-0 mb-6 w-full group">
         <input
-        (input)="onInputChange($event)" 
-        type="number"
-          name="floating_email"
-          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          (input)="onInputChange($event)" 
+          type="number"
+          name="numero_nomina"
+          id="numero_nomina"
+          class="peer block w-full px-4 py-3 mt-2 text-base text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out"
           placeholder=" "
-          required
         />
         <label
-          for="floating_email"
-          class="absolute text-sm text-gray-500  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-          >Numero de nomina</label
-        >
+          for="numero_nomina"
+          class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-0 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+        >Número de nómina</label>
       </div>
     </div>
-     
+    
   </div>
+  
 </div>
 
-<div  [@repeatfadeInOutAnimation]="animationState" class="container px-4 mx-auto mt-10 pt-10 flex flex-col p-4 items-center justify-center w-full rounded-xl group sm:flex space-x-6 bg-opacity-50  hover:rounded-2xl ">
+<div class=" w-11/12  px-4 mx-auto   mt-10 pt-10 flex flex-col p-4 items-center justify-center rounded-xl group sm:flex space-x-6 bg-opacity-50 hover:rounded-2xl">
   <!-- Component -->
  <div class="mx-auto mt-10 w-full bg-white rounded-lg shadow-md">
    <div class="flex items-center p-6">
@@ -78,11 +78,11 @@
      <ng-container *ngIf="roleTypeUser<3" >
       <button
       (click)="resetForm()"
-      pTooltip="Resetear"
-      class="shadow-md cursor-pointer hover:bg-red-400 h-14 rounded-full mr-2 w-14 pt-2 bg-red-200 max-lg:hidden max-lg:w-0 max-lg:h-0"
+      pTooltip="Buscar"
+      class="shadow-md cursor-pointer hover:bg-sky-400 h-14 rounded-full mr-2 w-14 pt-2 bg-sky-200 max-lg:hidden max-lg:w-0 max-lg:h-0"
     >
-      <li class="fa fa-undo"></li>
-    </button>
+    <li class="fa fa-search"></li>
+  </button>
     </ng-container>
      <button
      (click)="exportExcel()"
@@ -118,9 +118,103 @@
    placeholder="buscador" />
    </div>
  
-     <div class="w-full max-h-screen max-sm:w-1/2 sm:w-1/2 md:w-full">
- 
- <p-table
+     <div class="w-full bg-cyan-50 max-h-screen max-sm:w-1/2 sm:w-1/2 md:w-full">
+      <p-table
+      #dt
+      styleClass="mt-2"
+      [loading]="loading"
+      [value]="korima"
+      [tableStyle]="{ 'min-width': '30rem', 'overflow': 'auto' }"
+      [paginator]="true"
+      [rows]="5"
+      [globalFilterFields]="['Etiqueta','Descripcion','Marca','NoSerie','Estatus','NombreDepartamento']"
+      currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} registros"
+      [rowsPerPageOptions]="[5, 10, 25, 50]"
+      editMode="row"
+      [showCurrentPageReport]="true"
+      [scrollable]="true"
+    >
+      <ng-template pTemplate="header">
+        <tr class="bg-gray-200">
+          <th *ngFor="let header of ['Imagen resguardo', 'Imagen con etiqueta', 'Numero de etiqueta', 'Nombre o descripción', 'marca y modelo', 'Numero serial', 'Estatus', 'ubicación', 'fecha de asignación del resguardo', 'Observaciones', 'Acciones']"
+              class="px-5 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            {{ header }}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" class="shadow-md" let-guards let-i="rowIndex">
+        <tr [ngClass]="{'bg-gray-50 text-gray-400': guards.motive_down}">
+          <td *ngIf="guards.picture; else noImage">
+            <img
+              (mouseenter)="zoomIn(guards.NumeroEconomicoKorima, guards.picture)"
+              (mouseleave)="zoomOut(guards.NumeroEconomicoKorima, guards.picture)"
+              [src]="guards.picture"
+              alt="Preview"
+              class="w-14 h-14 object-cover cursor-pointer"
+            />
+            <img
+            [name]="'zoom' + guards.NumeroEconomicoKorima"
+            *ngIf="guards.picture == expandImage"
+            [src]="guards.picture"
+            alt="Preview"
+            class=" border-2 border-black object-cover fixed z-50 top-2 right-12 w-[800px] h-[500px]"
+            />
+          </td>
+          
+          <ng-template #noImage>
+            <td class="text-gray-500">No se ha asignado imagen</td>
+          </ng-template>
+          <!-- Similar para la imagen de etiqueta -->
+          <td *ngIf="guards.tag_picture; else noTagImage">
+            <img
+              (mouseenter)="zoomIn(guards.NumeroEconomicoKorima, guards.tag_picture)"
+              (mouseleave)="zoomOut(guards.NumeroEconomicoKorima, guards.tag_picture)"
+              [src]="guards.tag_picture"
+              alt="Preview"
+              class="w-14 h-14 object-cover cursor-pointer"
+            />
+            <img
+            [name]="'zoom' + guards.NumeroEconomicoKorima"
+            *ngIf="guards.tag_picture == expandImage"
+            [src]="guards.tag_picture"
+            alt="Preview"
+            class=" border-2 border-black object-cover fixed z-50 top-2 right-12 w-[800px] h-[500px]"
+            />
+          </td>
+          <ng-template #noTagImage>
+            <td class="text-gray-500">No se ha asignado imagen</td>
+          </ng-template>
+    
+          <td class="px-5 py-5 text-sm">{{ guards.Etiqueta }}</td>
+          <td class="px-5 py-5 text-sm">{{ guards.Descripcion }}</td>
+          <td class="px-5 py-5 text-sm">{{ guards.Marca }}</td>
+          <td class="px-5 py-5 text-sm">{{ guards.NoSerie }}</td>
+          <td class="px-5 py-5 text-sm">{{ guards.Estatus }}</td>
+          <td class="px-5 py-5 text-sm">{{ guards.NombreDepartamento }}</td>
+          <td class="px-5 py-5 text-sm">{{ guards.FechaAlta }}</td>
+          <td class="px-5 py-5 text-sm">
+            {{ guards.observation ? (guards.observation === 'undefined' ? '' : guards.observation) : '' }}
+          </td>
+          
+          <td class="px-5 py-5 text-sm">
+            <div *ngIf="!guards.motive_down" class="flex flex-row space-x-2">
+              <button
+                (click)="showDialog(guards.NumeroEconomicoKorima, guards.idResguardos)"
+                class="bg-purple-300 hover:bg-purple-400 text-gray-800 font-bold py-2 px-4 rounded-full shadow-md transition duration-300">
+                <i class="fa fa-plus"></i>
+              </button>
+              <button
+                (click)="downKorima(guards.idResguardos)"
+                class="bg-orange-300 hover:bg-orange-400 text-gray-800 font-bold py-2 px-4 rounded-full shadow-md transition duration-300">
+                <i class="fas fa-ban"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+    
+ <!-- <p-table
  #dt
  styleClass="mt-2"
  [loading]="loading"
@@ -159,15 +253,11 @@
            <th
            class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                marca y modelo</th>
-           <!-- <th
-           class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-               tipo</th> -->
+         
                <th
                class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                    Numero serial</th>
-                   <!-- <th
-                   class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                   N° DE REFERENCIA KORIMA</th> -->
+                
         
                <th
                class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
@@ -183,24 +273,17 @@
                            <th
                        class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                           Observaciones</th>
-                           <!-- <th
-                           class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                               fecha de baja del resguardo</th> -->
+                      
  
                                <th
                                class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                    </th>
-       <!-- <th
-       class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-           Rol</th>
-       <th
-       class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-           Quantity</th> -->
+    
    </tr>
  </ng-template>
  <ng-template pTemplate="body" class="shadow-md" let-guards let-i="rowIndex">
-   <tr [ngClass]="{'bg-gray-50 text-gray-400':guards.used == 0 && guards.expecting == 0,
-  'bg-orange-200 text-gray-700': guards.expecting == 1
+   <tr [ngClass]="{'':!guards.motive_down,
+  'bg-gray-50 text-gray-400': guards.motive_down
   }" >
     <ng-container *ngIf="!guards.picture">
       <td> no se a asignado imagen</td>
@@ -256,9 +339,7 @@
        <td  class="px-5 py-5 border-b border-gray-200  text-sm">{{ guards.Etiqueta }}</td>
        <td  class="px-5 py-5 border-b border-gray-200  text-sm">{{ guards.Descripcion }}</td>
        <td  class="px-5 py-5 border-b border-gray-200  text-sm">{{ guards.Marca  }}</td>
-       <!-- <td  class="px-5 py-5 border-b border-gray-200  text-sm">{{ guards.Tipo }}</td> -->
        <td  class="px-5 py-5 border-b border-gray-200  text-sm">{{ guards.NoSerie }}</td>
-       <!-- <td  class="px-5 py-5 border-b border-gray-200  text-sm">{{ guards.number_korima=='null'?'':guards.number_korima }}</td> -->
 
        <td  class="px-5 py-5 border-b border-gray-200  text-sm">{{ guards.Estatus }}</td>
        <td  class="px-5 py-5 border-b border-gray-200  text-sm">{{ guards.NombreDepartamento }}</td>
@@ -267,24 +348,26 @@
         {{ guards.observation ? guards.observation=='undefined'? '': guards.observation: '' }}
       </td>
       
-       <!-- <td  class="px-5 py-5 border-b border-gray-200  text-sm">{{ guards.datedown }}</td> -->
  
        <td  class="px-5 py-5 border-b border-gray-200  text-sm">
-         <div class="flex flex-row">
+         <div *ngIf="!guards.motive_down" class="flex flex-row">
  
           <button
           (click)="showDialog(guards.NumeroEconomicoKorima,guards.idResguardos)"
           class=" shadow-md cursor-pointer  hover:bg-purple-400 h-14 rounded-full mr-2  w-14 pt-2 bg-purple-200 max-lg:mb-2"><li class="fa fa-plus"></li></button>
- 
+          <button
+          (click)="downKorima(guards.idResguardos)"
+          class="shadow-md cursor-pointer hover:bg-red-400 h-14 rounded-full mr-2 w-14 pt-2 bg-red-200 max-lg:mb-2">
+          <li class="fa fa-trash"></li>
+        </button>
+        
        </div>
        </td>
-       <!-- <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ users.category }}</td>
-       <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ users.quantity }}</td> -->
+     
    </tr>
  </ng-template>
- </p-table>
+ </p-table> -->
  </div>
- <!-- component -->
  
  </div>
  
