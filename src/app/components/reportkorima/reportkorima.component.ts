@@ -15,6 +15,7 @@ interface Column {
 interface Object {
   group: string;
   option: string;
+  departament: string;
 }
 @Component({
   selector: 'app-reportkorima',
@@ -34,7 +35,7 @@ export class ReportkorimaComponent implements OnInit {
   cols2!: Column[];
   loading: boolean = true;
   modal: boolean = false;
-  selectedObject: Object = { group: '', option: 'reporte por departamentos' };
+  selectedObject: Object = { group: '', option: 'reporte por departamentos',departament:"" };
   constructor(private service: ServiceService<any>) {
     this.cols = [
       {
@@ -98,28 +99,23 @@ export class ReportkorimaComponent implements OnInit {
   }
   PredialView(korimaData: Array<Record<string, any>>) {
     this.service
-      .OtherData<any>(
-        `https://predial.gomezpalacio.gob.mx:4433/api/vistakorima`
-      )
+      .OtherData<any>(`https://predial.gomezpalacio.gob.mx:4433/api/vistakorima`)
       .subscribe({
         next: (response: Array<Record<string, any>>) => {
           const statsByDepartment: Record<string, any> = {};
-
+  
           response.forEach((item: Record<string, any>) => {
-            const departmentName =
-              item['NombreDepartamento'] || 'Sin Departamento';
-
+            const departmentName = item['NombreDepartamento'] || 'Sin Departamento';
+            const korimaNumber = parseInt(item['NumeroEconomicoKorima'], 10);
+  
             // Buscar coincidencia en KorimaData
             const match = korimaData.find(
-              (korimaItem: Record<string, any>) =>
-                korimaItem?.['korima'] ===
-                parseInt(item?.['NumeroEconomicoKorima'], 10)
+              (korimaItem) => korimaItem?.['korima'] === korimaNumber
             );
-
+  
             // Evaluar la presencia de 'picture' y 'tag_picture'
-            const picture =
-              match?.['picture'] && match?.['tag_picture'] ? 1 : 0;
-
+            const picture = match?.['picture'] || match?.['tag_picture'] ? 1 : 0;
+            
             // Inicializar estadísticas por departamento si no existe
             if (!statsByDepartment[departmentName]) {
               statsByDepartment[departmentName] = {
@@ -130,59 +126,49 @@ export class ReportkorimaComponent implements OnInit {
                 arrayPicturesMinus: [],
               };
             }
-
-            const fullName =
-              `${item?.['Nombres']} ${item?.['ApellidoPaterno']} ${item?.['ApellidoMaterno']}`.trim();
-
+  
+            const fullName = `${item['Nombres']} ${item['ApellidoPaterno']} ${item['ApellidoMaterno']}`.trim();
+          
             // Actualizar estadísticas
-            statsByDepartment[departmentName].picturepositive +=
-              picture === 1 ? 1 : 0;
-            statsByDepartment[departmentName].pictureminus +=
-              picture === 0 ? 1 : 0;
-
-            // Actualizar listas de nombres con conteo
             if (picture === 1) {
-              const positiveIndex = statsByDepartment[
-                departmentName
-              ].arrayPicturesPositive.findIndex(
-                (person: any) => person?.name === fullName
+              statsByDepartment[departmentName].picturepositive++;
+              const positivePerson = statsByDepartment[departmentName].arrayPicturesPositive.find(
+                (person) => person?.name === fullName
               );
-
-              if (positiveIndex !== -1) {
-                statsByDepartment[departmentName].arrayPicturesPositive[
-                  positiveIndex
-                ].total++;
+  
+              if (positivePerson) {
+                positivePerson.total++;
               } else {
                 statsByDepartment[departmentName].arrayPicturesPositive.push({
                   name: fullName,
                   total: 1,
+                  clave:item['Clave']
                 });
               }
             } else {
-              const minusIndex = statsByDepartment[
-                departmentName
-              ].arrayPicturesMinus.findIndex(
-                (person: any) => person?.name === fullName
+              statsByDepartment[departmentName].pictureminus++;
+              const minusPerson = statsByDepartment[departmentName].arrayPicturesMinus.find(
+                (person) => person?.name === fullName
               );
-
-              if (minusIndex !== -1) {
-                statsByDepartment[departmentName].arrayPicturesMinus[minusIndex]
-                  .total++;
+  
+              if (minusPerson) {
+                minusPerson.total++;
               } else {
                 statsByDepartment[departmentName].arrayPicturesMinus.push({
                   name: fullName,
                   total: 1,
+                  clave:item['Clave']
                 });
               }
             }
           });
-
+  
           // Calcular el total para cada departamento
-          Object.values(statsByDepartment).forEach((departmentStats: any) => {
+          Object.values(statsByDepartment).forEach((departmentStats) => {
             departmentStats.total =
               departmentStats.picturepositive + departmentStats.pictureminus;
           });
-
+  
           // Convertir el objeto de estadísticas a un arreglo
           this.departmentSummary = Object.values(statsByDepartment);
           this.loading = false;
@@ -193,11 +179,12 @@ export class ReportkorimaComponent implements OnInit {
         },
       });
   }
+  
   selectGroup(select: string, option: boolean): void {
+    this.selectedObject.departament=select;
     const data = this.departmentSummary.find(
       (item: any) => item.key === select
     );
-    this.selectedObject.group = select;
     if (!data) {
       console.error('No se encontró el grupo con la clave:', select);
       return;
@@ -205,11 +192,11 @@ export class ReportkorimaComponent implements OnInit {
 
     if (option) {
     
-      this.departmentDesgloss = data['arrayPicturesPositive'];
       this.selectedObject.group = 'Con fotos';
+      this.departmentDesgloss = data['arrayPicturesPositive'];
     } else {
-      // this.departmentDesgloss = data['arrayPicturesMinus'];
-      this.selectedObject.option = 'Sin fotos';
+      this.selectedObject.group = 'Sin fotos';
+      this.departmentDesgloss = data['arrayPicturesMinus'];
     }
     this.modal = true;
   }
@@ -281,7 +268,7 @@ export class ReportkorimaComponent implements OnInit {
       this.saveAsExcelFile(
         excelBuffer,
         'reporte de los empleados por el departamento'+ ' ' +
-          this.selectedObject.group
+        this.selectedObject.departament
       );
     });
   }
