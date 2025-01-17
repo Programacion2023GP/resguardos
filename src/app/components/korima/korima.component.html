@@ -76,13 +76,13 @@
    <div class="flex mt-6 flex-row ">
 
      <ng-container *ngIf="roleTypeUser<3" >
-      <button
+      <!-- <button
       (click)="resetForm()"
       pTooltip="Buscar"
       class="shadow-md cursor-pointer hover:bg-sky-400 h-14 rounded-full mr-2 w-14 pt-2 bg-sky-200 max-lg:hidden max-lg:w-0 max-lg:h-0"
     >
     <li class="fa fa-search"></li>
-  </button>
+  </button> -->
     </ng-container>
      <button
      (click)="exportExcel()"
@@ -143,7 +143,7 @@
         </tr>
       </ng-template>
       <ng-template pTemplate="body" class="shadow-md" let-guards let-i="rowIndex">
-        <tr [ngClass]="{'bg-gray-50 text-gray-400': guards.motive_down}">
+        <tr *ngIf="!guards.autorized" [ngClass]="{'bg-gray-50 text-gray-400': guards.motive_down}">
           <td *ngIf="guards.picture; else noImage">
             <img
               (mouseenter)="zoomIn(guards.NumeroEconomicoKorima, guards.picture)"
@@ -204,7 +204,7 @@
                 <i class="fa fa-plus"></i>
               </button>
               <button
-                (click)="downKorima(guards.idResguardos)"
+                (click)="downKorima(guards.idResguardos,guards.NumeroEconomicoKorima)"
                 class="bg-orange-300 hover:bg-orange-400 text-gray-800 font-bold py-2 px-4 rounded-full shadow-md transition duration-300">
                 <i class="fas fa-ban"></i>
               </button>

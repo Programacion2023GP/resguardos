@@ -140,6 +140,19 @@
   </div>
   
   <div class="w-full">
+    <div class="mb-4">
+      <label for="filterOption" class="block text-sm font-medium text-gray-700">Filtrar </label>
+      <select 
+  (change)="filterByColor($event)" 
+  id="filterOption" 
+  class="mt-1 block w-full p-2 cursor-pointer bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+>
+  <option value="all">Mostrar todos</option>
+  <option value="orange">Autorización de bajas</option>
+</select>
+
+    </div>
+    
     <p-table
     #dt
     [tableStyle]="{ 'min-width': '50rem', 'overflow-auto': true }"

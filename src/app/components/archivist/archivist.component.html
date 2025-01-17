@@ -71,13 +71,22 @@
           <i class="fas fa-print"></i>
         </button>
     
-        <button
+        <div class="flex flex-row gap-1">
+          <button
         *ngIf="addRow()"
         class="bg-green-300 hover:bg-green-400 text-gray-800 font-bold py-2 px-4 rounded-full shadow-md transition duration-300"
-        (click)="authorize(guards)"
+        (click)="authorize(guards,1)"
     >
         <i class="fas fa-check"></i>
     </button>
+    <button
+    *ngIf="addRow()"
+    class="bg-red-300 hover:bg-red-400 text-gray-800 font-bold py-2 px-4 rounded-full shadow-md transition duration-300"
+    (click)="authorize(guards,0)"
+>
+    <i class="fas fa-trash"></i>
+</button>
+        </div>
       </td>
     </tr>
   </ng-template>

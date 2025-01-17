@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Table } from 'primeng/table';
 import { ServiceService } from 'src/app/service.service';
 import * as FileSaver from 'file-saver';
+import { Router } from '@angular/router';
 
 interface ExportColumn {
   title: string;
@@ -36,7 +37,7 @@ export class ReportkorimaComponent implements OnInit {
   loading: boolean = true;
   modal: boolean = false;
   selectedObject: Object = { group: '', option: 'reporte por departamentos',departament:"" };
-  constructor(private service: ServiceService<any>) {
+  constructor(private service: ServiceService<any>,private router: Router) {
     this.cols = [
       {
         field: 'key',
@@ -200,7 +201,10 @@ export class ReportkorimaComponent implements OnInit {
     }
     this.modal = true;
   }
+  redirectToKorima(clave:number){
+    this.router.navigate([`/Korima`, clave]);
 
+  }
   exportExcel() {
     import('xlsx').then((xlsx) => {
       const columnKeys = this.exportColumns.map((column) => column.title);

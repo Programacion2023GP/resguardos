@@ -88,6 +88,8 @@ export class ReguardsComponent {
   guards: any = [];
 
   guardSave: any = [];
+  guardCopy: any = [];
+
   conteo: number = 0;
   modal: boolean = false;
   options: boolean = false;
@@ -558,6 +560,7 @@ export class ReguardsComponent {
     this.service.Data<any>('guards').subscribe({
       next: (n: any) => {
         this.guardSave = n['data']['result'];
+        this.guardCopy= n['data']['result'];
       },
       error: (e: any) => {
         this.loading = false;
@@ -793,5 +796,19 @@ export class ReguardsComponent {
   getHeightPercentage(): string {
     const innerWidth = window.innerWidth;
     return innerWidth < 1025 ? '100vh' : '100vh';
+  }
+  filterByColor(event: any): void {
+    const filterValue = event.target.value;  // Obtiene el valor seleccionado
+
+    // Filtra según la opción seleccionada
+    let filteredItems = [];
+    if (filterValue === 'all') {
+      this.guardSave = this.guardCopy;  // Muestra todos los items
+    } else if (filterValue === 'orange') {
+      this.guardSave = this.guardCopy.filter(item => item.expecting === 1);  // Filtra por 'expecting == 1'
+    }
+
+    // Muestra el resultado filtrado en la consola
+    
   }
 }

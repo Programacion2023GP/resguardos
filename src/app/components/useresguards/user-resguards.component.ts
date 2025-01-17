@@ -357,4 +357,13 @@ buttonInformatica: any[]=[];
     });
 
     }
+    expandImage = ""
+    zoomIn(id:string,picture:string){
+      this.expandImage =picture
+    }
+    zoomOut(id:string,picture:string){
+      this.expandImage =""
+
+
+    }
 }

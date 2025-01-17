@@ -64,7 +64,8 @@ import { ArchivistComponent } from './components/archivist/archivist.component';
 import { AutorizeddownsComponent } from './components/autorizeddowns/autorizeddowns.component';
 import { ReportgroupsguardsComponent } from './components/reportgroupsguards/reportgroupsguards.component';
 import { ReportkorimaComponent } from './components/reportkorima/reportkorima.component';
-
+import {MatMenuModule} from '@angular/material/menu';
+import {MatButtonModule} from '@angular/material/button';
 @NgModule({
   declarations: [
     AppComponent,
@@ -123,8 +124,9 @@ import { ReportkorimaComponent } from './components/reportkorima/reportkorima.co
     MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule,
     NgxPrintModule,
     SignaturePadModule,
-    PickListModule
-    
+    PickListModule,
+    MatMenuModule,
+    MatButtonModule,
   ],
   providers: [    
     DatePipe,

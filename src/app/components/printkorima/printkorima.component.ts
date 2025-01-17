@@ -36,7 +36,6 @@ export class PrintkorimaComponent implements OnInit {
 item:any
   ngOnInit() { 
     this.service.data$.subscribe((data: any) => {
-      console.log("d",data.item)
          this.item = data.item
     });
   }

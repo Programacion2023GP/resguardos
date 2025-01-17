@@ -170,10 +170,25 @@
      </tr>
    </ng-template>
    <ng-template pTemplate="body" class="shadow-md" let-guards let-i="rowIndex">
-     <tr [ngClass]="{'bg-gray-50 text-gray-400':guards.used == 0 && guards.expecting == 0,
+     <tr *ngIf="!(guards.used == 0 && guards.expecting == 0)" [ngClass]="{'bg-gray-50 text-gray-400':guards.used == 0 && guards.expecting == 0,
     'bg-orange-200 text-gray-700': guards.expecting == 1
     }" >
-   
+      <td >
+        <img
+          (mouseenter)="zoomIn(guards.id, guards.picture)"
+          (mouseleave)="zoomOut(guards.id, guards.picture)"
+          [src]="guards.picture"
+          alt="Preview"
+          class="w-14 h-14 object-cover cursor-pointer"
+        />
+        <img
+        [name]="'zoom' + guards.id"
+        *ngIf="guards.picture == expandImage"
+        [src]="guards.picture"
+        alt="Preview"
+        class=" border-2 border-black object-cover fixed z-50 top-2 right-12 w-[800px] h-[500px]"
+        />
+      </td>
          <td  class="px-5 py-5 border-b border-gray-200  text-sm">{{ guards.stock_number }}</td>
          <td  class="px-5 py-5 border-b border-gray-200  text-sm">{{ guards.description }}</td>
          <td  class="px-5 py-5 border-b border-gray-200  text-sm">{{ guards.brand }}</td>

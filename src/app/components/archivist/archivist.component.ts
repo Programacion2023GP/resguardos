@@ -73,20 +73,20 @@ export class ArchivistComponent implements OnInit {
 
     return row; // Retornamos el resultado
 }
-authorize(row){
-  this.service.Post("korima/autorized",{id: row.idResguardos}).subscribe({
+authorize(row,option:number){
+  this.service.Post("korima/autorized",{id: row.idResguardos,option:option}).subscribe({
     next:(n)=>{
       this.Toast.fire({
         position: 'top-end',
         icon:'success',
-        title: 'la baja se a enviado a patrimonio',
+        title: `${option==1? 'la baja se a enviado a patrimonio':'se ha rechazado la baja '}`,
       });
       this.prueba()
     },error:(e)=>{
       this.Toast.fire({
         position: 'top-end',
         icon:"error",
-        title:'no se puede dar de baja',
+        title: `${option==1? 'no se puede dar de baja':'no se pudo cancelar la baja'}`,
       });
     }
   })
@@ -124,7 +124,6 @@ authorize(row){
                   if (exists) {
                     
                       const it: any = this.dataApiResguardos.filter((element: any) => element?.korima == item?.NumeroEconomicoKorima);
-  
                       if (it.length > 0) {
                       
                           

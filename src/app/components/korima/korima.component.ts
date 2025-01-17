@@ -70,23 +70,55 @@ descripcion: any;
 
   onFileChange(event: any) {
     if (event.target.files.length > 0) {
-      this.imagen = event.target.files[0]; // Captura el archivo seleccionado
+      const file = event.target.files[0]; // Captura el archivo seleccionado
+      
+      const maxSizeInMB = 2; // Establece el tamaño máximo en MB (2MB en este caso)
+      const maxSizeInBytes = maxSizeInMB * 1024 * 1024; // Convierte a bytes
+  
+      // Verifica si el archivo supera el tamaño máximo permitido
+      if (file.size <= maxSizeInBytes) {
+        this.imagen = file; // Asigna el archivo si es válido
+      } else {
+        this.Toast.fire({
+          position: 'top-end',
+          icon:'success',
+          title: `El archivo no puede exceder los ${maxSizeInMB}MB.`,
+        });
+        this.imagen = null; // Resetea si el archivo es demasiado grande
+      }
     }
   }
+  
   onFileChange2(event: any) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0]; // Captura el archivo seleccionado
   
-      // Opcional: Validaciones
       const validTypes = ['image/jpeg', 'image/png', 'image/gif']; // Tipos de archivo permitidos
-      if (validTypes.includes(file.type)) {
-        this.tag_picture = file; // Solo asigna si el tipo es válido
+      const maxSizeInMB = 2; // Establece el tamaño máximo en MB (2MB en este caso)
+      const maxSizeInBytes = maxSizeInMB * 1024 * 1024; // Convierte a bytes
+  
+      // Verifica el tipo de archivo y el tamaño
+      if (validTypes.includes(file.type) && file.size <= maxSizeInBytes) {
+        this.tag_picture = file; // Solo asigna si el tipo y el tamaño son válidos
       } else {
-        alert('Por favor, selecciona un archivo de imagen válido (JPEG, PNG, GIF).');
-        this.tag_picture = null; // Resetea si el tipo no es válido
+        if (!validTypes.includes(file.type)) {
+          this.Toast.fire({
+            position: 'top-end',
+            icon:'success',
+            title: `Por favor, selecciona un archivo de imagen válido (JPEG, PNG).`,
+          });
+        } else {
+          this.Toast.fire({
+            position: 'top-end',
+            icon:'success',
+            title: `El archivo no puede exceder los ${maxSizeInMB}MB.`,
+          });
+        }
+        this.tag_picture = null; // Resetea si no es válido
       }
     }
   }
+  
   // Método para manejar el submit del formulario
   onSubmit() {
   
@@ -193,7 +225,7 @@ descripcion: any;
     }
     // console.log('Input value:', event.target.value);
   }
-  downKorima(id: number) {
+  downKorima(id: number,korima:number) {
     Swal.fire({
       title: 'Motivo de baja',
       input: 'text',
@@ -212,7 +244,7 @@ descripcion: any;
         const motivo = result.value; // Obtén el motivo introducido por el usuario
   
         // Realiza la petición al servicio con el motivo
-        this.service.Post<any>('korima/down', { id, motive_down:motivo }).subscribe({
+        this.service.Post<any>('korima/down', { id, motive_down:motivo,korima }).subscribe({
           next: (response) => {
             Swal.fire('¡Éxito!', 'La baja ha sido registrada correctamente.', 'success');
             this.prueba();
@@ -234,11 +266,11 @@ descripcion: any;
         this.group = n[0].NombreDepartamento
         this.payroll = `${this.empleado}`;
         this.getKorima(n)
-        this.loading = false
 
       },
       error:(e)=>{
         this.korima = [];
+        this.loading = false
         this.service.Data<any>(`user/nomina/${this.empleado}`).subscribe({
           next:(n)=>{
             const item = n["data"]["result"][0]
@@ -266,7 +298,6 @@ descripcion: any;
         next: (n:any) => {
             const newData: any[] = [];
             dataApiResguardos = n['data']['result'];
-        this.loading = false
 
             // Log para verificar el contenido de dataApiResguardos
            
@@ -298,7 +329,13 @@ descripcion: any;
             });
 
             this.korima = newData;
+            this.loading = false
+
         },
+        error:(e:any)=>{
+          this.loading = false
+
+        }
     });
 }
 
@@ -647,7 +684,6 @@ constructor(private route: ActivatedRoute,private service:ServiceService<any>,pr
     }
     expandImage = ""
     zoomIn(id:string,picture:string){
-      console.log(picture)
       this.expandImage =picture
     }
     zoomOut(id:string,picture:string){
