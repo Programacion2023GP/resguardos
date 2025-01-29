@@ -72,7 +72,7 @@ descripcion: any;
     if (event.target.files.length > 0) {
       const file = event.target.files[0]; // Captura el archivo seleccionado
       
-      const maxSizeInMB = 2; // Establece el tamaño máximo en MB (2MB en este caso)
+      const maxSizeInMB = 4; // Establece el tamaño máximo en MB (2MB en este caso)
       const maxSizeInBytes = maxSizeInMB * 1024 * 1024; // Convierte a bytes
   
       // Verifica si el archivo supera el tamaño máximo permitido
@@ -94,7 +94,7 @@ descripcion: any;
       const file = event.target.files[0]; // Captura el archivo seleccionado
   
       const validTypes = ['image/jpeg', 'image/png', 'image/gif']; // Tipos de archivo permitidos
-      const maxSizeInMB = 2; // Establece el tamaño máximo en MB (2MB en este caso)
+      const maxSizeInMB = 4; // Establece el tamaño máximo en MB (2MB en este caso)
       const maxSizeInBytes = maxSizeInMB * 1024 * 1024; // Convierte a bytes
   
       // Verifica el tipo de archivo y el tamaño

@@ -291,6 +291,13 @@
               >
                 <li class="fas fa-check"></li>
               </button>
+              <button
+                pTooltip="Cancelar baja del resguardo"
+                (click)="CancelRemove(guards)"
+                class="mr-2 bg-red-300 hover:bg-red-500 text-white rounded-full p-2 transition duration-300"
+              >
+              <i class="fas fa-times"></i>
+            </button>
             </ng-container>
   
             <ng-container *ngIf="guards.resguard == 1 || guards.expecting == 1">

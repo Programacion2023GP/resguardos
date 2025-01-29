@@ -618,6 +618,30 @@ export class ReguardsComponent {
       },
     });
   }
+  CancelRemove(guards: any) {
+    this.loading = true;
+    this.service.Delete(`guards/canceldestroy/${guards.id}`).subscribe({
+      next: (n: any) => {
+        this.Toast.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: `se ha aceptado la cancelación de la baja correctamente`,
+        });
+      },
+      error: (e: any) => {
+        this.Toast.fire({
+          position: 'top-end',
+          icon: 'error',
+          title: `no se ha podido aceptar la cancelación de la baja`,
+        });
+        this.loading = false;
+      },
+      complete: () => {
+        this.loading = false;
+        this.getGuards();
+      },
+    });
+  }
   searchEmployeed(event: any) {
     this.service
       .OtherData<any>(
