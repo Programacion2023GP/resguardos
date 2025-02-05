@@ -37,6 +37,7 @@ item:any
   ngOnInit() { 
     this.service.data$.subscribe((data: any) => {
          this.item = data.item
+         console.log(this.item)
     });
   }
 

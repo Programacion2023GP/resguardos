@@ -221,6 +221,8 @@ buttonInformatica: any[]=[];
       }
     })
   }
+
+
   UnsuscribeGuards() {
     this.service.setData({
       name:this.name,
@@ -267,7 +269,7 @@ buttonInformatica: any[]=[];
       if (result.isConfirmed) {
         Swal.fire({
           title: 'Motivo de la baja',
-          input: 'text',
+          input: 'textarea',
           inputPlaceholder: 'Ingresa el motivo',
           showCancelButton: true,
           cancelButtonText: 'Cancelar',
@@ -301,6 +303,11 @@ buttonInformatica: any[]=[];
       }
     });
   }
+ 
+  
+  
+  
+  
   exportExcel() {
     import('xlsx').then((xlsx) => {
       const columnKeys = this.exportColumns.map((column) => column.title);

@@ -13,7 +13,7 @@
   <div class="flex items-center justify-center mt-6">
     <div class="max-w-xl mx-4"> <!-- Limitar el ancho del contenido -->
       <p class="mb-2">Apreciable Licenciado: por medio de la presente, reciba un cordial saludo.</p>
-      <p class="mb-2">El motivo del mismo es para solicitarle <strong class="font-semibold text-black">LA BAJA DE ACTIVOS</strong> de los bienes asignados al Departamento de {{item?.NombreDepartamento}}; los bienes en cuestión son los siguientes:</p>
+      <p class="mb-2">El motivo del mismo es para solicitarle <strong class="font-semibold text-black">{{item?.trauser_id? 'LA TRANSFERENCIA DEL ACTIVO' :'LA BAJA DE ACTIVOS' }} </strong> de los bienes asignados al Departamento de {{item?.NombreDepartamento}}; los bienes en cuestión son los siguientes:</p>
       
       <table  class="mt-10 w-full text-left table-auto border-collapse border border-gray-300 mb-4">
         <thead>
@@ -21,7 +21,12 @@
             <th class="border border-gray-300 px-2 py-1 text-sm">FOLIO</th>
             <th class="border border-gray-300 px-2 py-1 text-sm">BIEN</th>
             <th class="border border-gray-300 px-2 py-1 text-sm">SERIE</th>
-            <th class="border border-gray-300 px-2 py-1 text-sm">RESGUARDANTE</th>
+            <th class="border border-gray-300 px-2 py-1 text-sm">RESGUARDANTE {{item?.trauser_id}}</th>
+            <th [hidden]="!item?.trauser_id || item.trauser_id.length === 0"
+            class="border border-gray-300 px-2 py-1 text-sm">
+          TRANSFERENCIA A
+        </th>
+        
           </tr>
         </thead>
         <tbody>
@@ -30,12 +35,16 @@
             <td class="border border-gray-300 px-2 py-1 text-sm">{{item?.Descripcion }}</td>
             <td class="border border-gray-300 px-2 py-1 text-sm">{{item?.NoSerie }}</td>
             <td class="border border-gray-300 px-2 py-1 text-sm">{{item?.Nombres + " "+ item?.ApellidoPaterno + " "+  item?.ApellidoMaterno }}</td>
+       <td [hidden]="!item?.trauser_id || item.trauser_id.length === 0"
+       class="border border-gray-300 px-2 py-1 text-sm">
+       {{item?.trauser_id }}
+   </td>
           </tr>
         
         </tbody>
       </table>
 
-      <p class="mt-2 mb-2">Lo anterior debido a que ya se encuentran fuera de servicio y su reparación no es costeable.</p>
+      <p class="mt-2 mb-2">{{item?.trauser_id? '' :'Lo anterior debido a que ' }}    {{item?.motivedown }}</p>
       <p class="mb-2 mt-2">Sin más por el momento; me despido de usted, quedando a sus distinguidas órdenes para cualquier duda o aclaración al respecto.</p>
       
       <p class="text-center font-semibold mt-10">ATENTAMENTE</p>

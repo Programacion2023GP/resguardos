@@ -53,6 +53,7 @@ export class KorimaComponent implements OnInit {
 descripcion: any;
   imagen: any;
   tag_picture: any;
+  users:Array<Record<string,any>>=[]
 
   korima :any[] = []
   empleado: number | null =0  
@@ -88,7 +89,151 @@ descripcion: any;
       }
     }
   }
+    GetUsers(){
+
+    this.service.Data<any>(`userslist`).subscribe({
+      next:(n:any)=>{
+          this.users =n['data']['result']
+        
+      },
+      error:(n:any)=>{
+
+      }
+    })
+  }
+  changeGuard(guard: any) {
+    Swal.fire({
+      title: 'Transferencia de resguardo',
+      text: 'Selecciona un usuario',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Continuar',
+      cancelButtonText: 'Cancelar',
+
+
+      html: `
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; position: relative; width: 100%; height:300px;">
+  <input type="text" id="searchUser" class="swal2-input" placeholder="Buscar usuario" style="width: 95%; text-align: left; padding: 12px; font-size: 16px;">
+  <div id="autocompleteList" style="
+      width: 95%;
+      max-height: 250px; /* Más alto */
+      overflow-y: auto;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 8px; /* Bordes más suaves */
+      position: absolute;
+      top: 65px; /* Más abajo */
+      left: 2.5%;
+      z-index: 1000;
+      display: none;
+      padding: 10px; /* Espaciado interno */
+  "></div>
+</div>
+
+      `,
+      didOpen: () => {
+        const input = document.getElementById('searchUser') as HTMLInputElement;
+        const listContainer = document.getElementById('autocompleteList') as HTMLDivElement;
+        let selectedIndex = -1; // Para navegación con teclado
   
+        const updateList = (filter: string) => {
+          const filteredUsers = this.users.filter((user: any) =>
+            user.name.toLowerCase().includes(filter.toLowerCase())
+          );
+  
+          listContainer.innerHTML = '';
+          if (filteredUsers.length === 0) {
+            listContainer.style.display = 'none';
+            return;
+          }
+  
+          filteredUsers.forEach((user: any, index: number) => {
+            const item = document.createElement('div');
+            item.textContent = user.name;
+            item.setAttribute('data-id', user.id);
+            item.style.padding = '8px';
+            item.style.cursor = 'pointer';
+            item.style.borderBottom = '1px solid #eee';
+  
+            item.addEventListener('click', () => {
+              input.value = user.name;
+              input.setAttribute('data-id', user.id);
+              listContainer.style.display = 'none';
+            });
+  
+            item.addEventListener('mouseenter', () => {
+              selectedIndex = index;
+              highlightItem();
+            });
+  
+            listContainer.appendChild(item);
+          });
+  
+          listContainer.style.display = 'block';
+        };
+  
+        const highlightItem = () => {
+          Array.from(listContainer.children).forEach((child, index) => {
+            (child as HTMLElement).style.background = index === selectedIndex ? '#f0f0f0' : 'white';
+          });
+        };
+  
+        input.addEventListener('input', () => {
+          selectedIndex = -1;
+          updateList(input.value);
+        });
+  
+        input.addEventListener('keydown', (e) => {
+          const items = listContainer.children;
+          if (e.key === 'ArrowDown') {
+            selectedIndex = (selectedIndex + 1) % items.length;
+          } else if (e.key === 'ArrowUp') {
+            selectedIndex = (selectedIndex - 1 + items.length) % items.length;
+          } else if (e.key === 'Enter' && selectedIndex !== -1) {
+            (items[selectedIndex] as HTMLElement).click();
+          }
+          highlightItem();
+        });
+  
+        document.addEventListener('click', (e) => {
+          if (!input.contains(e.target as Node) && !listContainer.contains(e.target as Node)) {
+            listContainer.style.display = 'none';
+          }
+        });
+      },
+      preConfirm: () => {
+        const selectedUserId = (document.getElementById('searchUser') as HTMLInputElement).getAttribute('data-id');
+        if (!selectedUserId) {
+          Swal.showValidationMessage('Debes seleccionar un usuario');
+        }
+        console.log('Selected user ID:', selectedUserId); // Depuración
+        return selectedUserId;
+      }
+      
+    }).then((result) => {
+      if (result.isConfirmed) {
+      
+        this.service.Post(`korima/transfer`,{...result,
+          ...guard,
+          name:this.name
+        }).subscribe({
+          next:(n:any)=>{
+            this.loading = false
+              this.data =n['data']['result']
+              Swal.fire('¡Éxito!', 'La transferencia fue solicitada.', 'success');
+            this.prueba();
+
+          },
+          error:(n:any)=>{
+            this.loading = false
+
+          }
+        })
+      }
+    });
+  }
   onFileChange2(event: any) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0]; // Captura el archivo seleccionado
@@ -228,7 +373,7 @@ descripcion: any;
   downKorima(id: number,korima:number) {
     Swal.fire({
       title: 'Motivo de baja',
-      input: 'text',
+      input: 'textarea',
       inputPlaceholder: 'Escribe el motivo de la baja...',
       showCancelButton: true,
       confirmButtonText: 'Confirmar',
@@ -313,6 +458,7 @@ descripcion: any;
                         item.motive_down = it[0].motive_down || null;
                         item.observation = it[0].observation || "";
                         item.idResguardos = it[0].id || "";
+                        item.trauser_id = it[0].trauser_id || null;
 
                     }
                 } else {
@@ -443,6 +589,7 @@ constructor(private route: ActivatedRoute,private service:ServiceService<any>,pr
         this.prueba();
         
       }
+      this.GetUsers()
 
     });
     // this.route.params.subscribe(params => {

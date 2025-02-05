@@ -136,14 +136,14 @@
     >
       <ng-template pTemplate="header">
         <tr class="bg-gray-200">
-          <th *ngFor="let header of ['Imagen resguardo', 'Imagen con etiqueta', 'Numero de etiqueta', 'Nombre o descripción', 'marca y modelo', 'Numero serial', 'Estatus', 'ubicación', 'fecha de asignación del resguardo', 'Observaciones', 'Acciones']"
+          <th *ngFor="let header of ['Imagen resguardo', 'Imagen con etiqueta', 'Numero de etiqueta', 'Nombre o descripción', 'marca y modelo', 'Numero serial', 'Estatus', 'ubicación', 'fecha de asignación del resguardo', 'Observaciones','motivo de baja', 'Acciones']"
               class="px-5 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
             {{ header }}
           </th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" class="shadow-md" let-guards let-i="rowIndex">
-        <tr *ngIf="!guards.autorized" [ngClass]="{'bg-gray-50 text-gray-400': guards.motive_down}">
+        <tr *ngIf="!guards.autorized " [ngClass]="{'bg-gray-50 text-gray-400': guards.motive_down || guards.trauser_id}">
           <td *ngIf="guards.picture; else noImage">
             <img
               (mouseenter)="zoomIn(guards.NumeroEconomicoKorima, guards.picture)"
@@ -195,9 +195,11 @@
           <td class="px-5 py-5 text-sm">
             {{ guards.observation ? (guards.observation === 'undefined' ? '' : guards.observation) : '' }}
           </td>
-          
           <td class="px-5 py-5 text-sm">
-            <div *ngIf="!guards.motive_down" class="flex flex-row space-x-2">
+            {{ guards.motive_down ? (guards.motive_down === 'undefined' ? '' : guards.motive_down) : '' }}
+          </td>
+          <td class="px-5 py-5 text-sm">
+            <div *ngIf="!(guards.motive_down || guards.trauser_id)" class="flex flex-row space-x-2">
               <button
                 (click)="showDialog(guards.NumeroEconomicoKorima, guards.idResguardos)"
                 class="bg-purple-300 hover:bg-purple-400 text-gray-800 font-bold py-2 px-4 rounded-full shadow-md transition duration-300">
@@ -207,6 +209,13 @@
                 (click)="downKorima(guards.idResguardos,guards.NumeroEconomicoKorima)"
                 class="bg-orange-300 hover:bg-orange-400 text-gray-800 font-bold py-2 px-4 rounded-full shadow-md transition duration-300">
                 <i class="fas fa-ban"></i>
+              </button>
+                <button
+                (click)="changeGuard(guards)"
+                pTooltip="Transferencia de resguardo"
+                class="bg-sky-300 hover:bg-sky-500 text-white rounded-full p-2 transition-colors duration-200"
+                >
+                <i class="fa fa-sync-alt"></i>
               </button>
             </div>
           </td>

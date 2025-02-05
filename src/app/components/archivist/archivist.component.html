@@ -61,7 +61,9 @@
       <td class="px-5 py-5 text-sm">
         {{ guards.observation ? (guards.observation === 'undefined' ? '' : guards.observation) : '' }}
       </td>
-      
+      <td class="px-5 py-5 text-sm">
+        {{ guards.motive_down ? (guards.motive_down === 'undefined' ? '' : guards.motive_down) : '' }}
+      </td>
       <td  class="px-5 py-5 text-sm">
         <button
         *ngIf="!addRow()"
@@ -73,12 +75,18 @@
     
         <div class="flex flex-row gap-1">
           <button
-        *ngIf="addRow()"
-        class="bg-green-300 hover:bg-green-400 text-gray-800 font-bold py-2 px-4 rounded-full shadow-md transition duration-300"
+        *ngIf="addRow() "        class="bg-green-300 hover:bg-green-400 text-gray-800 font-bold py-2 px-4 rounded-full shadow-md transition duration-300"
         (click)="authorize(guards,1)"
     >
         <i class="fas fa-check"></i>
     </button>
+    <!-- <button
+    *ngIf="addRow() && guards.trauser_id"
+    class="bg-green-300 hover:bg-green-400 text-gray-800 font-bold py-2 px-4 rounded-full shadow-md transition duration-300"
+    (click)="authorize(guards,1)"
+>
+    <i class="fa fa-sync-alt"></i>
+</button> -->
     <button
     *ngIf="addRow()"
     class="bg-red-300 hover:bg-red-400 text-gray-800 font-bold py-2 px-4 rounded-full shadow-md transition duration-300"
