@@ -105,11 +105,51 @@
               ></i>
             </button>
           </li>
+          <li (click)="changeOptions()">
+            <button class="text-2xl transition duration-200">
+              <i class="fas fa-user"></i>
+
+            </button>
+          </li>
         </ul>
       </nav>
     </div>
   </div>
-
+  <div *ngIf="optionsUser" class="absolute z-[500] top-12 right-4 mt-2 w-64 p-4 bg-white border border-gray-300 rounded-lg shadow-lg space-y-4">
+    <!-- Título -->
+    <p class="font-semibold text-gray-800 text-lg">Perfil</p>
+    
+    <!-- Contenedor de Cambio de Contraseña -->
+    <div class="flex flex-col space-y-2 border-l-4 pl-4 border-purple-500">
+      <p class="font-medium text-gray-600">Cambio de contraseña</p>
+  
+      <!-- Input de búsqueda -->
+      <input
+        (input)="changePassword($event)"
+        type="password"
+        [ngClass]="{ 'bg-white': !timeDay, 'bg-gray-200': timeDay }"
+        class="pl-8 h-10 border border-gray-300 w-full rounded-md text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+        placeholder="Nueva contraseña"
+      />
+  
+      <!-- Botón Cambiar Contraseña -->
+      <button
+      (click)="changePasswordSubmit()"
+        class="w-full text-left p-2 bg-purple-500 text-white hover:bg-purple-600 focus:ring-2 focus:ring-purple-500 rounded-md font-medium transition duration-200"
+      >
+        Cambiar contraseña
+      </button>
+    </div>
+    
+    <!-- Opciones adicionales -->
+    <div *ngIf="false" class="mt-2 text-sm text-gray-600">
+      <p>Aquí puedes cambiar tu contraseña o realizar ajustes adicionales.</p>
+    </div>
+  </div>
+  
+  
+  
+  
   <!--
     NAVBAR SUPERION
   -->

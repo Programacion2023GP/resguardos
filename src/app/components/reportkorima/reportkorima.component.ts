@@ -163,16 +163,24 @@ export class ReportkorimaComponent implements OnInit {
               }
             }
           });
-  
-          // Calcular el total para cada departamento
-          Object.values(statsByDepartment).forEach((departmentStats) => {
-            departmentStats.total =
-              departmentStats.picturepositive + departmentStats.pictureminus;
-          });
-  
-          // Convertir el objeto de estadísticas a un arreglo
-          this.departmentSummary = Object.values(statsByDepartment);
+          if(localStorage.getItem("role") == '3'){
+            const departmentKey = localStorage.getItem("group") || '';  
+            console.log('departamento',departmentKey)
+            const departmentStats = statsByDepartment[departmentKey.toUpperCase()];
+            if (departmentStats) {
+              departmentStats.total = departmentStats.picturepositive + departmentStats.pictureminus;
+              this.departmentSummary = [departmentStats]; 
+            } 
+          } else {
+            Object.values(statsByDepartment).forEach((departmentStats) => {
+              departmentStats.total = departmentStats.picturepositive + departmentStats.pictureminus;
+            });
+          
+            this.departmentSummary = Object.values(statsByDepartment);
+          }
+          
           this.loading = false;
+          
         },
         error: (e) => {
           console.error('Error fetching data:', e);

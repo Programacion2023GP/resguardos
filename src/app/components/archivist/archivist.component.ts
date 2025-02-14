@@ -27,36 +27,38 @@ export class ArchivistComponent implements OnInit {
       toast.onmouseleave = Swal.resumeTimer;
     },
   });
-  headers = ['Imagen resguardo', 'Imagen con etiqueta', 'Numero de etiqueta', 'Nombre o descripción', 'marca y modelo', 'Numero serial', 'Estatus', 'ubicación', 'fecha de asignación del resguardo', 'Observaciones','Motivo de baja o transferencia','Acciones']
+  headers = ['Imagen resguardo', 'Imagen con etiqueta', 'Numero de etiqueta', 'Nombre o descripción', 'marca y modelo', 'Numero serial', 'Estatus', 'ubicación', 'fecha de asignación del resguardo', 'Observaciones', 'Motivo de baja','Motivo de transferencia','Acciones']
   loading:boolean=false
   constructor(private service:ServiceService<any>,private dialogService: DialogService) { 
     this.roleTypeUser = parseInt(this.roleTypeUser)
     this.roleTypeUser== 3 && this.headers.unshift('Resguardante')
 
   }
-  GetUsers(role:any = null){
+  GetUsers(role: any = null) {
     this.service.Data<any>(`users${role != null ? `/${role}` : ''}`).subscribe({
-      next:(n:any)=>{
-       const copyKorima = this.data
-       this.korima = []
-        this.users = n['data']['result']
-        const payrolls = this.users.filter(item => item.payroll).map(item => item.payroll)
-        copyKorima.map((item:any) =>{
-          if (payrolls.includes(parseInt(item.Clave)) && item.motive_down && !item.autorized || payrolls.includes(parseInt(item.Clave)) && item.trauser_id && !item.autorized) {
-             this.korima.push(item)
-            
-          }else{
-
+      next: (n: any) => {
+        const copyKorima = this.data;
+        this.korima = [];
+        this.users = n['data']['result'];
+        console.log("aca", this.data, this.users);
+  
+        const payrolls = this.users
+          .filter(item => item.payroll)
+          .map(item => item.payroll);
+        copyKorima.forEach((item: any) => { // 🔹 Cambiado de map() a forEach()
+          if (payrolls.includes(Number(item.Clave)) && item.motive_down && !item.autorized) {
+            this.korima.push(item);
           }
-        })
-        this.loading = false
+        });
+        this.korima =    this.korima.sort((a, b) => b.id - a.id)
+        this.loading = false;
       },
-      error:(e)=>{
-        this.loading = false
-
+      error: (e) => {
+        this.loading = false;
       }
-    })
+    });
   }
+  
   ngOnInit() {
  
   this.prueba()
@@ -79,14 +81,14 @@ authorize(row,option:number){
       this.Toast.fire({
         position: 'top-end',
         icon:'success',
-        title: `${option==1? 'se a enviado a patrimonio':'se ha rechazado '}`,
+        title: `${option==1? 'la baja se a enviado a patrimonio':'se ha rechazado la baja '}`,
       });
       this.prueba()
     },error:(e)=>{
       this.Toast.fire({
         position: 'top-end',
         icon:"error",
-        title: `${option==1? 'no se puede hacer la accion ':'no se pudo cancelar '}`,
+        title: `${option==1? 'no se puede dar de baja':'no se pudo cancelar la baja'}`,
       });
     }
   })
@@ -126,7 +128,6 @@ authorize(row,option:number){
                       const it: any = this.dataApiResguardos.filter((element: any) => element?.korima == item?.NumeroEconomicoKorima);
                       if (it.length > 0) {
                       
-                        item.id = it[0].id || "";
                           
                         item.picture = it[0].picture || "";
                           item.tag_picture = it[0].tag_picture || "";
@@ -135,7 +136,7 @@ authorize(row,option:number){
                           item.idResguardos = it[0].id || "";
                           item.autorized = it[0].autorized || false;
                           item.trauser_id = it[0].trauser_id || null;
-                          item.user_id = it[0].user_id || null;
+                          item.motivetransfer = it[0].motivetransfer || null;
 
                       }
                   } else {
@@ -146,27 +147,23 @@ authorize(row,option:number){
                       item.idResguardos = null;
   
                   }
+  
                   item.existe = exists;
                   if(role!==null){
-                    if( parseInt(role,10)==3 && item.motive_down ){
+                    if( parseInt(role,10)==3 && item.motive_down){
                        
                       newData.push(item);
                     }
-                    else if( parseInt(role,10) !=3 && item.motive_down && item.autorized || parseInt(role,10) !=3 && item.trauser_id && item.user_id && item.autorized){
+                    else if( parseInt(role,10) !=3 && item.motive_down && item.autorized){
                       newData.push(item);
   
                     }
-                    else if( parseInt(role,10)==3 && item.trauser_id && item.user_id) {
-                      newData.push(item);
-
-                      // console.log("d",item)
-                    }
                     else if(item.motive_down) {
-                      // console.log("d",item)
+                      console.log("d",item)
                     }
                   }
               });
-              this.korima = newData.sort((a, b) => b.id - a.id);
+              this.data = newData.sort((a, b) => b.id - a.id);
               if (role !== null) {
                 
                 if(parseInt(role,10) ==3){
@@ -174,12 +171,12 @@ authorize(row,option:number){
                   this.GetUsers()
                 }
                 else{
-                  this.korima = newData;
+                  this.korima =  newData.sort((a, b) => b.id - a.id);
                   
                 this.loading = false
               }
             }else{
-              this.korima = newData;
+              this.korima =  newData.sort((a, b) => b.id - a.id);
 
                 this.loading = false
               }
@@ -210,4 +207,3 @@ authorize(row,option:number){
   
     }
 }
-

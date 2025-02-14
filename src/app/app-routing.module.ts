@@ -21,6 +21,8 @@ import { KorimaComponent } from './components/korima/korima.component';
 import { ArchivistComponent } from './components/archivist/archivist.component';
 import { ReportgroupsguardsComponent } from './components/reportgroupsguards/reportgroupsguards.component';
 import { ReportkorimaComponent } from './components/reportkorima/reportkorima.component';
+import { StockComponent } from './components/stock/stock.component';
+import { StocklistComponent } from './components/stocklist/stocklist.component';
 
 const routes: Routes = [
   {path:"",component:LoginComponent,
@@ -93,6 +95,14 @@ const routes: Routes = [
   {
     path:'Archivos',
     component:ArchivistComponent
+  },
+  {
+    path:'Stock',
+    component:StockComponent
+  },
+  {
+    path:'StockList',
+    component:StocklistComponent
   },
   ]
 

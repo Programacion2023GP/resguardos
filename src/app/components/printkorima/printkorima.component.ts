@@ -34,13 +34,38 @@ export class PrintkorimaComponent implements OnInit {
  
   }
 item:any
+currentDate: Date = new Date();
+
+// Método para formatear la fecha en el formato requerido
+getFormattedDate(): string {
+  const day = this.currentDate.getDate();
+  const month = this.currentDate.toLocaleString('default', { month: 'long' });
+  const year = this.currentDate.getFullYear();
+
+  return `Gómez Palacio, Dgo; a ${day} de ${month} de ${year}`;
+}
   ngOnInit() { 
     this.service.data$.subscribe((data: any) => {
-         this.item = data.item
-         console.log(this.item)
+        this.service.Post('users/firmas',{
+          group:data.item['NombreDepartamento']
+        }).subscribe({
+          next: (res:any) => {
+            this.item = data.item
+            this.item['img_stamp'] = res['data']['result']['img_stamp']
+            this.item['img_firm'] = res['data']['result']['img_firm']
+            this.item['name'] = res['data']['result']['name'] + ' ' +res['data']['result']['paternal_last_name'] + ' ' +res['data']['result']['maternal_last_name']
+
+        
+          },
+          error: (e:any) => {
+            console.error('Error al obtener firma:', e);
+          },
+          complete:()=>{
+          }
+        })
     });
   }
-
+ 
   imprimir(): void {
     const element = document.getElementById('pEl'); // Asegúrate de que este sea el ID correcto
     if (element) {

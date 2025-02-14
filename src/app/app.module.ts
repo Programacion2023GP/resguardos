@@ -66,6 +66,8 @@ import { ReportgroupsguardsComponent } from './components/reportgroupsguards/rep
 import { ReportkorimaComponent } from './components/reportkorima/reportkorima.component';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonModule} from '@angular/material/button';
+import { StockComponent } from './components/stock/stock.component';
+import { StocklistComponent } from './components/stocklist/stocklist.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -92,7 +94,9 @@ import {MatButtonModule} from '@angular/material/button';
     ArchivistComponent,
     AutorizeddownsComponent,
     ReportgroupsguardsComponent,
-    ReportkorimaComponent
+    ReportkorimaComponent,
+    StockComponent,
+    StocklistComponent
   ],
   imports: [
     HttpClientModule,

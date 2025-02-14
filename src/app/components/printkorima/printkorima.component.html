@@ -26,7 +26,10 @@
             class="border border-gray-300 px-2 py-1 text-sm">
           TRANSFERENCIA A
         </th>
-        
+        <th [hidden]="!item?.motivetransfer"
+        class="border border-gray-300 px-2 py-1 text-sm">
+      MOTIVO DE TRANSFERENCIA
+    </th>
           </tr>
         </thead>
         <tbody>
@@ -39,6 +42,10 @@
        class="border border-gray-300 px-2 py-1 text-sm">
        {{item?.trauser_id }}
    </td>
+   <td [hidden]="!item?.motivetransfer"
+   class="border border-gray-300 px-2 py-1 text-sm">
+   {{item?.motivetransfer }}
+</td>
           </tr>
         
         </tbody>
@@ -48,9 +55,18 @@
       <p class="mb-2 mt-2">Sin más por el momento; me despido de usted, quedando a sus distinguidas órdenes para cualquier duda o aclaración al respecto.</p>
       
       <p class="text-center font-semibold mt-10">ATENTAMENTE</p>
-      <p class="text-center font-semibold">Gómez Palacio, Dgo; a 23 de mayo de 2023</p>
-
+      <p class="text-center font-semibold">{{ getFormattedDate() }}</p>
+      <div class="w-full flex flex-col gap-6 items-center justify-center">
+        <img [src]="item?.img_stamp" alt="Sello" class="w-32 h-32 object-contain  ">
+        <img [src]="item?.img_firm" alt="Firma" class="w-40 h-20 object-contain  ">
+    </div>
+    
+    <p class="mt-4 text-start text-sm text-gray-600 font-medium">
+      Firmado por <span class="font-semibold text-black">{{ item?.name }}</span>
+    </p>
+    
       <p class="mt-40 text-start font-light text-sm">C .c p Archivo.</p>
+      
 
     </div>
   </div>

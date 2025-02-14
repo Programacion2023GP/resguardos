@@ -1,23 +1,17 @@
 <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
-<div
-	class="bg-purple-900 absolute top-0 left-0 bg-gradient-to-b from-gray-900 via-gray-900 to-purple-800 bottom-0 leading-5 h-full w-full overflow-hidden">
 
-</div>
-<div
-	class="relative   min-h-screen  sm:flex sm:flex-row  justify-center bg-transparent rounded-3xl shadow-xl">
-	<div class="flex-col flex  self-center lg:px-14 sm:max-w-4xl xl:max-w-md  z-10">
-		<div class="self-start hidden lg:flex flex-col  text-gray-300">
-			
-			<h1 class="my-3 font-semibold text-4xl">Resguardos</h1>
-			<p class="pr-3 text-sm opacity-75">
-      </p>
-      
-		</div>
-    <div class="max-w-xs bg-purple-900 mt-4 text-sm text-white rounded-md shadow-lg mb-3 ml-3 " role="alert">
+<div class="bg-purple-900 absolute top-0 left-0 bg-gradient-to-b from-gray-900 via-gray-900 to-purple-800 bottom-0 leading-5 h-full w-full overflow-hidden"></div>
+<div class="relative min-h-screen sm:flex sm:flex-row justify-center bg-transparent rounded-3xl shadow-xl">
+  <div class="flex-col flex self-center lg:px-14 sm:max-w-4xl xl:max-w-md z-10">
+    <div class="self-start hidden lg:flex flex-col text-gray-300">
+      <h1 class="my-3 font-semibold text-4xl">Resguardos</h1>
+      <p class="pr-3 text-sm opacity-75"></p>
+    </div>
+    <div class="max-w-xs bg-purple-900 mt-4 text-sm text-white rounded-md shadow-lg mb-3 ml-3" role="alert">
       <div class="flex p-4">
-		Si no tienes una cuenta comunícate con el área de patrimonio  
+        Si no tienes una cuenta comunícate con el área de patrimonio
         <div class="ml-auto">
-          <button type="button" class="inline-flex flex-shrink-0 justify-center items-center h-4 w-4 rounded-md text-white/[.5] hover:text-white  transition-all text-sm  ">
+          <button type="button" class="inline-flex flex-shrink-0 justify-center items-center h-4 w-4 rounded-md text-white/[.5] hover:text-white transition-all text-sm">
             <span class="sr-only">Close</span>
             <svg class="w-3.5 h-3.5" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M0.92524 0.687069C1.126 0.486219 1.39823 0.373377 1.68209 0.373377C1.96597 0.373377 2.2382 0.486219 2.43894 0.687069L8.10514 6.35813L13.7714 0.687069C13.8701 0.584748 13.9882 0.503105 14.1188 0.446962C14.2494 0.39082 14.3899 0.361248 14.5321 0.360026C14.6742 0.358783 14.8151 0.38589 14.9468 0.439762C15.0782 0.493633 15.1977 0.573197 15.2983 0.673783C15.3987 0.774389 15.4784 0.894026 15.5321 1.02568C15.5859 1.15736 15.6131 1.29845 15.6118 1.44071C15.6105 1.58297 15.5809 1.72357 15.5248 1.85428C15.4688 1.98499 15.3872 2.10324 15.2851 2.20206L9.61883 7.87312L15.2851 13.5441C15.4801 13.7462 15.588 14.0168 15.5854 14.2977C15.5831 14.5787 15.4705 14.8474 15.272 15.046C15.0735 15.2449 14.805 15.3574 14.5244 15.3599C14.2437 15.3623 13.9733 15.2543 13.7714 15.0591L8.10514 9.38812L2.43894 15.0591C2.23704 15.2543 1.96663 15.3623 1.68594 15.3599C1.40526 15.3574 1.13677 15.2449 0.938279 15.046C0.739807 14.8474 0.627232 14.5787 0.624791 14.2977C0.62235 14.0168 0.730236 13.7462 0.92524 13.5441L6.59144 7.87312L0.92524 2.20206C0.724562 2.00115 0.611816 1.72867 0.611816 1.44457C0.611816 1.16047 0.724562 0.887983 0.92524 0.687069Z" fill="currentColor"/>
@@ -26,88 +20,67 @@
         </div>
       </div>
     </div>
-	</div>
-	<div class="flex justify-center self-center  z-10">
-		<div class="p-12 bg-white mx-auto rounded-3xl w-96 ">
-			<form action="" [formGroup]="myForm" (ngSubmit)="onSubmit()">
-				<div class="mb-7 flex flex-col items-center">
-					<div class="relative bg-white rounded-md  w-14 h-14 flex items-center justify-center overflow-hidden mb-2">
-						<img src="../../../assets/icon.png" class="absolute inset-0 w-full h-full object-cover">
-					</div>
-					<h3 class="font-semibold text-2xl text-gray-800">Iniciar sesión</h3>
-				</div>
-				
-			<div class="space-y-6">
-				<div class="">
-					<input
-					autocomplete="new-password"
-					formControlName="email"
-					class="w-full text-sm  px-4 py-3 bg-gray-200  border  border-gray-200 rounded-lg  " type="" placeholder="Correó institucional">
-            </div>
-           
-					<div class="relative" x-data="{ show: true }">
-						<input 
-						formControlName="password"
-						autocomplete="false"
+  </div>
+  <div class="flex justify-center self-center z-10">
+    <div class="p-12 bg-white mx-auto rounded-3xl w-96">
+      <form action="" [formGroup]="myForm" (ngSubmit)="onSubmit()">
+        <div class="mb-7 flex flex-col items-center">
+          <div class="relative bg-white rounded-md w-14 h-14 flex items-center justify-center overflow-hidden mb-2">
+            <img src="../../../assets/icon.png" class="absolute inset-0 w-full h-full object-cover">
+          </div>
+          <h3 class="font-semibold text-2xl text-gray-800">Iniciar sesión</h3>
+        </div>
+        <div class="space-y-6">
+          <div class="">
+            <input
+              autocomplete="new-password"
+              formControlName="email"
+              class="w-full text-sm px-4 py-3 bg-gray-200 border border-gray-200 rounded-lg"
+              type="email" placeholder="Correo institucional">
+          </div>
 
-						placeholder="Contraseña" type="password" class="text-sm text-gray-200 px-4 py-3 rounded-lg w-full bg-gray-200  border border-gray-200  "class=" w-full text-sm  px-4 py-3 bg-gray-200  border  border-gray-200 rounded-lg  ">
-						<div class="flex items-center absolute inset-y-0 right-0 mr-3  text-sm leading-5">
+          <div class="relative">
+            <input
+              formControlName="password"
+              autocomplete="false"
+              placeholder="Contraseña"
+              type="password"
+              class="w-full text-sm px-4 py-3 bg-gray-200 border border-gray-200 rounded-lg">
+          </div>
 
-						
-							
+          <div>
+            <ng-container *ngIf="!myForm.invalid">
+              <button type="submit" class="w-full flex justify-center bg-purple-800 hover:bg-purple-700 text-gray-100 p-3 rounded-lg tracking-wide font-semibold cursor-pointer transition ease-in duration-500">
+                Iniciar sesión
+              </button>
+            </ng-container>
+            <ng-container *ngIf="myForm.invalid">
+              <button type="button" disabled
+                class="w-full flex justify-center bg-gray-300 cursor-not-allowed text-gray-100 p-3 rounded-lg tracking-wide font-semibold cursor-pointer transition ease-in duration-500">
+                Iniciar sesión
+              </button>
+            </ng-container>
+          </div>
 
-						</div>
-					</div>
+          <div class="mt-7 text-center text-gray-300 text-xs">
+            <span>
+              Copyright © 2023-2025
+            </span>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 
+<footer class="bg-transparent absolute w-full bottom-0 left-0 z-30">
+  <div class="container p-5 mx-auto flex items-center justify-between">
+    <div class="flex mr-auto"></div>
+  </div>
+</footer>
 
-					<div class="flex items-center justify-between">
+<svg class="absolute bottom-0 left-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+  <path fill="#fff" fill-opacity="1" d="M0,0L40,42.7C80,85,160,171,240,197.3C320,224,400,192,480,154.7C560,117,640,75,720,74.7C800,75,880,117,960,154.7C1040,192,1120,224,1200,213.3C1280,203,1360,149,1400,122.7L1440,96L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z"></path>
+</svg>
 
-						<div class="text-sm ml-auto">
-							
-						</div>
-					</div>
-					<div>
-						
-						<ng-container *ngIf="!myForm.invalid" >
-							<button type="submit" 
-							class="w-full flex justify-center bg-purple-800  hover:bg-purple-700 text-gray-100 p-3  rounded-lg tracking-wide font-semibold  cursor-pointer transition ease-in duration-500">
-					Inciar sesión 
-				  </button>
-						</ng-container>
-						<ng-container *ngIf="myForm.invalid" >
-							<button type="button" 
-							disabled
-							class="w-full flex justify-center bg-gray-300 cursor-not-allowed  text-gray-100 p-3  rounded-lg tracking-wide font-semibold  cursor-pointer transition ease-in duration-500">
-					Inciar sesión 
-				  </button>
-						</ng-container>
-					</div>
-				
-					<div class="flex justify-center gap-5 w-full ">
-
-						
-
-					
-
-					</div>
-				</div>
-				<div class="mt-7 text-center text-gray-300 text-xs">
-					<span>
-                Copyright © 2023-2025
-              </span>
-              
-				</div>
-			</form>
-			</div>
-		</div>
-	</div>
-	<footer class="bg-transparent absolute w-full bottom-0 left-0 z-30">
-	<div class="container p-5 mx-auto  flex items-center justify-between ">
-		<div class="flex mr-auto">
-		</div>
-
-	</div>
-	</footer>
-
-<svg class="absolute bottom-0 left-0 " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#fff" fill-opacity="1" d="M0,0L40,42.7C80,85,160,171,240,197.3C320,224,400,192,480,154.7C560,117,640,75,720,74.7C800,75,880,117,960,154.7C1040,192,1120,224,1200,213.3C1280,203,1360,149,1400,122.7L1440,96L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z"></path></svg>
 <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js"></script>

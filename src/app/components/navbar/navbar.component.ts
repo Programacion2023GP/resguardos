@@ -7,6 +7,7 @@ import { ServiceService } from 'src/app/service.service';
 import { repeatfadeInOutAnimation } from 'src/app/components/animations/animate';
 import { Location } from '@angular/common';
 import { filter } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-navbar',
@@ -43,6 +44,7 @@ export class NavbarComponent {
   ];
   selected: any;
   animationState!: string;
+  optionsUser:boolean = false
   openFolder: string = ''; // Estado para saber si el dropdown está abierto o cerrado
   menuItems = [
     {
@@ -139,14 +141,14 @@ export class NavbarComponent {
         },
         {
           id: 7,
-          name: 'Oficios de baja',
+          name: 'Oficios',
           link: '/Archivos',
           icon: ' fas fa-user-shield',
           permised: [1, 2],
         },
         {
           id: 8,
-          name: 'Autorizar bajas',
+          name: 'Oficios',
           link: '/Archivos',
           icon: ' fas fa-check-circle',
           permised: [3],
@@ -161,12 +163,39 @@ export class NavbarComponent {
               icon: 'fas fa-file-alt',
               permised: [1, 2],
             },
+            {
+              id: 4,
+              name: `Estatus por ${localStorage.getItem("group")}`,
+              link: '/ReporteKorima',
+              icon: 'fas fa-file-alt',
+              permised: [3],
+            },
 
             // Agregar más elementos aquí si es necesario
           ],
         },
       ],
     },
+    {
+      title:'Stock',
+      subItems:[
+        {
+          id: 9,
+          name: 'Alta',
+          link: '/Stock',
+          icon: 'fas fa-file-signature',
+          permised: [3],
+        },
+        {
+          id: 10,
+          name: 'Stock',
+          link: '/Stock',
+          icon: 'fas fa-list',
+          permised: [1, 2],
+        },
+        // Agregar más elementos aquí si es necesario
+      ]
+    }
   ];
   hasPermission(subItems: any[]): boolean {
     return subItems.some((subItem) => {
@@ -180,8 +209,10 @@ export class NavbarComponent {
       return false;
     });
   }
-  
-  
+  changeOptions(){
+
+    this.optionsUser = !this.optionsUser
+  }
   ngOnInit(): void {
     // Detect changes in the route
     this.router.events
@@ -320,6 +351,41 @@ export class NavbarComponent {
         },
         error: (e: any) => {},
       });
+  }
+  password:string=''
+  changePassword(event: any) {
+    this.password =event.target.value
+  }
+  public Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
+  changePasswordSubmit(){
+    this.service.Post(`users/changepassword`,{password:this.password}).subscribe({
+      next: (n: any) => {
+        this.Toast.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: `contraseña cambiada`,
+        });
+        this.optionsUser = false
+        this.password=''
+      },
+      error: (e: any) => {
+        this.Toast.fire({
+          position: 'top-end',
+          icon: 'error',
+          title: `no se puede cambiar la contraseña`,
+        });
+      }
+    })
   }
   searchUser(event: any) {
     this.selected = null;

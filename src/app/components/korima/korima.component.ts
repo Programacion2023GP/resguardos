@@ -72,20 +72,71 @@ descripcion: any;
   onFileChange(event: any) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0]; // Captura el archivo seleccionado
-      
+      const validTypes = ['image/jpeg', 'image/png', 'image/gif']; // Tipos de archivo permitidos
+
       const maxSizeInMB = 4; // Establece el tamaño máximo en MB (2MB en este caso)
       const maxSizeInBytes = maxSizeInMB * 1024 * 1024; // Convierte a bytes
-  
+      if (validTypes.includes(file.type) && file.size <= maxSizeInBytes) {
+        this.imagen = file; // Asigna el archivo si es válido
+      }
       // Verifica si el archivo supera el tamaño máximo permitido
       if (file.size <= maxSizeInBytes) {
         this.imagen = file; // Asigna el archivo si es válido
+      }
+      else {
+        if (!validTypes.includes(file.type)) {
+          this.Toast.fire({
+            position: 'top-start',
+            icon:'success',
+            title: `Por favor, selecciona un archivo de imagen válido (JPEG, PNG).`,
+          });
+        } else {
+          this.Toast.fire({
+            position: 'top-start',
+            icon:'success',
+            title: `El archivo no puede exceder los ${maxSizeInMB}MB.`,
+          });
+        }
+        this.tag_picture = null; // Resetea si no es válido
+      }
+      
+      // else {
+      //   this.Toast.fire({
+      //     position: 'top-start',
+      //     icon:'success',
+      //     title: `El archivo no puede exceder los ${maxSizeInMB}MB.`,
+      //   });
+      //   this.imagen = null; // Resetea si el archivo es demasiado grande
+      // }
+    }
+  }
+  onFileChange2(event: any) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0]; // Captura el archivo seleccionado
+  
+      const validTypes = ['image/jpeg', 'image/png', 'image/gif']; // Tipos de archivo permitidos
+      const maxSizeInMB = 4; // Establece el tamaño máximo en MB (2MB en este caso)
+      const maxSizeInBytes = maxSizeInMB * 1024 * 1024; // Convierte a bytes
+  
+      // Verifica el tipo de archivo y el tamaño
+      if (validTypes.includes(file.type) && file.size <= maxSizeInBytes) {
+        // console.log('imagen 2',this.tag_picture)
+        this.tag_picture = file; // Solo asigna si el tipo y el tamaño son válidos
       } else {
-        this.Toast.fire({
-          position: 'top-end',
-          icon:'success',
-          title: `El archivo no puede exceder los ${maxSizeInMB}MB.`,
-        });
-        this.imagen = null; // Resetea si el archivo es demasiado grande
+        if (!validTypes.includes(file.type)) {
+          this.Toast.fire({
+            position: 'top-start',
+            icon:'success',
+            title: `Por favor, selecciona un archivo de imagen válido (JPEG, PNG).`,
+          });
+        } else {
+          this.Toast.fire({
+            position: 'top-start',
+            icon:'success',
+            title: `El archivo no puede exceder los ${maxSizeInMB}MB.`,
+          });
+        }
+        this.tag_picture = null; // Resetea si no es válido
       }
     }
   }
@@ -131,10 +182,13 @@ descripcion: any;
       padding: 10px; /* Espaciado interno */
   "></div>
 </div>
+<label class='w-full text-start text-lg font-bold'>Explica el porque la transferencia</label>
+<textarea  id="downmotive" class="w-full p-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500" rows="4" placeholder="Escribe tu mensaje aquí..."></textarea>
 
       `,
       didOpen: () => {
         const input = document.getElementById('searchUser') as HTMLInputElement;
+
         const listContainer = document.getElementById('autocompleteList') as HTMLDivElement;
         let selectedIndex = -1; // Para navegación con teclado
   
@@ -205,6 +259,7 @@ descripcion: any;
       },
       preConfirm: () => {
         const selectedUserId = (document.getElementById('searchUser') as HTMLInputElement).getAttribute('data-id');
+        
         if (!selectedUserId) {
           Swal.showValidationMessage('Debes seleccionar un usuario');
         }
@@ -214,10 +269,12 @@ descripcion: any;
       
     }).then((result) => {
       if (result.isConfirmed) {
-      
+        const textaerea = (document.getElementById('downmotive') as HTMLInputElement).value;
+      console.log("aqui",textaerea)
         this.service.Post(`korima/transfer`,{...result,
           ...guard,
-          name:this.name
+          name:this.name,
+          motivetransfer:textaerea
         }).subscribe({
           next:(n:any)=>{
             this.loading = false
@@ -234,35 +291,7 @@ descripcion: any;
       }
     });
   }
-  onFileChange2(event: any) {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0]; // Captura el archivo seleccionado
-  
-      const validTypes = ['image/jpeg', 'image/png', 'image/gif']; // Tipos de archivo permitidos
-      const maxSizeInMB = 4; // Establece el tamaño máximo en MB (2MB en este caso)
-      const maxSizeInBytes = maxSizeInMB * 1024 * 1024; // Convierte a bytes
-  
-      // Verifica el tipo de archivo y el tamaño
-      if (validTypes.includes(file.type) && file.size <= maxSizeInBytes) {
-        this.tag_picture = file; // Solo asigna si el tipo y el tamaño son válidos
-      } else {
-        if (!validTypes.includes(file.type)) {
-          this.Toast.fire({
-            position: 'top-end',
-            icon:'success',
-            title: `Por favor, selecciona un archivo de imagen válido (JPEG, PNG).`,
-          });
-        } else {
-          this.Toast.fire({
-            position: 'top-end',
-            icon:'success',
-            title: `El archivo no puede exceder los ${maxSizeInMB}MB.`,
-          });
-        }
-        this.tag_picture = null; // Resetea si no es válido
-      }
-    }
-  }
+ 
   
   // Método para manejar el submit del formulario
   onSubmit() {
@@ -459,6 +488,8 @@ descripcion: any;
                         item.observation = it[0].observation || "";
                         item.idResguardos = it[0].id || "";
                         item.trauser_id = it[0].trauser_id || null;
+                        item.id = it[0].id || null;
+                        item.motivetransfer = it[0].motivetransfer || null;
 
                     }
                 } else {

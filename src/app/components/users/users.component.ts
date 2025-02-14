@@ -57,7 +57,7 @@ export class UsersComponent implements OnInit {
   names:any=[]
   namesEnlance:any=[]
   namesEnlanceSearch: any=[];
-
+  showDropdown3:any
   originalData:any=[]
   exportColumns!: ExportColumn[];
   cols!: Column[];
@@ -80,6 +80,8 @@ export class UsersComponent implements OnInit {
   report!: any[];
   group!:string
   groups: any;
+  groupsafter: any;
+
   groupsCopy:any;
   groupSelects: any[] = []; 
   openGroups!: Boolean ;
@@ -130,6 +132,9 @@ existEmali!: Boolean;
     this.service.OtherData<any>(`https://declaraciones.gomezpalacio.gob.mx/nominas/departamentos/infraesctruturagobmxpalaciopeticioninsegura`).subscribe({
       next: (n:any) => {
          this.groups = n.RESPONSE.recordsets[0]
+         this.groupsafter = n.RESPONSE.recordsets[0]
+
+         console.log('grupos',this.groups)
           this.resetListGroups()
       },
       error: (e:any) => {
@@ -205,6 +210,15 @@ existEmali!: Boolean;
     }
    
   }
+  selectOption3(name:string): void {
+    this.showDropdown3 = false;
+    console.log("aqui",name)
+  
+      this.MyForm.get('group')?.setValue(`${name}`)
+
+    
+   
+  }
   hideText(): void {
     this.showProfiles = false; // Borra el texto al salir
   }
@@ -218,9 +232,18 @@ existEmali!: Boolean;
       this.showDropdown2 = false;
     }, 200);
   }
+  onBlur3(): void {
+    setTimeout(() => {
+      this.showDropdown3 = false;
+    }, 200);
+  }
   showAllOptions2(): void {
     this.filteredOptions2 = this.names;
     this.showDropdown2 = true;
+  }
+  showAllOptions3(): void {
+    // this.filteredOptions3 = this.groups;
+    this.showDropdown3 = true;
   }
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
@@ -554,6 +577,13 @@ existEmali!: Boolean;
       this.MyForm.get('payroll')?.setValue(``)
       this.names =this.namesafter;
       this.names = this.names.filter(option => option.nombre.toLowerCase().includes(event.target.value));
+    }
+    GetNameDepartament(event: any) {
+      // this.MyForm.get('name')?.setValue(``)
+      this.MyForm.get('group')?.setValue(``)
+      // this.MyForm.get('payroll')?.setValue(``)
+      this.groupsafter =this.groups;
+      this.groupsafter = this.groupsafter.filter(option => option.departamento.toLowerCase().includes(event.target.value));
     }
     groupSelected(group: any) {
       const index = this.groupsCopy.findIndex((item) => item.departamento === group.departamento);

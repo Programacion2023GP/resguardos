@@ -1,24 +1,11 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import Swal from 'sweetalert2';
-import { Table } from 'primeng/table';
-import * as FileSaver from 'file-saver';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { DialogService } from 'primeng/dynamicdialog';
-import { fadeInOutAnimation } from 'src/app/components/animations/animate';
-
-// import * as xlsx from 'xlsx';
-import 'jspdf-autotable';
-
 import { ServiceService } from 'src/app/service.service';
-import { Route, Router } from '@angular/router';
-import { TicketComponent } from '../ticket/ticket.component';
-import { ReportresguardsComponent } from '../reportresguards/reportresguards.component';
-
+import Swal from 'sweetalert2';
+import * as FileSaver from 'file-saver';
+import { Table } from 'primeng/table';
 interface Column {
   field: string;
   header: string;
@@ -38,12 +25,12 @@ interface Option2 {
   name: string;
 }
 @Component({
-  selector: 'app-reguards',
-  templateUrl: './reguards.component.html',
-  styleUrls: ['./reguards.component.css'],
-  animations: [fadeInOutAnimation],
+  selector: 'app-stock',
+  templateUrl: './stock.component.html',
+  styleUrls: ['./stock.component.css']
 })
-export class ReguardsComponent {
+
+export class StockComponent  {
   roleTypeUser: any = localStorage.getItem('role');
 
   groups: any = [];
@@ -505,9 +492,9 @@ export class ReguardsComponent {
       }
     }
 
-    let url = 'guards';
+    let url = 'stock/register';
     if (this.action != 'insert') {
-      url = 'guards/update';
+      url = 'stock/update';
     }
 
     this.service.Post(url, form).subscribe({
@@ -516,7 +503,7 @@ export class ReguardsComponent {
           position: 'top-end',
           icon: 'success',
           title: `Se ha ${
-            url == 'guards' ? 'insertado' : 'actualizado'
+            url == 'stock/register' ? 'insertado' : 'actualizado'
           } correctamente`,
         });
       },
@@ -525,7 +512,7 @@ export class ReguardsComponent {
           position: 'top-end',
           icon: 'error',
           title: ` No se ha podido ${
-            url == 'guards' ? 'insertar' : 'actualizar'
+            url == 'stock/register' ? 'insertar' : 'actualizar'
           }`,
         });
         this.modal = false;
@@ -557,7 +544,7 @@ export class ReguardsComponent {
   getGuards() {
     this.loading = true;
 
-    this.service.Data<any>('guards').subscribe({
+    this.service.Data<any>('stock/list').subscribe({
       next: (n: any) => {
         this.guardSave = n['data']['result'];
         this.guardCopy= n['data']['result'];
@@ -572,7 +559,7 @@ export class ReguardsComponent {
   }
   removeGuard(id: number) {
     this.loading = true;
-    this.service.Delete(`guardsdestroy/${id}`).subscribe({
+    this.service.Delete(`stock/destroy/${id}`).subscribe({
       next: (n: any) => {
         this.Toast.fire({
           position: 'top-end',
@@ -699,6 +686,7 @@ export class ReguardsComponent {
     }
   }
   changeResguardState(guard: any) {
+    // Si el guardia está activo
     if (guard.active == 1) {
       Swal.fire({
         title: 'Motivo de la baja',
@@ -718,70 +706,52 @@ export class ReguardsComponent {
           const json = {
             motive: motivoResult.value,
           };
-
-          this.service.Post(`guardsdestroy/${guard.id}`, json).subscribe({
+  
+          this.service.Post(`stock/destroy/${guard.id}`, json).subscribe({
             next: () => {
               this.getGuards();
               this.Toast.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: `se a cambiado el estado`,
+                title: `Se ha cambiado el estado a inactivo`,
               });
             },
-            error: () => {
+            error: (err) => {
               this.getGuards();
-              if (guard.active == 1) {
-                this.Toast.fire({
-                  position: 'top-end',
-                  icon: 'error',
-                  title: `no se puede dar de baja ya que esta en uso`,
-                });
-              }
+              this.Toast.fire({
+                position: 'top-end',
+                icon: 'error',
+                title: `No se puede dar de baja ya que está en uso`,
+              });
             },
           });
         }
       });
     } else {
-      this.service.Post(`guardsdestroy/${guard.id}`, {}).subscribe({
+      // Si el guardia no está activo (quiere ser activado)
+      this.service.Post(`stock/destroy/${guard.id}`, {}).subscribe({
         next: () => {
           this.getGuards();
           this.Toast.fire({
             position: 'top-end',
             icon: 'success',
-            title: `se a cambiado el estado`,
+            title: `Se ha cambiado el estado a activo`,
           });
         },
         error: () => {
           this.getGuards();
-          if (guard.active == 1) {
-            this.Toast.fire({
-              position: 'top-end',
-              icon: 'error',
-              title: `no se puede dar de baja ya que esta en uso`,
-            });
-          }
+          this.Toast.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: `No se puede activar, hay un error`,
+          });
         },
       });
     }
   }
-  print(guard: any) {
-    this.service.setData({ guard });
-    const ref = this.dialogService.open(TicketComponent, {
-      // header: this.name,
-      width: '80%',
-      contentStyle: { 'max-height': '80%', overflow: 'auto' },
-    });
-  }
-  reportResguards() {
-    this.service.setData({
-      guards: this.guardSave.filter((item: any) => item.active == 1),
-    });
-    const ref = this.dialogService.open(ReportresguardsComponent, {
-      // header: this.name,
-      width: '90%',
-      contentStyle: { 'max-height': '90%', overflow: 'auto' },
-    });
-  }
+  
+
+  
   expandImage = ""
   zoomIn(id:string,picture:string){
     this.expandImage =picture
@@ -834,5 +804,4 @@ export class ReguardsComponent {
 
     // Muestra el resultado filtrado en la consola
     
-  }
-}
+  }}
