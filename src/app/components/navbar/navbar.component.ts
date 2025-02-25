@@ -20,7 +20,7 @@ export class NavbarComponent {
   isAnimateMenu: Boolean = false;
   items: MenuItem[] | undefined;
   isExpanded = false;
-  idUserZoom:number|null=null
+  idUserZoom: number | null = null;
   roleTypeUser: any = localStorage.getItem('role');
   users: any[] = [];
   listUsers: any[] = [];
@@ -44,7 +44,7 @@ export class NavbarComponent {
   ];
   selected: any;
   animationState!: string;
-  optionsUser:boolean = false
+  optionsUser: boolean = false;
   openFolder: string = ''; // Estado para saber si el dropdown está abierto o cerrado
   menuItems = [
     {
@@ -55,7 +55,7 @@ export class NavbarComponent {
           name: 'Gestión de Usuarios',
           link: '/Usuarios',
           icon: 'fas fa-users',
-          permised: [1, 2,3],
+          permised: [1, 2, 3],
         },
         {
           id: 1,
@@ -164,8 +164,15 @@ export class NavbarComponent {
               permised: [1, 2],
             },
             {
+              id: 5,
+              name: 'Departamentos ',
+              link: '/ReporteKorimaDepartamento',
+              icon: 'fas fa-file-alt',
+              permised: [1, 2,3],
+            },
+            {
               id: 4,
-              name: `Estatus por ${localStorage.getItem("group")}`,
+              name: `Estatus por ${localStorage.getItem('group')}`,
               link: '/ReporteKorima',
               icon: 'fas fa-file-alt',
               permised: [3],
@@ -176,42 +183,39 @@ export class NavbarComponent {
         },
       ],
     },
-    {
-      title:'Stock',
-      subItems:[
-        {
-          id: 9,
-          name: 'Alta',
-          link: '/Stock',
-          icon: 'fas fa-file-signature',
-          permised: [3],
-        },
-        {
-          id: 10,
-          name: 'Stock',
-          link: '/Stock',
-          icon: 'fas fa-list',
-          permised: [1, 2],
-        },
-        // Agregar más elementos aquí si es necesario
-      ]
-    }
+    // {
+    //   title:'Stock',
+    //   subItems:[
+    //     {
+    //       id: 9,
+    //       name: 'Alta',
+    //       link: '/Stock',
+    //       icon: 'fas fa-file-signature',
+    //       permised: [3],
+    //     },
+    //     {
+    //       id: 10,
+    //       name: 'Stock',
+    //       link: '/Stock',
+    //       icon: 'fas fa-list',
+    //       permised: [1, 2],
+    //     },
+    //     // Agregar más elementos aquí si es necesario
+    //   ]
+    // }
   ];
   hasPermission(subItems: any[]): boolean {
     return subItems.some((subItem) => {
-     
-      
       // Verificar que permised es un arreglo
       if (Array.isArray(subItem.permised)) {
         return subItem.permised.includes(this.roleTypeUser);
       }
-      
+
       return false;
     });
   }
-  changeOptions(){
-
-    this.optionsUser = !this.optionsUser
+  changeOptions() {
+    this.optionsUser = !this.optionsUser;
   }
   ngOnInit(): void {
     // Detect changes in the route
@@ -230,16 +234,16 @@ export class NavbarComponent {
 
   // Method to update the selected item based on the current route
   updateSelectedItem(): void {
-    const currentUrl = window.location.hash.split("/")[1]; // Obtén la primera parte de la ruta después del hash
-  
+    const currentUrl = window.location.hash.split('/')[1]; // Obtén la primera parte de la ruta después del hash
+
     const findSelectedItem = (items: any[]): any => {
       for (let item of items) {
-        const itemLink = item.link?.split("/")[1]; // Obtén solo la primera parte del link del item
-  
+        const itemLink = item.link?.split('/')[1]; // Obtén solo la primera parte del link del item
+
         if (itemLink && currentUrl === itemLink) {
           return item; // Retorna el elemento si coincide con la ruta
         }
-  
+
         if (item.subItems && item.subItems.length > 0) {
           const found = findSelectedItem(item.subItems); // Busca recursivamente en los submenús
           if (found) return found;
@@ -247,11 +251,10 @@ export class NavbarComponent {
       }
       return null; // Retorna null si no se encuentra ningún elemento
     };
-  
+
     const selected = findSelectedItem(this.menuItems);
     this.selectedItem = selected ? selected.name : null; // Actualiza el ítem seleccionado
   }
-  
 
   changeItemSelected(selected: string): void {
     // Reset selectedItemMenu when a new item is selected
@@ -352,9 +355,9 @@ export class NavbarComponent {
         error: (e: any) => {},
       });
   }
-  password:string=''
+  password: string = '';
   changePassword(event: any) {
-    this.password =event.target.value
+    this.password = event.target.value;
   }
   public Toast = Swal.mixin({
     toast: true,
@@ -363,29 +366,31 @@ export class NavbarComponent {
     timer: 3000,
     timerProgressBar: true,
     didOpen: (toast) => {
-      toast.addEventListener('mouseenter', Swal.stopTimer)
-      toast.addEventListener('mouseleave', Swal.resumeTimer)
-    }
-  })
-  changePasswordSubmit(){
-    this.service.Post(`users/changepassword`,{password:this.password}).subscribe({
-      next: (n: any) => {
-        this.Toast.fire({
-          position: 'top-end',
-          icon: 'success',
-          title: `contraseña cambiada`,
-        });
-        this.optionsUser = false
-        this.password=''
-      },
-      error: (e: any) => {
-        this.Toast.fire({
-          position: 'top-end',
-          icon: 'error',
-          title: `no se puede cambiar la contraseña`,
-        });
-      }
-    })
+      toast.addEventListener('mouseenter', Swal.stopTimer);
+      toast.addEventListener('mouseleave', Swal.resumeTimer);
+    },
+  });
+  changePasswordSubmit() {
+    this.service
+      .Post(`users/changepassword`, { password: this.password })
+      .subscribe({
+        next: (n: any) => {
+          this.Toast.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: `contraseña cambiada`,
+          });
+          this.optionsUser = false;
+          this.password = '';
+        },
+        error: (e: any) => {
+          this.Toast.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: `no se puede cambiar la contraseña`,
+          });
+        },
+      });
   }
   searchUser(event: any) {
     this.selected = null;
@@ -407,12 +412,10 @@ export class NavbarComponent {
       this.users = this.listUsers;
     }
   }
-  zoomIn(id:number){
-    this.idUserZoom=id
+  zoomIn(id: number) {
+    this.idUserZoom = id;
   }
-  zoomOut(id:number){
-
-    this.idUserZoom=null
-
+  zoomOut(id: number) {
+    this.idUserZoom = null;
   }
 }

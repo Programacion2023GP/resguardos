@@ -23,100 +23,100 @@ import { ReportgroupsguardsComponent } from './components/reportgroupsguards/rep
 import { ReportkorimaComponent } from './components/reportkorima/reportkorima.component';
 import { StockComponent } from './components/stock/stock.component';
 import { StocklistComponent } from './components/stocklist/stocklist.component';
+import { ReportdepartamentkorimaComponent } from './components/reportdepartamentkorima/reportdepartamentkorima.component';
 
 const routes: Routes = [
-  {path:"",component:LoginComponent,
-  canActivate:[AuthenticationGuard]
-
-},
-{
-  path:"",component:NavbarComponent,
-  canActivate:[AcessGuard],
-  children:[
+  { path: '', component: LoginComponent, canActivate: [AuthenticationGuard] },
   {
-    path: 'Resguardos',
+    path: '',
+    component: NavbarComponent,
+    canActivate: [AcessGuard],
+    children: [
+      {
+        path: 'Resguardos',
         pathMatch: 'full',
-        component:ReguardsComponent
-  },
-  {
-    path: 'Ticket',
-        component:TicketComponent
-  },
-  
-  {
-    path:'Usuarios',
-    pathMatch: 'full',
-    component:UsersComponent
-  },
-  {
-    path:'Reportedepartamentos',
-    pathMatch: 'full',
-    component:ReportgroupsguardsComponent
-  },
-{
-  path:'ReporteKorima',
-  pathMatch: 'full',
-  component:ReportkorimaComponent
-},
-  
-  {
-    path:'Graficas',
-    pathMatch: 'full',
-    component:ChartsComponent
-  },
-  {
-    path:'ResguardosUsuarios/:id',
-    component:UserResguardsComponent
-  },
-  {
-    path:'TiposResguardos',
-    component:TypesguardsComponent
-  },
-  {
-    path:'Estados',
-    component:StatesComponent
-  },
-  {
-    path:'Plantilla',
-    component:ChangebackgroundimageComponent
-  },
-  {
-    path:'Firma',
-    component:SignatureComponent
-  },
-  {
-    path:'Korima',
-    component:KorimaComponent
-  },
-  {
-    path:'Korima/:id',
-    component:KorimaComponent
-  },
-  {
-    path:'Archivos',
-    component:ArchivistComponent
-  },
-  {
-    path:'Stock',
-    component:StockComponent
-  },
-  {
-    path:'StockList',
-    component:StocklistComponent
-  },
-  ]
+        component: ReguardsComponent,
+      },
+      {
+        path: 'Ticket',
+        component: TicketComponent,
+      },
 
-},
-{
-  path:'Informacion/:id',
-  component:InfoguardComponent
-}
-
-
+      {
+        path: 'Usuarios',
+        pathMatch: 'full',
+        component: UsersComponent,
+      },
+      {
+        path: 'Reportedepartamentos',
+        pathMatch: 'full',
+        component: ReportgroupsguardsComponent,
+      },
+      {
+        path: 'ReporteKorima',
+        pathMatch: 'full',
+        component: ReportkorimaComponent,
+      },
+      {
+        path: 'ReporteKorimaDepartamento',
+        pathMatch: 'full',
+        component: ReportdepartamentkorimaComponent,
+      },
+      {
+        path: 'Graficas',
+        pathMatch: 'full',
+        component: ChartsComponent,
+      },
+      {
+        path: 'ResguardosUsuarios/:id',
+        component: UserResguardsComponent,
+      },
+      {
+        path: 'TiposResguardos',
+        component: TypesguardsComponent,
+      },
+      {
+        path: 'Estados',
+        component: StatesComponent,
+      },
+      {
+        path: 'Plantilla',
+        component: ChangebackgroundimageComponent,
+      },
+      {
+        path: 'Firma',
+        component: SignatureComponent,
+      },
+      {
+        path: 'Korima',
+        component: KorimaComponent,
+      },
+      {
+        path: 'Korima/:id',
+        component: KorimaComponent,
+      },
+      {
+        path: 'Archivos',
+        component: ArchivistComponent,
+      },
+      {
+        path: 'Stock',
+        component: StockComponent,
+      },
+      {
+        path: 'StockList',
+        component: StocklistComponent,
+      },
+    ],
+  },
+  {
+    path: 'Informacion/:id',
+    component: InfoguardComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

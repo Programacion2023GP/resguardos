@@ -8,11 +8,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatPaginatorModule} from '@angular/material/paginator';
-import { MatSortModule} from '@angular/material/sort';
-import {MatTableModule} from '@angular/material/table';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { ToolbarModule } from 'primeng/toolbar';
@@ -43,7 +43,7 @@ import { ReguardsComponent } from './components/resguards/reguards.component';
 import { UserResguardsComponent } from './components/useresguards/user-resguards.component';
 import { UserprintresguardsactiveComponent } from './components/userprintresguardsactive/userprintresguardsactive.component';
 import { DialogService } from 'primeng/dynamicdialog';
-import {  DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { GroupsComponent } from './components/groups/groups.component';
 import { NgxPrintModule } from 'ngx-print';
 import { TypesguardsComponent } from './components/typesguards/typesguards.component';
@@ -64,10 +64,12 @@ import { ArchivistComponent } from './components/archivist/archivist.component';
 import { AutorizeddownsComponent } from './components/autorizeddowns/autorizeddowns.component';
 import { ReportgroupsguardsComponent } from './components/reportgroupsguards/reportgroupsguards.component';
 import { ReportkorimaComponent } from './components/reportkorima/reportkorima.component';
-import {MatMenuModule} from '@angular/material/menu';
-import {MatButtonModule} from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
 import { StockComponent } from './components/stock/stock.component';
 import { StocklistComponent } from './components/stocklist/stocklist.component';
+import { ReportdepartamentkorimaComponent } from './components/reportdepartamentkorima/reportdepartamentkorima.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -96,7 +98,8 @@ import { StocklistComponent } from './components/stocklist/stocklist.component';
     ReportgroupsguardsComponent,
     ReportkorimaComponent,
     StockComponent,
-    StocklistComponent
+    StocklistComponent,
+    ReportdepartamentkorimaComponent,
   ],
   imports: [
     HttpClientModule,
@@ -125,24 +128,28 @@ import { StocklistComponent } from './components/stocklist/stocklist.component';
     MultiSelectModule,
     DropdownModule,
     QRCodeModule,
-    MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
     NgxPrintModule,
     SignaturePadModule,
     PickListModule,
     MatMenuModule,
     MatButtonModule,
   ],
-  providers: [    
+  providers: [
     DatePipe,
     DialogService,
-    MessageService, {
-    provide:HTTP_INTERCEPTORS,
-    useClass:AuthInterceptor,
-    multi:true
-  },
-  {provide: LocationStrategy, useClass: HashLocationStrategy}
-
-],
-  bootstrap: [AppComponent]
+    MessageService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

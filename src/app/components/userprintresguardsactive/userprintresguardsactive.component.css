@@ -1,0 +1,484 @@
+/* Estilos generales */
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-start {
+  justify-content: flex-start;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+.justify-around {
+  justify-content: space-around;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-start {
+  text-align: start;
+}
+
+.text-xs {
+  font-size: 0.75rem; /* 12px */
+}
+
+.text-sm {
+  font-size: 0.875rem; /* 14px */
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.font-light {
+  font-weight: 300;
+}
+
+.m-2 {
+  margin: 0.5rem; /* 8px */
+}
+
+.my-4 {
+  margin-top: 1rem; /* 16px */
+  margin-bottom: 1rem; /* 16px */
+}
+
+.mt-4 {
+  margin-top: 1rem; /* 16px */
+}
+
+.mt-12 {
+  margin-top: 3rem; /* 48px */
+}
+
+.p-1 {
+  padding: 0.25rem; /* 4px */
+}
+
+.p-4 {
+  padding: 1rem; /* 16px */
+}
+
+.pb-2 {
+  padding-bottom: 0.5rem; /* 8px */
+}
+
+.pb-4 {
+  padding-bottom: 1rem; /* 16px */
+}
+
+.pl-2 {
+  padding-left: 0.5rem; /* 8px */
+}
+
+.leading-10 {
+  line-height: 2.5rem; /* 40px */
+}
+
+.w-1/12 {
+  width: 8.333333%;
+}
+
+.w-2/12 {
+  width: 16.666667%;
+}
+
+.w-3/12 {
+  width: 25%;
+}
+
+.w-4/12 {
+  width: 33.333333%;
+}
+
+.w-9/12 {
+  width: 75%;
+}
+
+.w-11/12 {
+  width: 91.666667%;
+}
+
+.w-20 {
+  width: 5rem; /* 80px */
+}
+
+.h-20 {
+  height: 5rem; /* 80px */
+}
+
+.h-16 {
+  height: 4rem; /* 64px */
+}
+
+.h-1 {
+  height: 0.25rem; /* 4px */
+}
+
+.h-9/12 {
+  height: 75%;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.border {
+  border-width: 1px;
+  border-style: solid;
+}
+
+.border-b {
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+}
+
+.border-double {
+  border-style: double;
+}
+
+.border-gray-400 {
+  border-color: #9ca3af;
+}
+
+.border-gray-500 {
+  border-color: #6b7280;
+}
+
+.bg-gray-300 {
+  background-color: #d1d5db;
+}
+
+.bg-white {
+  background-color: #ffffff;
+}
+
+.rounded-md {
+  border-radius: 0.375rem; /* 6px */
+}
+
+.shadow-md {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.object-cover {
+  object-fit: cover;
+}
+
+.text-gray-400 {
+  color: #9ca3af;
+}
+
+.text-4xl {
+  font-size: 2.25rem; /* 36px */
+}
+
+.absolute {
+  position: absolute;
+}
+
+.relative {
+  position: relative;
+}
+
+.right-0 {
+  right: 0;
+}
+
+.mr-10 {
+  margin-right: 2.5rem; /* 40px */
+}
+
+.pr-10 {
+  padding-right: 2.5rem; /* 40px */
+}
+
+.page-break {
+  page-break-after: always;
+}
+
+/* Estilos específicos para el PDF */
+#pEl {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+#pEl .flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#pEl .w-20 {
+  width: 5rem;
+  height: 5rem;
+  padding: 1rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow: hidden;
+}
+
+#pEl .w-20 img {
+  width: 75%;
+  height: 75%;
+}
+
+#pEl .mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#pEl .text-center {
+  text-align: center;
+}
+
+#pEl .font-bold {
+  font-weight: bold;
+}
+
+#pEl .font-light {
+  font-weight: 300;
+}
+
+#pEl .m-2 {
+  margin: 0.5rem;
+}
+
+#pEl .text-xs {
+  font-size: 0.75rem;
+}
+
+#pEl hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: 2px solid #6b7280;
+}
+
+#pEl .bg-gray-300 {
+  background-color: #d1d5db;
+}
+
+#pEl .border-solid {
+  border-style: solid;
+}
+
+#pEl .border-gray-400 {
+  border-color: #9ca3af;
+}
+
+#pEl .w-3/12 {
+  width: 25%;
+}
+
+#pEl .w-4/12 {
+  width: 33.333333%;
+}
+
+#pEl .w-2/12 {
+  width: 16.666667%;
+}
+
+#pEl .w-9/12 {
+  width: 75%;
+}
+
+#pEl .text-sm {
+  font-size: 0.875rem;
+}
+
+#pEl .p-1 {
+  padding: 0.25rem;
+}
+
+#pEl .border {
+  border-width: 1px;
+}
+
+#pEl .mt-4 {
+  margin-top: 1rem;
+}
+
+#pEl .pb-2 {
+  padding-bottom: 0.5rem;
+}
+
+#pEl .pl-2 {
+  padding-left: 0.5rem;
+}
+
+#pEl .font-bold {
+  font-weight: bold;
+}
+
+#pEl .page-break {
+  page-break-after: always;
+}
+
+#pEl .relative {
+  position: relative;
+}
+
+#pEl .absolute {
+  position: absolute;
+}
+
+#pEl .right-0 {
+  right: 0;
+}
+
+#pEl .mr-10 {
+  margin-right: 2.5rem;
+}
+
+#pEl .pr-10 {
+  padding-right: 2.5rem;
+}
+
+#pEl .border-t {
+  border-top-width: 1px;
+}
+
+#pEl .border-gray-400 {
+  border-color: #9ca3af;
+}
+
+#pEl .w-1/12 {
+  width: 8.333333%;
+}
+
+#pEl .w-11/12 {
+  width: 91.666667%;
+}
+
+#pEl .rounded-md {
+  border-radius: 0.375rem;
+}
+
+#pEl .shadow-md {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+#pEl .w-16 {
+  width: 4rem;
+}
+
+#pEl .h-16 {
+  height: 4rem;
+}
+
+#pEl .flex.items-center.justify-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#pEl .text-gray-400 {
+  color: #9ca3af;
+}
+
+#pEl .text-4xl {
+  font-size: 2.25rem;
+}
+
+#pEl .object-cover {
+  object-fit: cover;
+}
+
+#pEl .border-b.border-double {
+  border-bottom-style: double;
+}
+
+#pEl .leading-10 {
+  line-height: 2.5rem;
+}
+
+#pEl .h-1 {
+  height: 0.25rem;
+}
+
+#pEl .h-20 {
+  height: 5rem;
+}
+
+#pEl .text-center.text-xs {
+  text-align: center;
+  font-size: 0.75rem;
+}
+
+#pEl .border.flex.flex-col.w-3/12 {
+  border-width: 1px;
+  border-style: solid;
+  display: flex;
+  flex-direction: column;
+  width: 25%;
+}
+
+#pEl .border-b.border-double.text-center {
+  border-bottom-width: 1px;
+  border-bottom-style: double;
+  text-align: center;
+}
+
+#pEl .text-center.text-xs {
+  text-align: center;
+  font-size: 0.75rem;
+}
+
+#pEl .border.flex.flex-col.w-3/12 {
+  border-width: 1px;
+  border-style: solid;
+  display: flex;
+  flex-direction: column;
+  width: 25%;
+}
+
+#pEl .border-b.border-double.text-center {
+  border-bottom-width: 1px;
+  border-bottom-style: double;
+  text-align: center;
+}
+
+#pEl .text-center.text-xs {
+  text-align: center;
+  font-size: 0.75rem;
+}

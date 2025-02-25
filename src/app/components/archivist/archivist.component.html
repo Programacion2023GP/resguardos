@@ -1,4 +1,27 @@
 <div class="w-full mt-4 max-h-screen max-sm:w-1/2 sm:w-1/2 md:w-full">
+  <div class="w-full">
+    <div class="mb-4">
+      <label for="filterOption" class="block text-sm font-medium text-gray-700">Filtrar </label>
+      <select 
+  (change)="filterByColor($event)" 
+  id="filterOption" 
+  class="mt-1 block w-full p-2 cursor-pointer bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+>
+  <option value="all">Mostrar todos</option>
+  <option value="t">Transferencias</option>
+  <option value="ta">Transferencias autorizadas</option>
+  <option value="tc">Transferencias canceladas</option>
+  <option value="tp">Transferencias pendientes</option>
+
+  <option value="b">Bajas</option>
+  <option value="bc">Bajas canceladas</option>
+  <option value="ba">Bajas autorizadas</option>
+  <option value="bt">Bajas pendientes</option>
+
+
+</select>
+
+    </div>
   <p-table
   #dt
   styleClass="mt-2"
@@ -23,8 +46,8 @@
     </tr>
   </ng-template>
   <ng-template pTemplate="body" class="shadow-md" let-guards let-i="rowIndex">
-    <tr >
-      <td *ngIf="addRow()" class="px-5 py-5 text-sm">{{ guards.Nombres + ' ' + guards.ApellidoPaterno  + ' ' + guards.ApellidoMaterno}}</td>
+    <tr [ngClass]="{'bg-red-100':guards.archivist ==0 && !addRow(),'bg-green-100':guards.archivist ==1 && !addRow()}">
+      <td *ngIf="addRow()" class="px-5 py-5 text-sm" >{{ guards.Nombres + ' ' + guards.ApellidoPaterno  + ' ' + guards.ApellidoMaterno}}</td>
       <td *ngIf="guards.picture; else noImage">
         <img
           (mouseenter)="zoomIn(guards.NumeroEconomicoKorima, guards.picture)"
@@ -67,6 +90,9 @@
       <td class="px-5 py-5 text-sm">
         {{ guards.motivetransfer ? (guards.motivetransfer === 'undefined' ? '' : guards.motivetransfer) : '' }}
       </td>
+          <td class="px-5 py-5 text-sm">
+        {{ guards.motivearchivist ? (guards.motivearchivist === 'undefined' ? '' : guards.motivearchivist) : '' }}
+      </td>
       <td  class="px-5 py-5 text-sm">
         <button
         *ngIf="!addRow()"
@@ -83,6 +109,18 @@
     >
         <i class="fas fa-check"></i>
     </button>
+    <button
+        *ngIf="!addRow() && guards.archivist ==null "        class="bg-green-300 hover:bg-green-400 text-gray-800 font-bold py-2 px-4 rounded-full shadow-md transition duration-300"
+        (click)="authorize(guards,1)"
+    >
+        <i class="fas fa-check"></i>
+    </button>
+    <button
+    *ngIf="!addRow() && guards.archivist ==null"        class="bg-red-300 hover:bg-red-400 text-gray-800 font-bold py-2 px-4 rounded-full shadow-md transition duration-300"
+    (click)="authorize(guards,0)"
+>
+<i class="fas fa-times"></i>
+</button>
     <!-- <button
     *ngIf="addRow() && guards.trauser_id"
     class="bg-green-300 hover:bg-green-400 text-gray-800 font-bold py-2 px-4 rounded-full shadow-md transition duration-300"

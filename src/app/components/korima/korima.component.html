@@ -1,11 +1,18 @@
-<div *ngIf="!empleado" class="bg-slate-700 absolute inset-0 flex items-center justify-center z-50 bg-opacity-60 backdrop-blur-sm transition-opacity duration-300 ease-out">
-  <div class="relative w-11/12 sm:w-5/6 lg:w-1/2 max-w-4xl mx-auto rounded-xl shadow-lg bg-white transform transition-transform duration-300 ease-out scale-100">
-    <div class="flex justify-between items-center p-6 bg-gray-50 border-b border-gray-200 rounded-t-xl">
+<div
+  *ngIf="!empleado"
+  class="bg-slate-700 absolute inset-0 flex items-center justify-center z-50 bg-opacity-60 backdrop-blur-sm transition-opacity duration-300 ease-out"
+>
+  <div
+    class="relative w-11/12 sm:w-5/6 lg:w-1/2 max-w-4xl mx-auto rounded-xl shadow-lg bg-white transform transition-transform duration-300 ease-out scale-100"
+  >
+    <div
+      class="flex justify-between items-center p-6 bg-gray-50 border-b border-gray-200 rounded-t-xl"
+    >
       <p class="text-lg font-semibold text-gray-800">
         Buscar por número de nómina
       </p>
       <svg
-        (click)="(empleado = 1)"
+        (click)="empleado = 1"
         class="w-6 h-6 cursor-pointer text-gray-500 hover:text-red-600 transition duration-200"
         fill="none"
         stroke="currentColor"
@@ -20,11 +27,11 @@
         ></path>
       </svg>
     </div>
-  
+
     <div class="px-6 py-4 bg-white">
       <div class="relative z-0 mb-6 w-full group">
         <input
-          (input)="onInputChange($event)" 
+          (input)="onInputChange($event)"
           type="number"
           name="numero_nomina"
           id="numero_nomina"
@@ -34,48 +41,44 @@
         <label
           for="numero_nomina"
           class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-0 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-        >Número de nómina</label>
+          >Número de nómina</label
+        >
       </div>
     </div>
-    
   </div>
-  
 </div>
 
-<div class=" w-11/12  px-4 mx-auto   mt-10 pt-10 flex flex-col p-4 items-center justify-center rounded-xl group sm:flex space-x-6 bg-opacity-50 hover:rounded-2xl">
+<div
+  class="w-11/12 px-4 mx-auto mt-10 pt-10 flex flex-col p-4 items-center justify-center rounded-xl group sm:flex space-x-6 bg-opacity-50 hover:rounded-2xl"
+>
   <!-- Component -->
- <div class="mx-auto mt-10 w-full bg-white rounded-lg shadow-md">
-   <div class="flex items-center p-6">
-     <div class="relative flex items-center justify-center w-20 h-20 rounded-full bg-gray-200">
-       <i class="fas fa-user text-4xl text-gray-500"></i>
-     </div>
- 
-     <div class="ml-8 flex-grow">
-       <h2 class="text-xl font-semibold">{{ name }}</h2>
-       <div class="flex flex-col mt-2 text-sm text-gray-500">
-         <div class="flex items-center mb-1">
-           <i class="fas fa-building mr-2"></i>
-           <span>{{ group }}</span>
-         </div>
-         <div class="flex items-center">
-           <i class="fas fa-id-card mr-2"></i>
-           <span>{{ payroll }}</span>
-         </div>
-       </div>
-       <div class="flex mt-4 space-x-4">
- 
- 
- 
-       </div>
-     </div>
-   </div>
+  <div class="mx-auto mt-10 w-full bg-white rounded-lg shadow-md">
+    <div class="flex items-center p-6">
+      <div
+        class="relative flex items-center justify-center w-20 h-20 rounded-full bg-gray-200"
+      >
+        <i class="fas fa-user text-4xl text-gray-500"></i>
+      </div>
 
+      <div class="ml-8 flex-grow">
+        <h2 class="text-xl font-semibold">{{ name }}</h2>
+        <div class="flex flex-col mt-2 text-sm text-gray-500">
+          <div class="flex items-center mb-1">
+            <i class="fas fa-building mr-2"></i>
+            <span>{{ group }}</span>
+          </div>
+          <div class="flex items-center">
+            <i class="fas fa-id-card mr-2"></i>
+            <span>{{ payroll }}</span>
+          </div>
+        </div>
+        <div class="flex mt-4 space-x-4"></div>
+      </div>
+    </div>
   </div>
- 
 
-   <div class="flex mt-6 flex-row ">
-
-     <ng-container *ngIf="roleTypeUser<3" >
+  <div class="flex mt-6 flex-row">
+    <ng-container *ngIf="roleTypeUser < 3">
       <!-- <button
       (click)="resetForm()"
       pTooltip="Buscar"
@@ -84,50 +87,65 @@
     <li class="fa fa-search"></li>
   </button> -->
     </ng-container>
-     <button
-     (click)="exportExcel()"
-     pTooltip="Excel"
-     class=" shadow-md cursor-pointer hover:bg-green-400 h-14 rounded-full  mr-2 w-14 pt-2 bg-green-200 max-lg:hidden max-lg:w-0 max-lg:h-0"><li class="fa fa-file-excel"></li></button>
+    <button
+      (click)="exportExcel()"
+      pTooltip="Excel"
+      class="shadow-md cursor-pointer hover:bg-green-400 h-14 rounded-full mr-2 w-14 pt-2 bg-green-200 max-lg:hidden max-lg:w-0 max-lg:h-0"
+    >
+      <li class="fa fa-file-excel"></li>
+    </button>
 
-     <!-- <button
+    <!-- <button
      (click)="userprintresguardsactive()"
      pTooltip="Imprimir resguardos"
      class=" shadow-md cursor-pointer  hover:bg-blue-400 h-14 rounded-full mr-2  w-14 pt-2 bg-blue-200 max-lg:hidden max-lg:w-0 max-lg:h-0"><li class="fa fa-print  "></li></button> -->
-     <ng-container *ngIf="buttonReport.length>0" >
-     <button
-     (click)="UnsuscribeGuards()"
-     pTooltip="Oficio de baja patrimonio"
-     class=" shadow-md cursor-pointer  hover:bg-yellow-400 h-14 rounded-full mr-2  w-14 pt-2 bg-yellow-200 max-lg:mb-2"><li class="fa fa-file-signature"></li></button>
+    <ng-container *ngIf="buttonReport.length > 0">
+      <button
+        (click)="UnsuscribeGuards()"
+        pTooltip="Oficio de baja patrimonio"
+        class="shadow-md cursor-pointer hover:bg-yellow-400 h-14 rounded-full mr-2 w-14 pt-2 bg-yellow-200 max-lg:mb-2"
+      >
+        <li class="fa fa-file-signature"></li>
+      </button>
     </ng-container>
-    <ng-container *ngIf="buttonInformatica.length>0" >
-    <button
+    <ng-container *ngIf="buttonInformatica.length > 0">
+      <button
+        (click)="ReportInformatica()"
+        pTooltip="Oficio informatica"
+        class="shadow-md cursor-pointer hover:bg-zinc-400 h-14 rounded-full mr-2 w-14 pt-2 bg-zinc-200 max-lg:mb-2"
+      >
+        <li class="fa fa-headset"></li>
+      </button>
+    </ng-container>
 
-    (click)="ReportInformatica()"
-    pTooltip="Oficio informatica"
-    class=" shadow-md cursor-pointer  hover:bg-zinc-400 h-14 rounded-full mr-2  w-14 pt-2 bg-zinc-200 max-lg:mb-2"><li class="fa fa-headset"></li></button>
-  </ng-container>
+    <!-- </ng-container> -->
 
-  <!-- </ng-container> -->
+    <input
+      pInputText
+      type="text"
+      class="shadow-md mr-2 ml-6 pl-4 mt-2 justify-end items-end right-0 appearance-none rounded-full h-10 w-60 bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600"
+      (input)="onInputChangeReports($event)"
+      placeholder="buscador"
+    />
+  </div>
 
-  
-   <input pInputText
-   type="text"
-   class=" shadow-md mr-2 ml-6 pl-4 mt-2 justify-end items-end right-0 appearance-none rounded-full h-10  w-60 bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600"
-   (input)="onInputChangeReports($event)"
- 
-   placeholder="buscador" />
-   </div>
- 
-     <div class="w-full bg-cyan-50 max-h-screen max-sm:w-1/2 sm:w-1/2 md:w-full">
-      <p-table
+  <div class="w-full bg-cyan-50 max-h-screen max-sm:w-1/2 sm:w-1/2 md:w-full">
+    <p-table
       #dt
       styleClass="mt-2"
       [loading]="loading"
       [value]="korima"
-      [tableStyle]="{ 'min-width': '30rem', 'overflow': 'auto' }"
+      [tableStyle]="{ 'min-width': '30rem', overflow: 'auto' }"
       [paginator]="true"
       [rows]="5"
-      [globalFilterFields]="['Etiqueta','Descripcion','Marca','NoSerie','Estatus','NombreDepartamento']"
+      [globalFilterFields]="[
+        'Etiqueta',
+        'Descripcion',
+        'Marca',
+        'NoSerie',
+        'Estatus',
+        'NombreDepartamento'
+      ]"
       currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} registros"
       [rowsPerPageOptions]="[5, 10, 25, 50]"
       editMode="row"
@@ -136,55 +154,94 @@
     >
       <ng-template pTemplate="header">
         <tr class="bg-gray-200">
-          <th *ngFor="let header of ['Imagen resguardo', 'Imagen con etiqueta', 'Numero de etiqueta', 'Nombre o descripción', 'marca y modelo', 'Numero serial', 'Estatus', 'ubicación', 'fecha de asignación del resguardo', 'Observaciones','motivo de baja', 'Acciones']"
-              class="px-5 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+          <th
+            *ngFor="
+              let header of [
+                'Imagen resguardo',
+                'Imagen con etiqueta',
+                'Numero de etiqueta',
+                'Nombre o descripción',
+                'marca y modelo',
+                'Numero serial',
+                'Estatus',
+                'ubicación',
+                'fecha de asignación del resguardo',
+                'Observaciones',
+                'motivo de baja',
+                'motivo de cancelación',
+                'Acciones'
+              ]
+            "
+            class="px-5 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+          >
             {{ header }}
           </th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" class="shadow-md" let-guards let-i="rowIndex">
-        <tr *ngIf="!guards.autorized " [ngClass]="{'bg-gray-50 text-gray-400': guards.motive_down || guards.trauser_id}">
+      <ng-template
+        pTemplate="body"
+        class="shadow-md"
+        let-guards
+        let-i="rowIndex"
+      >
+        <tr
+          *ngIf="!guards.autorized"
+          [ngClass]="{
+            'bg-gray-50 text-gray-400':
+              (guards.motive_down && guards.archivist === null) ||
+              (guards.trauser_id && guards.archivist === null),
+            'bg-red-100': guards.archivist === 0
+          }"
+        >
           <td *ngIf="guards.picture; else noImage">
             <img
-              (mouseenter)="zoomIn(guards.NumeroEconomicoKorima, guards.picture)"
-              (mouseleave)="zoomOut(guards.NumeroEconomicoKorima, guards.picture)"
+              (mouseenter)="
+                zoomIn(guards.NumeroEconomicoKorima, guards.picture)
+              "
+              (mouseleave)="
+                zoomOut(guards.NumeroEconomicoKorima, guards.picture)
+              "
               [src]="guards.picture"
               alt="Preview"
               class="w-14 h-14 object-cover cursor-pointer"
             />
             <img
-            [name]="'zoom' + guards.NumeroEconomicoKorima"
-            *ngIf="guards.picture == expandImage"
-            [src]="guards.picture"
-            alt="Preview"
-            class=" border-2 border-black object-cover fixed z-50 top-2 right-12 w-[800px] h-[500px]"
+              [name]="'zoom' + guards.NumeroEconomicoKorima"
+              *ngIf="guards.picture == expandImage"
+              [src]="guards.picture"
+              alt="Preview"
+              class="border-2 border-black object-cover fixed z-50 top-2 right-12 w-[800px] h-[500px]"
             />
           </td>
-          
+
           <ng-template #noImage>
             <td class="text-gray-500">No se ha asignado imagen</td>
           </ng-template>
           <!-- Similar para la imagen de etiqueta -->
           <td *ngIf="guards.tag_picture; else noTagImage">
             <img
-              (mouseenter)="zoomIn(guards.NumeroEconomicoKorima, guards.tag_picture)"
-              (mouseleave)="zoomOut(guards.NumeroEconomicoKorima, guards.tag_picture)"
+              (mouseenter)="
+                zoomIn(guards.NumeroEconomicoKorima, guards.tag_picture)
+              "
+              (mouseleave)="
+                zoomOut(guards.NumeroEconomicoKorima, guards.tag_picture)
+              "
               [src]="guards.tag_picture"
               alt="Preview"
               class="w-14 h-14 object-cover cursor-pointer"
             />
             <img
-            [name]="'zoom' + guards.NumeroEconomicoKorima"
-            *ngIf="guards.tag_picture == expandImage"
-            [src]="guards.tag_picture"
-            alt="Preview"
-            class=" border-2 border-black object-cover fixed z-50 top-2 right-12 w-[800px] h-[500px]"
+              [name]="'zoom' + guards.NumeroEconomicoKorima"
+              *ngIf="guards.tag_picture == expandImage"
+              [src]="guards.tag_picture"
+              alt="Preview"
+              class="border-2 border-black object-cover fixed z-50 top-2 right-12 w-[800px] h-[500px]"
             />
           </td>
           <ng-template #noTagImage>
             <td class="text-gray-500">No se ha asignado imagen</td>
           </ng-template>
-    
+
           <td class="px-5 py-5 text-sm">{{ guards.Etiqueta }}</td>
           <td class="px-5 py-5 text-sm">{{ guards.Descripcion }}</td>
           <td class="px-5 py-5 text-sm">{{ guards.Marca }}</td>
@@ -193,28 +250,62 @@
           <td class="px-5 py-5 text-sm">{{ guards.NombreDepartamento }}</td>
           <td class="px-5 py-5 text-sm">{{ guards.FechaAlta }}</td>
           <td class="px-5 py-5 text-sm">
-            {{ guards.observation ? (guards.observation === 'undefined' ? '' : guards.observation) : '' }}
+            {{
+              guards.observation
+                ? guards.observation === "undefined"
+                  ? ""
+                  : guards.observation
+                : ""
+            }}
           </td>
           <td class="px-5 py-5 text-sm">
-            {{ guards.motive_down ? (guards.motive_down === 'undefined' ? '' : guards.motive_down) : '' }}
+            {{
+              guards.motive_down
+                ? guards.motive_down === "undefined"
+                  ? ""
+                  : guards.motive_down
+                : ""
+            }}
           </td>
           <td class="px-5 py-5 text-sm">
-            <div *ngIf="!(guards.motive_down || guards.trauser_id)" class="flex flex-row space-x-2">
+            {{
+              guards.motivearchivist
+                ? guards.motivearchivist === "undefined"
+                  ? ""
+                  : guards.motivearchivist
+                : ""
+            }}
+          </td>
+          <td class="px-5 py-5 text-sm">
+            <div
+              *ngIf="!(guards.motive_down || guards.trauser_id)"
+              class="flex flex-row space-x-2"
+            >
               <button
-                (click)="showDialog(guards.NumeroEconomicoKorima, guards.idResguardos)"
-                class="bg-purple-300 hover:bg-purple-400 text-gray-800 font-bold py-2 px-4 rounded-full shadow-md transition duration-300">
+                (click)="
+                  showDialog(guards.NumeroEconomicoKorima, guards.idResguardos)
+                "
+                class="bg-purple-300 hover:bg-purple-400 text-gray-800 font-bold py-2 px-4 rounded-full shadow-md transition duration-300"
+              >
                 <i class="fa fa-plus"></i>
               </button>
               <button
-                (click)="downKorima(guards.idResguardos,guards.NumeroEconomicoKorima)"
-                class="bg-orange-300 hover:bg-orange-400 text-gray-800 font-bold py-2 px-4 rounded-full shadow-md transition duration-300">
+                (click)="
+                  downKorima(
+                    guards.idResguardos,
+                    guards.NumeroEconomicoKorima,
+                    guards.picture && guards.tag_picture ? true : false
+                  )
+                "
+                class="bg-orange-300 hover:bg-orange-400 text-gray-800 font-bold py-2 px-4 rounded-full shadow-md transition duration-300"
+              >
                 <i class="fas fa-ban"></i>
               </button>
-                <button
+              <button
                 (click)="changeGuard(guards)"
                 pTooltip="Transferencia de resguardo"
                 class="bg-sky-300 hover:bg-sky-500 text-white rounded-full p-2 transition-colors duration-200"
-                >
+              >
                 <i class="fa fa-sync-alt"></i>
               </button>
             </div>
@@ -222,8 +313,8 @@
         </tr>
       </ng-template>
     </p-table>
-    
- <!-- <p-table
+
+    <!-- <p-table
  #dt
  styleClass="mt-2"
  [loading]="loading"
@@ -376,62 +467,87 @@
    </tr>
  </ng-template>
  </p-table> -->
- </div>
- 
- </div>
- 
- 
- <p-dialog header="Agregar Resguardo" [(visible)]="visible" [position]="'right'" [style]="{ 'width': getWidthPercentage(), 'height': getHeightPercentage() }">
+  </div>
+</div>
+
+<p-dialog
+  header="Agregar Resguardo"
+  [(visible)]="visible"
+  [position]="'right'"
+  [style]="{ width: getWidthPercentage(), height: getHeightPercentage() }"
+>
   <div class="w-full h-fit p-4">
     <form (ngSubmit)="onSubmit()" class="space-y-4">
       <!-- Input para subir la imagen -->
       <div>
-        <label class="block text-sm font-medium text-gray-700">Subir Imagen</label>
-        <input 
-          type="file" 
-          (change)="onFileChange($event)" 
-          accept="image/*" 
-          class="hidden" 
-          id="fileInput1" /> <!-- Cambiado a fileInput1 -->
-        <label for="fileInput1" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm bg-white text-gray-700 text-center py-2 cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
+        <label class="block text-sm font-medium text-gray-700"
+          >Subir Imagen</label
+        >
+        <input
+          type="file"
+          (change)="onFileChange($event)"
+          accept="image/*"
+          class="hidden"
+          id="fileInput1"
+        />
+        <!-- Cambiado a fileInput1 -->
+        <label
+          for="fileInput1"
+          class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm bg-white text-gray-700 text-center py-2 cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
+        >
           Imagen de resguardo
         </label>
-        <p *ngIf="imagen" class="text-gray-600 mt-2">Archivo seleccionado: {{ imagen.name }}</p>
+        <p *ngIf="imagen" class="text-gray-600 mt-2">
+          Archivo seleccionado: {{ imagen.name }}
+        </p>
       </div>
-      
+
       <div>
-        <label class="block text-sm font-medium text-gray-700">Subir Imagen</label>
-        <input 
-          type="file" 
-          (change)="onFileChange2($event)" 
-          accept="image/*" 
-          class="hidden" 
-          id="fileInput2" /> <!-- Cambiado a fileInput2 -->
-        <label for="fileInput2" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm bg-white text-gray-700 text-center py-2 cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
-          Imagen con etiqueta 
+        <label class="block text-sm font-medium text-gray-700"
+          >Subir Imagen</label
+        >
+        <input
+          type="file"
+          (change)="onFileChange2($event)"
+          accept="image/*"
+          class="hidden"
+          id="fileInput2"
+        />
+        <!-- Cambiado a fileInput2 -->
+        <label
+          for="fileInput2"
+          class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm bg-white text-gray-700 text-center py-2 cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
+        >
+          Imagen con etiqueta
         </label>
-        <p *ngIf="tag_picture" class="text-gray-600 mt-2">Archivo seleccionado: {{ tag_picture.name }}</p>
+        <p *ngIf="tag_picture" class="text-gray-600 mt-2">
+          Archivo seleccionado: {{ tag_picture.name }}
+        </p>
       </div>
-      
+
       <!-- Textarea para la descripción -->
       <div>
-        <label class="block text-sm font-medium text-gray-700">Observaciones</label>
-        <textarea 
-          [(ngModel)]="descripcion" 
-          name="descripcion" 
-          rows="4" 
-          class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" 
-          placeholder="Escribe la descripción aquí..."></textarea>
+        <label class="block text-sm font-medium text-gray-700"
+          >Observaciones</label
+        >
+        <textarea
+          [(ngModel)]="descripcion"
+          name="descripcion"
+          rows="4"
+          class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          placeholder="Escribe la descripción aquí..."
+        ></textarea>
       </div>
-      
+
       <!-- Botón para enviar -->
       <div class="flex justify-end">
-        <button          
-          type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+        <button
+          type="submit"
+          class="inline-flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+        >
           Agregar Resguardo
         </button>
       </div>
     </form>
   </div>
 </p-dialog>
-

@@ -163,15 +163,45 @@ export class ReportkorimaComponent implements OnInit {
               }
             }
           });
-          if(localStorage.getItem("role") == '3'){
-            const departmentKey = localStorage.getItem("group") || '';  
-            console.log('departamento',departmentKey)
+          if (localStorage.getItem("role") == "3") {
+            const departmentKey = localStorage.getItem("group") || "";
             const departmentStats = statsByDepartment[departmentKey.toUpperCase()];
+          
+            // Obtener lista de departamentos desde localStorage (manejo de JSON o CSV)
+            const departamentosString = localStorage.getItem("departamentos") || "";
+            const departamentos = departamentosString.includes("[") 
+              ? JSON.parse(departamentosString) 
+              : departamentosString.split(",").map(dep => dep.trim());
+          
+            // Inicializar el resumen sin duplicados (usaremos un Set para evitar duplicados)
+            const departmentSummaryMap = new Map();
+          
+            // Función para calcular total asegurando valores numéricos
+            const calculateTotal = (stats) => {
+              stats.total = (Number(stats.picturepositive) || 0) + (Number(stats.pictureminus) || 0);
+            };
+          
+            // Agregar el departamento del `group` si existe en `statsByDepartment`
             if (departmentStats) {
-              departmentStats.total = departmentStats.picturepositive + departmentStats.pictureminus;
-              this.departmentSummary = [departmentStats]; 
-            } 
-          } else {
+              calculateTotal(departmentStats);
+              departmentSummaryMap.set(departmentKey.toUpperCase(), departmentStats);
+            }
+          
+            // Agregar los departamentos de la lista si existen en `statsByDepartment` y evitar duplicados
+            departamentos.forEach((dep) => {
+              const depStats = statsByDepartment[dep.toUpperCase()];
+              if (depStats && !departmentSummaryMap.has(dep.toUpperCase())) {
+                calculateTotal(depStats);
+                departmentSummaryMap.set(dep.toUpperCase(), depStats);
+              }
+            });
+          
+            // Convertir el `Map` a un array
+            this.departmentSummary = Array.from(departmentSummaryMap.values());
+          }
+          
+         
+          else {
             Object.values(statsByDepartment).forEach((departmentStats) => {
               departmentStats.total = departmentStats.picturepositive + departmentStats.pictureminus;
             });

@@ -1,75 +1,190 @@
-<div id="pEl" class="min-h-screen bg-cover bg-center" style="background-image: url('assets/fondo.jpg')">
-  <div class="flex flex-row items-center justify-start p-4">
-    <div class="w-20 h-20 flex items-start justify-center overflow-hidden">
-      <img src="../../../assets/icon.png" alt="GOMEZ" class="w-9/12 h-9/12">
+<div class="relative">
+  <div
+    id="pEl"
+    class="min-h-screen bg-cover bg-center"
+    style="background-image: url('assets/fondo.jpg')"
+  >
+    <div class="flex flex-row items-center justify-start p-4">
+      <div class="w-20 h-20 flex items-start justify-center overflow-hidden">
+        <img src="../../../assets/icon.png" alt="GOMEZ" class="w-9/12 h-9/12" />
+      </div>
     </div>
-    
-  </div>
-  <div class="mx-auto ml-12 text-start">
-    <p class="text-lg font-semibold"><strong>LIC. GERARDO ALFREDO BURCIAGA AVENDAÑO</strong></p>
-    <p class="text-sm font-semibold">JEFE DEL DEPTO. DE PATRIMONIO</p>
-    <p class="text-sm">Presente</p>
-  </div>
-  <div class="flex items-center justify-center mt-6">
-    <div class="max-w-xl mx-4"> <!-- Limitar el ancho del contenido -->
-      <p class="mb-2">Apreciable Licenciado: por medio de la presente, reciba un cordial saludo.</p>
-      <p class="mb-2">El motivo del mismo es para solicitarle <strong class="font-semibold text-black">{{item?.trauser_id? 'LA TRANSFERENCIA DEL ACTIVO' :'LA BAJA DE ACTIVOS' }} </strong> de los bienes asignados al Departamento de {{item?.NombreDepartamento}}; los bienes en cuestión son los siguientes:</p>
-      
-      <table  class="mt-10 w-full text-left table-auto border-collapse border border-gray-300 mb-4">
-        <thead>
-          <tr class="bg-gray-200">
-            <th class="border border-gray-300 px-2 py-1 text-sm">FOLIO</th>
-            <th class="border border-gray-300 px-2 py-1 text-sm">BIEN</th>
-            <th class="border border-gray-300 px-2 py-1 text-sm">SERIE</th>
-            <th class="border border-gray-300 px-2 py-1 text-sm">RESGUARDANTE {{item?.trauser_id}}</th>
-            <th [hidden]="!item?.trauser_id || item.trauser_id.length === 0"
-            class="border border-gray-300 px-2 py-1 text-sm">
-          TRANSFERENCIA A
-        </th>
-        <th [hidden]="!item?.motivetransfer"
-        class="border border-gray-300 px-2 py-1 text-sm">
-      MOTIVO DE TRANSFERENCIA
-    </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="border border-gray-300 px-2 py-1 text-sm">{{item?.Etiqueta }}</td>
-            <td class="border border-gray-300 px-2 py-1 text-sm">{{item?.Descripcion }}</td>
-            <td class="border border-gray-300 px-2 py-1 text-sm">{{item?.NoSerie }}</td>
-            <td class="border border-gray-300 px-2 py-1 text-sm">{{item?.Nombres + " "+ item?.ApellidoPaterno + " "+  item?.ApellidoMaterno }}</td>
-       <td [hidden]="!item?.trauser_id || item.trauser_id.length === 0"
-       class="border border-gray-300 px-2 py-1 text-sm">
-       {{item?.trauser_id }}
-   </td>
-   <td [hidden]="!item?.motivetransfer"
-   class="border border-gray-300 px-2 py-1 text-sm">
-   {{item?.motivetransfer }}
-</td>
-          </tr>
-        
-        </tbody>
-      </table>
+    <div class="mx-auto ml-12 text-start">
+      <p class="text-lg font-semibold">
+        <strong>LIC. GERARDO ALFREDO BURCIAGA AVENDAÑO</strong>
+      </p>
+      <p class="text-sm font-semibold">JEFE DEL DEPTO. DE PATRIMONIO</p>
+      <p class="text-sm">Presente</p>
+    </div>
+    <div class="flex items-center justify-center mt-6">
+      <div class="max-w-xl mx-4">
+        <!-- Limitar el ancho del contenido -->
+        <p class="mb-2">
+          Apreciable Licenciado: por medio de la presente, reciba un cordial
+          saludo.
+        </p>
+        <p class="mb-2">
+          El motivo del mismo es para solicitarle
+          <strong class="font-semibold text-black"
+            >{{
+              item?.trauser_id
+                ? "LA TRANSFERENCIA DEL ACTIVO"
+                : "LA BAJA DE ACTIVOS"
+            }}
+          </strong>
+          de los bienes asignados al Departamento de
+          {{ item?.NombreDepartamento }}; los bienes en cuestión son los
+          siguientes:
+        </p>
 
-      <p class="mt-2 mb-2">{{item?.trauser_id? '' :'Lo anterior debido a que ' }}    {{item?.motivedown }}</p>
-      <p class="mb-2 mt-2">Sin más por el momento; me despido de usted, quedando a sus distinguidas órdenes para cualquier duda o aclaración al respecto.</p>
-      
-      <p class="text-center font-semibold mt-10">ATENTAMENTE</p>
-      <p class="text-center font-semibold">{{ getFormattedDate() }}</p>
-      <div class="w-full flex flex-col gap-6 items-center justify-center">
-        <img [src]="item?.img_stamp" alt="Sello" class="w-32 h-32 object-contain  ">
-        <img [src]="item?.img_firm" alt="Firma" class="w-40 h-20 object-contain  ">
-    </div>
-    
-    <p class="mt-4 text-start text-sm text-gray-600 font-medium">
-      Firmado por <span class="font-semibold text-black">{{ item?.name }}</span>
-    </p>
-    
-      <p class="mt-40 text-start font-light text-sm">C .c p Archivo.</p>
-      
+        <table
+          class="mt-10 w-full text-left table-auto border-collapse border border-gray-300 mb-4"
+        >
+          <thead>
+            <tr class="bg-gray-200">
+              <th class="border border-gray-300 px-2 py-1 text-sm">FOLIO</th>
+              <th class="border border-gray-300 px-2 py-1 text-sm">BIEN</th>
+              <th class="border border-gray-300 px-2 py-1 text-sm">SERIE</th>
+              <th class="border border-gray-300 px-2 py-1 text-sm">
+                RESGUARDANTE {{ item?.trauser_id }}
+              </th>
+              <th
+                [hidden]="!item?.trauser_id || item.trauser_id.length === 0"
+                class="border border-gray-300 px-2 py-1 text-sm"
+              >
+                TRANSFERENCIA A
+              </th>
+              <th
+                [hidden]="!item?.motivetransfer"
+                class="border border-gray-300 px-2 py-1 text-sm"
+              >
+                MOTIVO DE TRANSFERENCIA
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="border border-gray-300 px-2 py-1 text-sm">
+                {{ item?.Etiqueta }}
+              </td>
+              <td class="border border-gray-300 px-2 py-1 text-sm">
+                {{ item?.Descripcion }}
+              </td>
+              <td class="border border-gray-300 px-2 py-1 text-sm">
+                {{ item?.NoSerie }}
+              </td>
+              <td class="border border-gray-300 px-2 py-1 text-sm">
+                {{
+                  item?.Nombres +
+                    " " +
+                    item?.ApellidoPaterno +
+                    " " +
+                    item?.ApellidoMaterno
+                }}
+              </td>
+              <td
+                [hidden]="!item?.trauser_id || item.trauser_id.length === 0"
+                class="border border-gray-300 px-2 py-1 text-sm"
+              >
+                {{ item?.trauser_id }}
+              </td>
+              <td
+                [hidden]="!item?.motivetransfer"
+                class="border border-gray-300 px-2 py-1 text-sm"
+              >
+                {{ item?.motivetransfer }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
+        <p class="mt-2 mb-2">
+          {{ item?.trauser_id ? "" : "Lo anterior debido a que " }}
+          {{ item?.motivedown }}
+        </p>
+        <p class="mb-2 mt-2">
+          Sin más por el momento; me despido de usted, quedando a sus
+          distinguidas órdenes para cualquier duda o aclaración al respecto.
+        </p>
+
+        <!-- <p class="text-center font-semibold">{{ getFormattedDate() }}</p> -->
+        <div *ngIf="!item?.trauser_id" class="flex flex-row">
+          <div class="w-1/2 flex justify-center">
+            <img
+              [src]="item?.picture"
+              alt="foto"
+              class="w-32 h-32 object-contain"
+            />
+          </div>
+          <div class="w-1/2 flex justify-center">
+            <img
+              [src]="item?.tag_picture"
+              alt="etiqueta"
+              class="w-32 h-32 object-contain"
+            />
+          </div>
+        </div>
+        <div class="flex items-center justify-between">
+          <!-- Columna 1: Vacía -->
+
+          <div class="w-1/3"></div>
+
+          <!-- Columna 2: ATENTAMENTE, Firma y Datos -->
+          <div class="flex flex-col items-center w-1/3">
+            <p class="text-center font-semibold mt-10">ATENTAMENTE</p>
+            <img
+              [src]="item?.img_firm"
+              alt="Firma"
+              class="w-40 h-20 object-contain mt-2"
+            />
+            <div class="text-start mt-4 text-sm text-gray-600 font-medium">
+              <p>
+                <span class="font-semibold text-black">{{ item?.name }}</span>
+              </p>
+              <p>
+                Director de
+                <span class="font-semibold text-black">{{
+                  item?.departament
+                }}</span>
+              </p>
+              <p>
+                <span class="font-semibold text-black"
+                  >R. AYUNTAMIENTO DE GOMEZ PALACIO, DGO.</span
+                >
+              </p>
+            </div>
+          </div>
+
+          <!-- Columna 3: Sello -->
+          <div class="w-1/3 flex justify-center">
+            <img
+              [src]="item?.img_stamp"
+              alt="Sello"
+              class="w-32 h-32 object-contain"
+            />
+          </div>
+        </div>
+
+        <p class="mt-20 text-start font-light text-sm">C .c p Archivo.</p>
+      </div>
     </div>
+  </div>
+
+  <button
+    class="w-14 h-14 mt-2 rounded-full bg-blue-300 hover:bg-blue-500"
+    (click)="imprimir()"
+  >
+    <i class="fas fa-print"></i>
+  </button>
+  <div
+    *ngIf="loading"
+    [ngClass]="{
+      'flex justify-center items-center h-screen absolute top-0 left-0 right-0 bottom-0 bg-opacity-50 bg-gray-900':
+        loading
+    }"
+  >
+    <div
+      class="border-t-4 border-blue-500 border-solid w-16 h-16 rounded-full animate-spin"
+    ></div>
   </div>
 </div>
-
-<button class="w-14 h-14  mt-2 rounded-full bg-blue-300 hover:bg-blue-500" (click)="imprimir()"><i class="fas fa-print"></i></button>
