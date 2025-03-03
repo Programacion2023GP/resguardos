@@ -51,7 +51,8 @@ export class PrintkorimaComponent implements OnInit {
   }
   ngOnInit() {
     // Bienestar Social
-    this.loading = true;
+    let search:boolean = false
+    // this.loading = true;
     this.service.data$.subscribe({
       next: (data: any) => {
         const replace =
@@ -72,6 +73,8 @@ export class PrintkorimaComponent implements OnInit {
               ' ' +
               res['data']['result']['maternal_last_name'];
             this.loading = false; // Esto se mueve aquí para asegurarse de que se complete después de que todo esté cargado
+            console.log('info',this.item)
+
           },
           error: (err) => {
             console.error('Error al obtener firma:', err);
@@ -83,7 +86,10 @@ export class PrintkorimaComponent implements OnInit {
         this.loading = false; // Asegúrate de poner loading en false si hay un error en el observable
         console.error('Error en la suscripción:', e);
       },
+      
+    
     });
+    
   }
 
   imprimir(): void {

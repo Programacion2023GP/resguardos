@@ -175,12 +175,20 @@ export class KorimaComponent implements OnInit {
   "></div>
 </div>
 <label class='w-full text-start text-lg font-bold'>Explica el porque la transferencia</label>
-<textarea  id="downmotive" class="w-full p-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500" rows="4" placeholder="Escribe tu mensaje aquí..."></textarea>
-
+<textarea  id="downmotive" class="w-full p-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500" rows="4" placeholder="Escribe tu mensaje aquí..."  maxlength="90"></textarea>
+<div id="charCount" style="text-align: right; width: 100%; font-size: 14px; color: #666;">90/90</div>
       `,
       didOpen: () => {
         const input = document.getElementById('searchUser') as HTMLInputElement;
+        const textarea = document.getElementById('downmotive') as HTMLTextAreaElement;
 
+        const charCount = document.getElementById('charCount') as HTMLDivElement;
+        const updateCharCount = () => {
+          const remainingChars = 90 - textarea.value.length;
+          charCount.textContent = `${remainingChars}/90`;
+        };
+      
+        textarea.addEventListener('input', updateCharCount);
         const listContainer = document.getElementById(
           'autocompleteList'
         ) as HTMLDivElement;
@@ -409,7 +417,6 @@ export class KorimaComponent implements OnInit {
     // console.log('Input value:', event.target.value);
   }
   downKorima(id: number, korima: number, pass: boolean) {
-    console.log(pass);
     if (!pass) {
       this.Toast.fire({
         position: 'top-start',
@@ -419,10 +426,52 @@ export class KorimaComponent implements OnInit {
       return;
     }
 
+    // Swal.fire({
+    //   title: 'Motivo de baja',
+    //   input: 'textarea',
+    //   inputPlaceholder: 'Escribe el motivo de la baja...',
+    //   showCancelButton: true,
+    //   confirmButtonText: 'Confirmar',
+    //   cancelButtonText: 'Cancelar',
+    //   inputValidator: (value) => {
+    //     if (!value) {
+    //       return 'Por favor, escribe un motivo para continuar.';
+    //     }
+    //     return null;
+    //   },
+    // }).then((result) => {
+    //   if (result.isConfirmed) {
+    //     const motivo = result.value; // Obtén el motivo introducido por el usuario
+
+    //     // Realiza la petición al servicio con el motivo
+    //     this.service
+    //       .Post<any>('korima/down', { id, motive_down: motivo, korima })
+    //       .subscribe({
+    //         next: (response) => {
+    //           Swal.fire(
+    //             '¡Éxito!',
+    //             'La baja ha sido registrada correctamente.',
+    //             'success'
+    //           );
+    //           this.prueba();
+    //         },
+    //         error: (error) => {
+    //           Swal.fire(
+    //             'Error',
+    //             'Ocurrió un problema al dar de baja.',
+    //             'error'
+    //           );
+    //         },
+    //       });
+    //   }
+    // });
     Swal.fire({
       title: 'Motivo de baja',
       input: 'textarea',
       inputPlaceholder: 'Escribe el motivo de la baja...',
+      inputAttributes: {
+        maxlength: '90', // Limita el textarea a 90 caracteres
+      },
       showCancelButton: true,
       confirmButtonText: 'Confirmar',
       cancelButtonText: 'Cancelar',
@@ -430,15 +479,45 @@ export class KorimaComponent implements OnInit {
         if (!value) {
           return 'Por favor, escribe un motivo para continuar.';
         }
+        if (value.length > 90) {
+          return 'El motivo no puede exceder los 90 caracteres.';
+        }
         return null;
+      },
+      didOpen: () => {
+        // Selecciona el textarea
+        const textarea = document.querySelector('.swal2-textarea') as HTMLTextAreaElement;
+    
+        // Crea el contador de caracteres
+        const charCount = document.createElement('div');
+        charCount.style.textAlign = 'right';
+        charCount.style.width = '100%';
+        charCount.style.marginTop = '10px';
+        charCount.style.fontSize = '14px';
+        charCount.style.color = '#666';
+        charCount.textContent = `0/90`;
+    
+        // Inserta el contador debajo del textarea
+        textarea.insertAdjacentElement('afterend', charCount);
+    
+        // Actualiza el contador mientras el usuario escribe
+        textarea.addEventListener('input', () => {
+          const remainingChars = 90 - textarea.value.length;
+          charCount.textContent = `${textarea.value.length}/90`;
+          if (remainingChars < 0) {
+            charCount.style.color = 'red';
+          } else {
+            charCount.style.color = '#666';
+          }
+        });
       },
     }).then((result) => {
       if (result.isConfirmed) {
         const motivo = result.value; // Obtén el motivo introducido por el usuario
-
+    
         // Realiza la petición al servicio con el motivo
         this.service
-          .Post<any>('korima/down', { id, motive_down: motivo, korima })
+          .Post<any>('korima/down', { motive_down: motivo, korima })
           .subscribe({
             next: (response) => {
               Swal.fire(

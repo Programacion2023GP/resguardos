@@ -15,6 +15,13 @@
       </p>
       <p class="text-sm font-semibold">JEFE DEL DEPTO. DE PATRIMONIO</p>
       <p class="text-sm">Presente</p>
+      <strong class="font-semibold "
+      >Fecha de creación 
+    </strong>
+    <span class="text-gray-600">
+      {{ item?.updated_at | date: 'dd/MM/yyyy h:mm a' }}
+    </span>
+    
     </div>
     <div class="flex items-center justify-center mt-6">
       <div class="max-w-xl mx-4">
@@ -36,7 +43,7 @@
           {{ item?.NombreDepartamento }}; los bienes en cuestión son los
           siguientes:
         </p>
-
+   
         <table
           class="mt-10 w-full text-left table-auto border-collapse border border-gray-300 mb-4"
         >
@@ -46,7 +53,7 @@
               <th class="border border-gray-300 px-2 py-1 text-sm">BIEN</th>
               <th class="border border-gray-300 px-2 py-1 text-sm">SERIE</th>
               <th class="border border-gray-300 px-2 py-1 text-sm">
-                RESGUARDANTE {{ item?.trauser_id }}
+                RESGUARDANTE 
               </th>
               <th
                 [hidden]="!item?.trauser_id || item.trauser_id.length === 0"
@@ -56,43 +63,62 @@
               </th>
               <th
                 [hidden]="!item?.motivetransfer"
-                class="border border-gray-300 px-2 py-1 text-sm"
+                class="border border-gray-300 px-2 py-1 text-sm "
               >
                 MOTIVO DE TRANSFERENCIA
               </th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td class="border border-gray-300 px-2 py-1 text-sm">
-                {{ item?.Etiqueta }}
+            <tr class="">
+              <td class="border border-gray-300 px-2 py-1 text-sm ">
+                <p class="truncate-height">
+
+                  {{ item?.Etiqueta }}
+                </p>
               </td>
-              <td class="border border-gray-300 px-2 py-1 text-sm">
-                {{ item?.Descripcion }}
+              <td class="border border-gray-300 px-2 py-1 text-sm ">
+                <p class="truncate-height">
+
+                  {{ item?.Descripcion }}
+                </p>
               </td>
-              <td class="border border-gray-300 px-2 py-1 text-sm">
-                {{ item?.NoSerie }}
+              <td class="border border-gray-300 px-2 py-1 text-sm ">
+                <p class="truncate-height">
+
+                  {{ item?.NoSerie }}
+                </p>
               </td>
-              <td class="border border-gray-300 px-2 py-1 text-sm">
-                {{
+              <td class="border border-gray-300 px-2 py-1 text-sm ">
+                <p class="truncate-height">
+
+                  {{
+       
                   item?.Nombres +
                     " " +
                     item?.ApellidoPaterno +
                     " " +
                     item?.ApellidoMaterno
                 }}
+                         </p>
               </td>
               <td
                 [hidden]="!item?.trauser_id || item.trauser_id.length === 0"
-                class="border border-gray-300 px-2 py-1 text-sm"
-              >
-                {{ item?.trauser_id }}
+                class="border border-gray-300 px-2 py-1 text-sm "
+                >
+<p class="truncate-height">
+
+  {{ item?.trauser_id }}
+</p>                
               </td>
               <td
                 [hidden]="!item?.motivetransfer"
-                class="border border-gray-300 px-2 py-1 text-sm"
-              >
-                {{ item?.motivetransfer }}
+                class="border border-gray-300 px-2 py-1 text-sm "
+                >
+<p class="truncate-height">
+
+  {{ item?.motivetransfer }}
+</p>               
               </td>
             </tr>
           </tbody>
@@ -144,7 +170,7 @@
               <p>
                 Director de
                 <span class="font-semibold text-black">{{
-                  item?.departament
+                  item?.NombreDepartamento
                 }}</span>
               </p>
               <p>
@@ -176,7 +202,7 @@
   >
     <i class="fas fa-print"></i>
   </button>
-  <div
+  <!-- <div
     *ngIf="loading"
     [ngClass]="{
       'flex justify-center items-center h-screen absolute top-0 left-0 right-0 bottom-0 bg-opacity-50 bg-gray-900':
@@ -186,5 +212,5 @@
     <div
       class="border-t-4 border-blue-500 border-solid w-16 h-16 rounded-full animate-spin"
     ></div>
-  </div>
+  </div> -->
 </div>

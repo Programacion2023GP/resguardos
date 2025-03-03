@@ -46,7 +46,7 @@
     </tr>
   </ng-template>
   <ng-template pTemplate="body" class="shadow-md" let-guards let-i="rowIndex">
-    <tr [ngClass]="{'bg-red-100':guards.archivist ==0 && !addRow(),'bg-green-100':guards.archivist ==1 && !addRow()}">
+    <tr [ngClass]="{'bg-red-100':guards.archivist ==0 ,'bg-green-100':guards.archivist ==1}">
       <td *ngIf="addRow()" class="px-5 py-5 text-sm" >{{ guards.Nombres + ' ' + guards.ApellidoPaterno  + ' ' + guards.ApellidoMaterno}}</td>
       <td *ngIf="guards.picture; else noImage">
         <img
@@ -93,6 +93,10 @@
           <td class="px-5 py-5 text-sm">
         {{ guards.motivearchivist ? (guards.motivearchivist === 'undefined' ? '' : guards.motivearchivist) : '' }}
       </td>
+      <td *ngIf="!addRow()" class="px-5 py-5 text-sm">
+        {{ getDaysDifference(guards.updated_at) }} días
+      </td>
+      
       <td  class="px-5 py-5 text-sm">
         <button
         *ngIf="!addRow()"

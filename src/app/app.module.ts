@@ -100,6 +100,7 @@ import { ReportdepartamentkorimaComponent } from './components/reportdepartament
     StockComponent,
     StocklistComponent,
     ReportdepartamentkorimaComponent,
+    NotificationsComponent
   ],
   imports: [
     HttpClientModule,

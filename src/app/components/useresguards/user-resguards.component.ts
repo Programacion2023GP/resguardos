@@ -285,7 +285,7 @@ buttonInformatica: any[]=[];
             const json = {
               observation:motivoResult.value
             }
-            this.service.Post(`usersguards/guardsdestroy/${guard.idguard}`,json).subscribe({
+            this.service.Post(`usersguards/destroyguard/${guard.idguard}`,json).subscribe({
               next:(n:any)=>{
                 this.loading = false
                   this.data =n['data']['result']

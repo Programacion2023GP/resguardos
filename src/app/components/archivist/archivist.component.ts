@@ -27,30 +27,53 @@ export class ArchivistComponent implements OnInit {
       toast.onmouseleave = Swal.resumeTimer;
     },
   });
-  headers = [
-    'Imagen resguardo',
-    'Imagen con etiqueta',
-    'Numero de etiqueta',
-    'Nombre o descripción',
-    'marca y modelo',
-    'Numero serial',
-    'Estatus',
-    'ubicación',
-    'fecha de asignación del resguardo',
-    'Observaciones',
-    'Motivo de baja',
-    'Motivo de transferencia',
-    'motivo de cancelación',
-    'Acciones',
+  headers:any = [
+   
   ];
   loading: boolean = false;
   constructor(
     private service: ServiceService<any>,
     private dialogService: DialogService
   ) {
+    this.headers = this.addRow() ?[ 'Imagen resguardo',
+    'Imagen con etiqueta',
+    'Numero de etiqueta',
+    'Nombre o descripción',
+    'Marca y modelo',
+    'Numero serial',
+    'Estatus',
+    'Ubicación',
+    'Fecha de asignación del resguardo',
+    'Observaciones',
+    'Motivo de baja',
+    'Motivo de transferencia',
+    'Motivo de cancelación',
+    'Acciones'
+  ]:['Imagen resguardo',
+  'Imagen con etiqueta',
+  'Numero de etiqueta',
+  'Nombre o descripción',
+  'Marca y modelo',
+  'Numero serial',
+  'Estatus',
+  'Ubicación',
+  'Fecha de asignación del resguardo',
+  'Observaciones',
+  'Motivo de baja',
+  'Motivo de transferencia',
+  'Motivo de cancelación',
+  'Dias transcurridos',
+  'Acciones']
     this.roleTypeUser = parseInt(this.roleTypeUser);
     this.roleTypeUser == 3 && this.headers.unshift('Resguardante');
   }
+  getDaysDifference(updatedAt: string): number {
+    const updatedDate = new Date(updatedAt);
+    const currentDate = new Date();
+    const diffTime = Math.abs(currentDate.getTime() - updatedDate.getTime());
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Convertir a días
+  }
+  
   GetUsers(role: any = null) {
     this.service.Data<any>(`users${role != null ? `/${role}` : ''}`).subscribe({
       next: (n: any) => {
@@ -66,7 +89,8 @@ export class ArchivistComponent implements OnInit {
           if (
             payrolls.includes(Number(item.Clave)) &&
             item.motive_down &&
-            !item.autorized
+            !item.autorized   ||
+            (item.archivist === 0 ||  item.archivist === 1) 
           ) {
             this.korima.push(item);
           }

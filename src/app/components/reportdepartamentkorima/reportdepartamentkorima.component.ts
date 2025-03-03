@@ -24,6 +24,7 @@ export class ReportdepartamentkorimaComponent implements OnInit {
   @ViewChild('dt') table!: Table;
   exportColumns!: ExportColumn[];
   cols!: Column[];
+  loading:boolean = false;
   constructor(private service: ServiceService<any>) {
     this.cols = [
       {
@@ -95,6 +96,7 @@ export class ReportdepartamentkorimaComponent implements OnInit {
     }
   }
   getData() {
+    this.loading= true
     this.service
       .OtherData<any>(
         `https://predial.gomezpalacio.gob.mx:4433/api/vistakorima`
@@ -141,9 +143,13 @@ export class ReportdepartamentkorimaComponent implements OnInit {
               allowedDepartments.has(department.toUpperCase())
             );
           }
+          this.loading= false
+
         },
         error: (e) => {
           console.error(e);
+          this.loading= false
+
         },
       });
   }

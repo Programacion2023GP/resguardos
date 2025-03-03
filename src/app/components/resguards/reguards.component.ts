@@ -140,6 +140,7 @@ export class ReguardsComponent {
       id: new FormControl(''),
       picture: new FormControl('', Validators.required),
       type: new FormControl('', Validators.required),
+
       type_id: new FormControl(''),
 
       description: new FormControl('', Validators.required),
@@ -149,6 +150,7 @@ export class ReguardsComponent {
 
       serial: new FormControl('', Validators.required),
       number_korima: new FormControl('', {}),
+      quantity: new FormControl('1',{}), // Aquí está el campo quantity
 
       // airlane:new FormControl('',Validators.required),
       group: new FormControl('', Validators.required),

@@ -21,6 +21,7 @@
 <div class="w-full bg-cyan-50 max-h-screen max-sm:w-1/2 sm:w-1/2 md:w-full">
   <p-table
     #dt
+    [loading]="loading"
     styleClass="mt-2"
     [value]="conteosArray"
     [tableStyle]="{ 'min-width': '30rem', overflow: 'auto' }"

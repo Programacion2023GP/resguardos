@@ -1,0 +1,10 @@
+
+  
+  /* Estilo para truncar el texto basado en la altura */
+  .truncate-height {
+    display: -webkit-box !important; /* Usa el modelo de caja flexible */
+    -webkit-line-clamp: 6 !important;  /* Número de líneas */
+    -webkit-box-orient: vertical !important; /* Orientación vertical */
+    overflow: hidden !important; /* Oculta el contenido que excede */
+    
+  }
